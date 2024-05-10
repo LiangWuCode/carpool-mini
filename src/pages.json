@@ -5,21 +5,58 @@
 			"^tm-(.*)": "@/tmui/components/tm-$1/tm-$1.vue"
 		}
 	},
-	
 	"pages": [
 		{
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "首页"
 			}
+		},
+		{
+			"path": "pages/publish/index",
+			"style": {
+				"navigationBarTitleText": "发布"
+			}
+		},
+		{
+			"path": "pages/person/index",
+			"style": {
+				"navigationBarTitleText": "个人中心"
+			}
 		}
-        
-       
-        
-    ],
-	
+	],
+	"tabBar": {
+		"color": "#999999",
+		"selectedColor": "#4D80F0",
+		"backgroundColor": "#ffffff",
+		"borderStyle": "black",
+		"height": "50px",
+		"fontSize": "10px",
+		"iconWidth": "24px",
+		"spacing": "3px",
+		"list": [
+			{
+				"iconPath": "static/tabbar/home.png",
+				"selectedIconPath": "static/tabbar/homeSelected.png",
+				"pagePath": "pages/index/index",
+				"text": "首页"
+			},
+			{
+				"iconPath": "static/tabbar/publish.png",
+				"selectedIconPath": "static/tabbar/publishSelected.png",
+				"pagePath": "pages/publish/index",
+				"text": "发布"
+			},
+			{
+				"iconPath": "static/tabbar/person.png",
+				"selectedIconPath": "static/tabbar/personSelected.png",
+				"pagePath": "pages/person/index",
+				"text": "我的"
+			}
+		]
+	},
 	"globalStyle": {
-		"navigationBarTextStyle": "black",
+		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "觅行出行",
 		"navigationBarBackgroundColor": "#4D80F0",
 		"backgroundColor": "#FFFFFF"
@@ -29,7 +66,7 @@
 		"list": [
 			{
 				"name": "",
-				"path": "", 
+				"path": "",
 				"query": ""
 			}
 		]
