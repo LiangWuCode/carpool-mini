@@ -23,11 +23,17 @@
 			"style": {
 				"navigationBarTitleText": "个人中心"
 			}
+		},
+		{
+			"path": "pages/publish/detail/index",
+			"style": {
+				"navigationBarTitleText": "发布详情"
+			}
 		}
 	],
 	"tabBar": {
 		"color": "#999999",
-		"selectedColor": "#4D80F0",
+		"selectedColor": "#3B5CF0",
 		"backgroundColor": "#ffffff",
 		"borderStyle": "black",
 		"height": "50px",
@@ -58,7 +64,7 @@
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "觅行出行",
-		"navigationBarBackgroundColor": "#4D80F0",
+		"navigationBarBackgroundColor": "#3B5CF0",
 		"backgroundColor": "#FFFFFF"
 	},
 	"condition": {
