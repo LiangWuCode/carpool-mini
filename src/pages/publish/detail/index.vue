@@ -11,7 +11,7 @@
           <tm-text color="orange" label="）"></tm-text>
         </view>
         <view>
-          <tm-button size="small" label="点击充值"></tm-button>
+          <tm-button @click="goToPayPage" size="small" label="点击充值"></tm-button>
         </view>
       </view>
     </tm-sheet>
@@ -51,9 +51,11 @@
             :transprent="true"
             placeholder="从哪儿出发"
             :showBottomBotder="false"
-            suffix="tmicon-map"
-            suffixColor="primary"
+            
           >
+          <template v-slot:right>
+            <tm-icon @click="chooseAddress(1)" :fontSize="30" color="primary" name="tmicon-map"></tm-icon>
+          </template>
           </tm-input>
         </tm-form-item>
         <tm-form-item
@@ -88,9 +90,10 @@
             v-model.lazy="carpoolInfo.endAddress"
             :transprent="true"
             :showBottomBotder="false"
-            suffix="tmicon-map"
-            suffixColor="primary"
           >
+          <template v-slot:right>
+            <tm-icon @click="chooseAddress(2)" :fontSize="30" color="primary" name="tmicon-map"></tm-icon>
+          </template>
           </tm-input>
         </tm-form-item>
         <tm-form-item
@@ -327,7 +330,7 @@
 </template>
 
 <script lang="ts" setup>
-import { setNavigationBarTitle } from '@/common/utils/base'
+import { navigateTo, setNavigationBarTitle } from '@/common/utils/base'
 import { IDateOptionsAll, INotesItem } from '@/interfaces/publish'
 import { getDictData } from '@/service/common'
 import { onLoad } from '@dcloudio/uni-app'
@@ -548,6 +551,11 @@ const topCountTotal = (count: number) => {
 const isAgree = ref(false)
 const isAgreeProtocol = (e: any) => {
   isAgree.value = e.checked
+}
+
+// 跳转到券充值页
+const goToPayPage=()=>{
+  navigateTo({url:'/pages/payTicket/index'})
 }
 
 const navigateType = ref<string>('')

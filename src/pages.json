@@ -29,6 +29,14 @@
 			"style": {
 				"navigationBarTitleText": "发布详情"
 			}
+		},
+		{
+			"path": "pages/payTicket/index",
+			"style": {
+				"navigationBarTitleText": "充值券",
+				"navigationBarBackgroundColor":"#ffffff",
+				"navigationBarTextStyle": "black"
+			}
 		}
 	],
 	"tabBar": {
