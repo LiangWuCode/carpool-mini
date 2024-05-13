@@ -1,10 +1,10 @@
 <template>
-  <tm-app ref="app">
+  <tm-app ref="app" class="pb-30">
     <tm-sheet :margin="[24, 12]" :padding="[20, 0]" :round="3">
       <view class="flex flex-row-center-between">
         <view class="flex">
           <tm-text color="orange" label="每条消息"></tm-text>
-          <tm-text color="orange" label="0.50"></tm-text>
+          <tm-text color="orange" :label="strokePrice"></tm-text>
           <tm-text color="orange" label="券"></tm-text>
           <tm-text color="orange" label="（您的积分："></tm-text>
           <tm-text color="orange" label="1.00"></tm-text>
@@ -13,6 +13,12 @@
         <view>
           <tm-button size="small" label="点击充值"></tm-button>
         </view>
+      </view>
+    </tm-sheet>
+    <tm-sheet :margin="[24, 12]" :round="3">
+      <view class="flex">
+        <tm-text label="发布类型:"></tm-text>
+        <tm-text _class="ml-10" color="orange" :label="navigateTypeTitle"></tm-text>
       </view>
     </tm-sheet>
     <tm-sheet :margin="[24, 12]" :round="3">
@@ -56,6 +62,7 @@
           label="途径"
           field="channelAddress"
           :showError="false"
+          v-if="navigateType === '1'"
         >
           <tm-input
             :inputPadding="[10, 0, 0, 0]"
@@ -123,58 +130,15 @@
         >
           <view class="flex flex-row-center-between">
             <tm-tag
+              v-for="(item, index) in seatsTotal"
+              :key="index"
               :margin="[5, 10]"
               checkable
-              @click="carpoolInfo.seats = 1"
-              :checked="carpoolInfo.seats === 1"
+              @click="carpoolInfo.seats = item"
+              :checked="carpoolInfo.seats === item"
               color="primary"
               size="m"
-              label="1"
-            ></tm-tag>
-            <tm-tag
-              :margin="[5, 10]"
-              checkable
-              @click="carpoolInfo.seats = 2"
-              :checked="carpoolInfo.seats === 2"
-              color="primary"
-              size="m"
-              label="2"
-            ></tm-tag>
-            <tm-tag
-              :margin="[5, 10]"
-              checkable
-              @click="carpoolInfo.seats = 3"
-              :checked="carpoolInfo.seats === 3"
-              color="primary"
-              size="m"
-              label="3"
-            ></tm-tag>
-            <tm-tag
-              :margin="[5, 10]"
-              checkable
-              @click="carpoolInfo.seats = 4"
-              :checked="carpoolInfo.seats === 4"
-              color="primary"
-              size="m"
-              label="4"
-            ></tm-tag>
-            <tm-tag
-              :margin="[5, 10]"
-              checkable
-              @click="carpoolInfo.seats = 5"
-              :checked="carpoolInfo.seats === 5"
-              color="primary"
-              size="m"
-              label="5"
-            ></tm-tag>
-            <tm-tag
-              :margin="[5, 10]"
-              checkable
-              @click="carpoolInfo.seats = 6"
-              :checked="carpoolInfo.seats === 6"
-              color="primary"
-              size="m"
-              label="6"
+              :label="item"
             ></tm-tag>
           </view>
         </tm-form-item>
@@ -215,34 +179,318 @@
         ></tm-tag>
       </view>
     </tm-sheet>
+    <tm-sheet :margin="[24, 12]" :round="3">
+      <tm-text
+        :font-size="30"
+        color="grey-darken-1"
+        _class="text-weight-b"
+        label="联系人"
+      ></tm-text>
+      <tm-divider></tm-divider>
+      <tm-form
+        ref="form"
+        :margin="[20, 0]"
+        :padding="[10, 0]"
+        v-model="carpoolInfo"
+        :label-width="90"
+      >
+        <tm-form-item
+          :margin="[0, 20, 0, 0]"
+          :padding="[0]"
+          label="昵称"
+          field="username"
+          required
+          :rules="[{ required: true, message: '请输入昵称', trigger: 'blur' }]"
+          :showError="false"
+        >
+          <tm-input
+            :inputPadding="[10, 0, 0, 0]"
+            v-model.lazy="carpoolInfo.username"
+            :transprent="true"
+            :showBottomBotder="false"
+            placeholder="请输入姓名"
+          >
+          </tm-input>
+        </tm-form-item>
+        <tm-form-item
+          :margin="[0, 20, 0, 0]"
+          :padding="[0]"
+          label="性别"
+          field="sex"
+          required
+          :rules="[{ required: true, message: '请输入电话', trigger: 'blur' }]"
+          :showError="false"
+        >
+          <tm-radio-group v-model="carpoolInfo.sex" :defaultValue="1">
+            <tm-radio :value="1" label="男"></tm-radio>
+            <tm-radio :value="2" label="女"></tm-radio>
+          </tm-radio-group>
+        </tm-form-item>
+        <tm-form-item
+          :margin="[0, 20, 0, 0]"
+          :padding="[0]"
+          label="电话"
+          field="mobile"
+          required
+          :rules="[{ required: true, message: '请输入电话', trigger: 'blur' }]"
+          :showError="false"
+        >
+          <tm-input
+            :inputPadding="[10, 0, 0, 0]"
+            v-model.lazy="carpoolInfo.mobile"
+            :transprent="true"
+            :showBottomBotder="false"
+            placeholder="请输入电话"
+          >
+          </tm-input>
+        </tm-form-item>
+        <tm-form-item
+          :margin="[0, 20, 0, 0]"
+          :padding="[0]"
+          label="微信"
+          field="chatInfo"
+          :showError="false"
+        >
+          <tm-input
+            :inputPadding="[10, 0, 0, 0]"
+            v-model.lazy="carpoolInfo.chatInfo"
+            :transprent="true"
+            :showBottomBotder="false"
+            placeholder="请输入微信号"
+          >
+          </tm-input>
+        </tm-form-item>
+      </tm-form>
+    </tm-sheet>
+    <tm-sheet :margin="[24, 12]" :round="3">
+      <view class="flex flex-row-center-between">
+        <tm-text
+          :font-size="30"
+          color="grey-darken-1"
+          _class="text-weight-b"
+          label="我要置顶"
+        ></tm-text>
+        <tm-switch
+          @change="isTopAction"
+          unCheckedColor="primary"
+          color="primary"
+          text
+          :label="['是', '否']"
+        ></tm-switch>
+      </view>
+      <view class="mx-20" v-if="isTop">
+        <view class="flex flex-row-center-between mt-20">
+          <tm-text :font-size="30" color="grey" label="置顶时长:"></tm-text>
+          <view class="flex flex-row-center-end">
+            <tm-stepper
+              :width="160"
+              :max="10"
+              :min="1"
+              @change="topCountTotal"
+              :defaultValue="0"
+            ></tm-stepper>
+            <tm-text _class="ml-30" :font-size="30" color="grey" label="小时"></tm-text>
+          </view>
+        </view>
+        <view class="mt-20 flex flex-row-bottom-start">
+          <tm-text :font-size="30" color="grey" label="本次置顶话花费:"></tm-text>
+          <tm-text
+            _class="ml-20 text-weight-b mr-10"
+            color="orange"
+            :font-size="30"
+            :label="carpoolInfo.topCount"
+          ></tm-text>
+          <tm-text color="orange" :font-size="24" label="券"></tm-text>
+        </view>
+      </view>
+    </tm-sheet>
+    <tm-checkbox :size="32" class="ml-20 mt-10 mb-20">
+      <template v-slot:default="{ checked }">
+        <view class="flex flex-row" @click="isAgreeProtocol(checked)">
+          <tm-text label="我已经阅读并同意"></tm-text>
+          <view>
+            <tm-text color="primary" label="《拼车协议》"></tm-text>
+          </view>
+        </view>
+      </template>
+    </tm-checkbox>
+    <tm-button :margin="[24, 16]" block :label="`立即发布（${navigateTypeTitle}）`"></tm-button>
     <tm-picker
       v-model:show="startDateFlag"
-      :columns="citydate3"
+      :columns="district"
       v-model="carpoolInfo.startDate"
       v-model:model-str="startDate"
+      :defaultValue="[0, 0]"
     >
     </tm-picker>
   </tm-app>
 </template>
 
 <script lang="ts" setup>
+import { setNavigationBarTitle } from '@/common/utils/base'
+import { IDateOptionsAll, INotesItem } from '@/interfaces/publish'
+import { getDictData } from '@/service/common'
+import { onLoad } from '@dcloudio/uni-app'
 import { ref } from 'vue'
-
+//置顶单价
+const topPrice = ref<number>(0.5)
+//发布单价
+const strokePrice = ref<number>(0.5)
+let timeFrame: number = 3
+const getIntegralPriceAndDateDeadline = async () => {
+  timeFrame = 3
+  const res = await getDictData('wechat_publish')
+  const data = res.data
+  data.forEach((element: any) => {
+    if (element.label === 'unitPrice') {
+      strokePrice.value = element.value as any as number
+    } else if (element.label === 'topHourPrice') {
+      topPrice.value = element.value as any as number
+    } else if (element.label === 'timeFrame') {
+      timeFrame = element.value as any as number
+      generateStartDate()
+    }
+  })
+}
 const carpoolInfo = ref<{
   startAddress: string
   channelAddress: string
   endAddress: string
   startDate: Array<number>
-  seats: number
+  seats: string
   notes: string
+  sex: number
+  mobile: string
+  chatInfo: string
+  username: string
+  topCount: number
 }>({
   startAddress: '',
   channelAddress: '',
   endAddress: '',
   startDate: [],
-  seats: 0,
+  seats: '0',
   notes: '',
+  sex: 1,
+  mobile: '',
+  chatInfo: '',
+  username: '',
+  topCount: 0,
 })
+
+// 生成开始日期选择集合
+const district = ref<Array<IDateOptionsAll>>([])
+const generateStartDate = () => {
+  function formatDate(date: Date): string {
+    const year = date.getFullYear()
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const day = String(date.getDate()).padStart(2, '0')
+    return `${year}-${month}-${day}`
+  }
+  const dateArray: { text: string; id: string }[] = []
+
+  const currentDate = new Date()
+  const days: Array<string> = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六']
+  for (let i = 0; i < timeFrame; i++) {
+    const currentDateCopy = new Date(currentDate)
+    currentDateCopy.setDate(currentDate.getDate() + i)
+
+    let description: string
+    switch (i) {
+      case 0:
+        description = '今天'
+        break
+      case 1:
+        description = '明天'
+        break
+      case 2:
+        description = '后天'
+        break
+      default:
+        description = days[currentDateCopy.getDay()]
+        break
+    }
+
+    dateArray.push({
+      text: `${formatDate(currentDateCopy)}(${description})`,
+      id: formatDate(currentDateCopy),
+    })
+  }
+
+  function formatTime(hour: number, minute: number): string {
+    const hourStr = String(hour).padStart(2, '0')
+    const minuteStr = String(minute).padStart(2, '0')
+    return `${hourStr}:${minuteStr}`
+  }
+
+  function generateTimeSlots(): { text: string; id: string }[] {
+    const timeSlots: { text: string; id: string }[] = []
+    let hour = 5 // 早晨 05:00 开始
+    const minute = 30 // 早晨 05:30 开始
+
+    // 从早晨 05:30 开始，每隔一个小时生成一个时间段字符串
+    while (!(hour === 23)) {
+      const startTime = formatTime(hour, minute)
+      const endTime = formatTime(hour + 1, minute)
+      timeSlots.push({ text: `${startTime}-${endTime}`, id: `${startTime}-${endTime}` })
+      hour += 1
+    }
+
+    // 添加 23:00-23:59 时间段
+    timeSlots.push({ text: '23:00-23:59', id: '23:00-23:59' })
+
+    return timeSlots
+  }
+
+  function filterUpcomingTimeSlots(
+    timeSlots: { text: string; id: string }[]
+  ): { text: string; id: string }[] {
+    const currentTime = new Date()
+    const currentHour = currentTime.getHours()
+    const currentMinute = currentTime.getMinutes()
+    const currentSlot = formatTime(currentHour, currentMinute)
+
+    // 查找当前时间所在的时间段
+    let currentIndex = -1
+    for (let i = 0; i < timeSlots.length; i++) {
+      const [startTime] = timeSlots[i].id.split('-')
+      if (currentSlot < startTime) {
+        currentIndex = i
+        break
+      }
+    }
+
+    if (currentIndex === -1) {
+      return []
+    } else {
+      return timeSlots.slice(currentIndex)
+    }
+  }
+
+  // 生成第一个数组
+  const timeSlots = generateTimeSlots()
+
+  // 生成第二个数组
+  const upcomingTimeSlots = filterUpcomingTimeSlots(timeSlots)
+  for (let index = 0; index < dateArray.length; index++) {
+    const element = dateArray[index]
+    if (index === 0) {
+      district.value.push({
+        id: element.id,
+        text: element.text,
+        children: upcomingTimeSlots,
+      })
+    } else {
+      district.value.push({
+        id: element.id,
+        text: element.text,
+        children: timeSlots,
+      })
+    }
+  }
+}
+
+const seatsTotal = ref<Array<string>>(['1', '2', '3', '4', '5', '6'])
 const chooseAddress = (type: number) => {
   console.log(type)
   uni.chooseLocation({
@@ -255,64 +503,26 @@ const chooseAddress = (type: number) => {
     },
   })
 }
+
+// 出发时间
 const startDate = ref(<string>'')
 const startDateFlag = ref(<boolean>false)
-const citydate3 = ref([
-  {
-    text: '苹果',
-    id: 0,
-    children: [
-      { text: '香蕉', id: 10 },
-      { text: '香蕉2', id: 122 },
-    ],
-  },
-  {
-    text: '苹果',
-    id: 1,
-    children: [
-      { text: '香蕉', id: 10 },
-      { text: '香蕉2', id: 122 },
-    ],
-  },
-  {
-    text: '越南水果',
-    id: 3,
-    children: [
-      { text: '苹果2222', id: 10 },
-      { text: '香蕉', id: 12 },
-    ],
-  },
-])
-const notesOptions = ref<Array<{ value: string; checked: boolean }>>([
-  {
-    value: '准时准点',
-    checked: false,
-  },
-  {
-    value: '私家小车',
-    checked: false,
-  },
-  {
-    value: '拒载醉酒乘客',
-    checked: false,
-  },
-  {
-    value: '顺路同行',
-    checked: false,
-  },
-  {
-    value: '放假回家',
-    checked: false,
-  },
-  {
-    value: '有大件行李的提前说',
-    checked: false,
-  },
-  {
-    value: '可以带货',
-    checked: false,
-  },
-])
+
+// 备注选择
+
+const notesOptions = ref<Array<INotesItem>>([])
+const getNotesItem = async () => {
+  const res = await getDictData('wechat_publish_notes')
+  let data: Array<INotesItem> = []
+  res.data.forEach((element: any) => {
+    let item: INotesItem = {
+      value: element.label,
+      checked: false,
+    }
+    data.push(item)
+  })
+  notesOptions.value = data
+}
 const notesSelectedAction = (index: number) => {
   let item = notesOptions.value[index]
   if (!item.checked) {
@@ -323,6 +533,33 @@ const notesSelectedAction = (index: number) => {
   }
   item.checked = !item.checked
 }
+
+// 置顶操作
+const isTop = ref(false)
+const isTopAction = (isTopIndex: boolean) => {
+  isTop.value = isTopIndex
+  carpoolInfo.value.topCount = 0
+}
+const topCountTotal = (count: number) => {
+  carpoolInfo.value.topCount = count * topPrice.value
+}
+
+// 是否同意协议
+const isAgree = ref(false)
+const isAgreeProtocol = (e: any) => {
+  isAgree.value = e.checked
+}
+
+const navigateType = ref<string>('')
+const navigateTypeTitle = ref<string>('')
+onLoad((option: any) => {
+  navigateType.value = option.type
+  navigateTypeTitle.value = navigateType.value === '1' ? '车找人' : '人找车'
+  setNavigationBarTitle({ title: ` ${navigateTypeTitle.value}，发布消息` })
+  getIntegralPriceAndDateDeadline()
+
+  getNotesItem()
+})
 </script>
 
 <style lang="scss" scoped></style>

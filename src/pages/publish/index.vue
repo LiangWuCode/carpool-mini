@@ -88,10 +88,7 @@ const listimg = [
 
 const goToPublishDetail = (navigatorType: number) => {
   navigateTo({
-    url: '/pages/publish/detail/index',
-    params: {
-      type: navigatorType,
-    },
+    url: '/pages/publish/detail/index?type=' + navigatorType,
   })
 }
 </script>

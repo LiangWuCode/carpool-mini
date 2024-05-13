@@ -9,7 +9,7 @@ export const getAppVersion = () => {
 export const appId = 'wx1077326c20dbda47'
 
 type envType = 'dev' | 'prod' | 'test'
-export let env: envType = 'prod'
+export let env: envType = 'dev'
 // env = 'dev'
 // env = 'test'
 
@@ -18,7 +18,7 @@ export const getBaseURL = () => {
   let baseURL = 'https://api.faceface2.com/'
   // 判断环境是否为测试环境
   if (env === 'dev') {
-    baseURL = 'https://dev-api.faceface2.com/'
+    baseURL = 'http://127.0.0.1:8081/carpool'
   }
 
   // #ifdef H5

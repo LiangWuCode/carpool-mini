@@ -1,15 +1,15 @@
 export type resultType = {
-  records: any;
-  pages: string | number;
-  size: string | number;
-  total: string | number;
+  records?: any;
+  pages?: string | number;
+  size?: string | number;
+  total?: string | number;
   [k: string]: any;
 };
 
 export type responseDataType = {
   code: number;
   message: string;
-  result: resultType;
+  data: resultType;
 };
 
 export type responseType = {

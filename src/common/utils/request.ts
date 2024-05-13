@@ -15,7 +15,7 @@ export type ConfigType = {
   header?: object,
   data?: any,
   dataType?: 'json',
-  responseType?: 'text',
+  responseType?: 'json',
   [k: string]: any
 }
 type UrlType = {
@@ -33,7 +33,7 @@ class Request<T> {
     },
     method: 'GET',
     dataType: 'json',
-    responseType: 'text'
+    responseType: 'json'
   }
 
   interceptors = {
