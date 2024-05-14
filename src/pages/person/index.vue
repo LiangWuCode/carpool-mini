@@ -1,6 +1,6 @@
 <template>
   <tm-app ref="app">
-    <tm-sheet :margin="[0, 0, 0, 20]" :padding="[0, 48]" color="#3B5CF0">
+    <tm-sheet :margin="[0, 0, 0, 20]" :padding="[0, 48]" color="blue">
       <view class="flex flex-col flex-center">
         <tm-avatar
           outlined
@@ -12,8 +12,8 @@
         <tm-text :fontSize="30" _class="text-weight-b mt-20" label="微信用户"></tm-text>
       </view>
     </tm-sheet>
-    <tm-sheet :margin="[24, 12]" :padding="[50, 24, 40, 24]" :round="3">
-      <view class="flex flex-between">
+    <tm-sheet :margin="[24, 12]" :padding="[50, 24, 0, 24]" :round="3">
+      <view class="flex flex-around">
         <view class="flex flex-col flex-center">
           <view class="flex flex-row-bottom-center mb-5"
             ><tm-text _class="text-weight-b" color="orange" :fontSize="36" label="0"></tm-text
@@ -21,8 +21,8 @@
           ></view>
           <tm-text :fontSize="24" label="信息"></tm-text>
         </view>
-        <view class="flex flex-col flex-center">
-          <tm-text _class="text-weight-b mb-5" color="red" :fontSize="36" label="1.00"></tm-text>
+        <view class="flex flex-col flex-center pl-40">
+          <tm-text _class="text-weight-b mb-5" color="red" :fontSize="36" label="100.00"></tm-text>
           <tm-text :fontSize="24" label="券"></tm-text>
         </view>
         <view class="flex flex-col flex-center">
@@ -97,4 +97,5 @@ const goToPayPage = () => {
 </script>
 
 <style lang="scss" scoped>
+
 </style>

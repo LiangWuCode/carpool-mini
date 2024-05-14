@@ -3,7 +3,7 @@
     <tm-sheet
       :margin="[0, 0]"
       :padding="[0, 0, 0, 20]"
-      :linear-color="['#3B5CF0', '#fff']"
+      :linear-color="['#0163ff', '#fff']"
       linear="bottom"
     >
       <tm-carousel
