@@ -33,9 +33,13 @@
 		{
 			"path": "pages/payTicket/index",
 			"style": {
-				"navigationBarTitleText": "充值券",
-				"navigationBarBackgroundColor":"#ffffff",
-				"navigationBarTextStyle": "black"
+				"navigationBarTitleText": "充值券"
+			}
+		},
+		{
+			"path": "pages/payTicket/orderConfirm/index",
+			"style": {
+				"navigationBarTitleText": "订单确认"
 			}
 		}
 	],

@@ -51,11 +51,15 @@
             :transprent="true"
             placeholder="从哪儿出发"
             :showBottomBotder="false"
-            
           >
-          <template v-slot:right>
-            <tm-icon @click="chooseAddress(1)" :fontSize="30" color="primary" name="tmicon-map"></tm-icon>
-          </template>
+            <template v-slot:right>
+              <tm-icon
+                @click="chooseAddress(1)"
+                :fontSize="30"
+                color="primary"
+                name="tmicon-map"
+              ></tm-icon>
+            </template>
           </tm-input>
         </tm-form-item>
         <tm-form-item
@@ -91,9 +95,14 @@
             :transprent="true"
             :showBottomBotder="false"
           >
-          <template v-slot:right>
-            <tm-icon @click="chooseAddress(2)" :fontSize="30" color="primary" name="tmicon-map"></tm-icon>
-          </template>
+            <template v-slot:right>
+              <tm-icon
+                @click="chooseAddress(2)"
+                :fontSize="30"
+                color="primary"
+                name="tmicon-map"
+              ></tm-icon>
+            </template>
           </tm-input>
         </tm-form-item>
         <tm-form-item
@@ -495,7 +504,6 @@ const generateStartDate = () => {
 
 const seatsTotal = ref<Array<string>>(['1', '2', '3', '4', '5', '6'])
 const chooseAddress = (type: number) => {
-  console.log(type)
   uni.chooseLocation({
     success: function (res) {
       if (type === 1) {
@@ -512,7 +520,6 @@ const startDate = ref(<string>'')
 const startDateFlag = ref(<boolean>false)
 
 // 备注选择
-
 const notesOptions = ref<Array<INotesItem>>([])
 const getNotesItem = async () => {
   const res = await getDictData('wechat_publish_notes')
@@ -554,8 +561,8 @@ const isAgreeProtocol = (e: any) => {
 }
 
 // 跳转到券充值页
-const goToPayPage=()=>{
-  navigateTo({url:'/pages/payTicket/index'})
+const goToPayPage = () => {
+  navigateTo({ url: '/pages/payTicket/index' })
 }
 
 const navigateType = ref<string>('')
