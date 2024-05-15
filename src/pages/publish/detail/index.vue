@@ -6,8 +6,8 @@
           <tm-text color="orange" label="每条消息"></tm-text>
           <tm-text color="orange" :label="strokePrice"></tm-text>
           <tm-text color="orange" label="券"></tm-text>
-          <tm-text color="orange" label="（您的积分："></tm-text>
-          <tm-text color="orange" label="1.00"></tm-text>
+          <tm-text color="orange" label="（您的券："></tm-text>
+          <tm-text color="orange" :label="userInfo?.couponCount"></tm-text>
           <tm-text color="orange" label="）"></tm-text>
         </view>
         <view>
@@ -42,7 +42,6 @@
           required
           label="起点"
           field="startAddress"
-          :rules="[{ required: true, message: '请输入起点', trigger: 'blur' }]"
           :showError="false"
         >
           <tm-input
@@ -68,7 +67,7 @@
           label="途径"
           field="channelAddress"
           :showError="false"
-          v-if="navigateType === '1'"
+          v-if="carpoolInfo.type === 1"
         >
           <tm-input
             :inputPadding="[10, 0, 0, 0]"
@@ -85,7 +84,6 @@
           label="终点"
           field="endAddress"
           required
-          :rules="[{ required: true, message: '请输入终点', trigger: 'blur' }]"
           :showError="false"
         >
           <tm-input
@@ -111,7 +109,6 @@
           label="时间"
           field="endAddress"
           required
-          :rules="[{ required: true, message: '请输入终点', trigger: 'blur' }]"
           :showError="false"
         >
           <view
@@ -137,7 +134,6 @@
           label="空位"
           field="seats"
           required
-          :rules="[{ required: true, message: '请输入终点', trigger: 'change' }]"
           :showError="false"
         >
           <view class="flex flex-row-center-between">
@@ -212,7 +208,6 @@
           label="昵称"
           field="username"
           required
-          :rules="[{ required: true, message: '请输入昵称', trigger: 'blur' }]"
           :showError="false"
         >
           <tm-input
@@ -230,7 +225,6 @@
           label="性别"
           field="sex"
           required
-          :rules="[{ required: true, message: '请输入电话', trigger: 'blur' }]"
           :showError="false"
         >
           <tm-radio-group v-model="carpoolInfo.sex" :defaultValue="1">
@@ -244,7 +238,6 @@
           label="电话"
           field="mobile"
           required
-          :rules="[{ required: true, message: '请输入电话', trigger: 'blur' }]"
           :showError="false"
         >
           <tm-input
@@ -316,9 +309,14 @@
         </view>
       </view>
     </tm-sheet>
-    <tm-checkbox :size="32" class="ml-20 mt-10 mb-20">
+    <tm-checkbox
+      @change="isAgreeProtocol"
+      :defaultChecked="true"
+      :size="32"
+      class="ml-20 mt-10 mb-20"
+    >
       <template v-slot:default="{ checked }">
-        <view class="flex flex-row" @click="isAgreeProtocol(checked)">
+        <view class="flex flex-row">
           <tm-text label="我已经阅读并同意"></tm-text>
           <view>
             <tm-text color="primary" label="《拼车协议》"></tm-text>
@@ -326,11 +324,16 @@
         </view>
       </template>
     </tm-checkbox>
-    <tm-button :margin="[24, 16]" block :label="`立即发布（${navigateTypeTitle}）`"></tm-button>
+    <tm-button
+      @click="publishTrips"
+      :margin="[24, 16]"
+      block
+      :label="`立即发布（${navigateTypeTitle}）`"
+    ></tm-button>
     <tm-picker
       v-model:show="startDateFlag"
       :columns="district"
-      v-model="carpoolInfo.startDate"
+      v-model="carpoolInfo.startDateDesc"
       v-model:model-str="startDate"
       :defaultValue="[0, 0]"
     >
@@ -340,10 +343,16 @@
 
 <script lang="ts" setup>
 import { navigateTo, setNavigationBarTitle } from '@/common/utils/base'
-import { IDateOptionsAll, INotesItem } from '@/interfaces/publish'
+import { IDateOptions, IDateOptionsAll, INotesItem } from '@/interfaces/publish'
 import { getDictData } from '@/service/common'
 import { onLoad } from '@dcloudio/uni-app'
 import { ref } from 'vue'
+import pinia from '@/store/store'
+import { useUser } from '@/store/user'
+import { IUserInfo } from '@/interfaces/common'
+import { toast } from '@/common/utils'
+import { publish } from '@/service/rideTrips'
+const userStore = useUser(pinia)
 //置顶单价
 const topPrice = ref<number>(0.5)
 //发布单价
@@ -368,7 +377,7 @@ const carpoolInfo = ref<{
   startAddress: string
   channelAddress: string
   endAddress: string
-  startDate: Array<number>
+  startDate: string
   seats: string
   notes: string
   sex: number
@@ -376,18 +385,22 @@ const carpoolInfo = ref<{
   chatInfo: string
   username: string
   topCount: number
+  type: number
+  startDateDesc: Array<number>
 }>({
   startAddress: '',
   channelAddress: '',
   endAddress: '',
-  startDate: [],
-  seats: '0',
+  startDate: '',
+  seats: '5',
   notes: '',
   sex: 1,
   mobile: '',
   chatInfo: '',
   username: '',
   topCount: 0,
+  type: 1,
+  startDateDesc: [0, 0],
 })
 
 // 生成开始日期选择集合
@@ -473,7 +486,7 @@ const generateStartDate = () => {
     }
 
     if (currentIndex === -1) {
-      return []
+      return [{ id: '23:00-23:59', text: '23:00-23:59' }]
     } else {
       return timeSlots.slice(currentIndex)
     }
@@ -555,9 +568,9 @@ const topCountTotal = (count: number) => {
 }
 
 // 是否同意协议
-const isAgree = ref(false)
-const isAgreeProtocol = (e: any) => {
-  isAgree.value = e.checked
+const isAgree = ref(true)
+const isAgreeProtocol = (e: boolean) => {
+  isAgree.value = e
 }
 
 // 跳转到券充值页
@@ -565,15 +578,35 @@ const goToPayPage = () => {
   navigateTo({ url: '/pages/payTicket/index' })
 }
 
-const navigateType = ref<string>('')
+//发布行程
+const publishTrips = async () => {
+  if (!isAgree.value) {
+    toast('请先阅读并同意拼车协议！')
+    return
+  }
+
+  //出发时间
+  const startDateIndexArray: Array<number> = carpoolInfo.value.startDateDesc
+  const needAllData: IDateOptionsAll = district.value[startDateIndexArray[0]]
+  const date = needAllData.id
+  const needTimesData: IDateOptions = needAllData.children[startDateIndexArray[1]]
+  const times = needTimesData.id
+  carpoolInfo.value.startDate = date + ',' + times
+
+  await publish(carpoolInfo.value)
+}
+
+const userInfo = ref<IUserInfo>()
 const navigateTypeTitle = ref<string>('')
 onLoad((option: any) => {
-  navigateType.value = option.type
-  navigateTypeTitle.value = navigateType.value === '1' ? '车找人' : '人找车'
+  carpoolInfo.value.type = option.type as number
+  navigateTypeTitle.value = carpoolInfo.value.type === 1 ? '车找人' : '人找车'
   setNavigationBarTitle({ title: ` ${navigateTypeTitle.value}，发布消息` })
   getIntegralPriceAndDateDeadline()
 
   getNotesItem()
+
+  userInfo.value = userStore.userInfo
 })
 </script>
 

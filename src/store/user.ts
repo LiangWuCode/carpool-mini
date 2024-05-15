@@ -1,18 +1,22 @@
-import { defineStore, acceptHMRUpdate } from "pinia";
-import { navLogin } from "@/common/ts/nav";
+import { IUserInfo } from '@/interfaces/common'
+import { defineStore, acceptHMRUpdate } from 'pinia'
 
-const userBase = { 
-  nickName: "",
-  avatar: "",
-  token: "",
-  mobileOk: false 
-};
+const userBase = {
+  nickName: '',
+  avatar: '',
+  token: '',
+  chatInfo: '',
+  couponCount: 0,
+  mobile: '',
+  rideCount: 0,
+  sex: 1,
+}
 export const useUser = defineStore({
   /**
    * 仓库id是唯一标识
    *
    */
-  id: "user",
+  id: 'user',
   /**
    * 存储全局状态
    * 1.必须是箭头函数: 为了在服务器端渲染的时候避免交叉请求导致数据状态污染
@@ -22,8 +26,8 @@ export const useUser = defineStore({
   state: () => {
     return {
       userInfo: { ...userBase },
-      provider: "",
-    };
+      provider: '',
+    }
   },
   /**
    * 用来封装计算属性 有缓存功能  类似于computed
@@ -35,24 +39,23 @@ export const useUser = defineStore({
    */
   actions: {
     setUser(result: any) {
-      this.userInfo = result;
+      this.userInfo = result
     },
-    setUserInfo(info: any) {
-      this.userInfo = info;
+    setUserInfo(info: IUserInfo) {
+      this.userInfo = info
     },
     removeToken() {
-      this.userInfo = { ...userBase };
+      this.userInfo = { ...userBase }
     },
     logout() {
-      this.removeToken();
-      // navLogin();
+      this.removeToken()
     },
     setProvider(provider: string) {
-      this.provider = provider;
+      this.provider = provider
     },
-    isLogined(){
-      return this.userInfo.token ? true : false;
-    }
+    isLogined() {
+      return this.userInfo.token ? true : false
+    },
   },
   // 持久化存储
   persist: {
@@ -60,9 +63,9 @@ export const useUser = defineStore({
     detached: true, // 设置订阅与组件分离
     H5Storage: window?.localStorage,
   },
-});
+})
 
 // 添加热更新
 if (import.meta.hot) {
-  import.meta.hot.accept(acceptHMRUpdate(useUser, import.meta.hot));
+  import.meta.hot.accept(acceptHMRUpdate(useUser, import.meta.hot))
 }

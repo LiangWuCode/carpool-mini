@@ -126,7 +126,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { onShow, onLoad } from '@dcloudio/uni-app'
-import { navLogin } from '@/common/ts/nav'
+import { getUserInfoAction } from '@/common/ts/nav'
 const listimg = [
   'https://api.yuanzhan.cn/uploads/ad/e25eb55dd4a466681e991a14fa2b96a9.jpg',
   'https://api.yuanzhan.cn/uploads/ad/666667777777775.jpg',
@@ -139,11 +139,16 @@ const tabsTitle = ref([
   { key: '3', title: '人找车', icon: 'tmicon-user-fill' },
 ])
 
+const tabschange = (e: any) => {
+  console.log(e)
+}
+
+
 const offset = ref(0)
 // #ifdef H5
 offset.value = uni.$tm.u.torpx(44)
 // #endif
 onLoad(() => {
-  navLogin()
+  getUserInfoAction()
 })
 </script>

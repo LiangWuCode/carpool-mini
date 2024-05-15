@@ -4,25 +4,36 @@
       <view class="flex flex-col flex-center">
         <tm-avatar
           outlined
-          :round="12"
-          :font-size="52"
+          :size="100"
+          :round="16"
           color="white"
           icon="tmicon-weixin"
+          :img="userInfo?.avatar"
         ></tm-avatar>
-        <tm-text :fontSize="30" _class="text-weight-b mt-20" label="微信用户"></tm-text>
+        <tm-text :fontSize="30" _class="text-weight-b mt-20" :label="userInfo?.nickName"></tm-text>
       </view>
     </tm-sheet>
     <tm-sheet :margin="[24, 12]" :padding="[50, 24, 0, 24]" :round="3">
       <view class="flex flex-around">
         <view class="flex flex-col flex-center">
           <view class="flex flex-row-bottom-center mb-5"
-            ><tm-text _class="text-weight-b" color="orange" :fontSize="36" label="0"></tm-text
+            ><tm-text
+              _class="text-weight-b"
+              color="orange"
+              :fontSize="36"
+              :label="userInfo?.rideCount"
+            ></tm-text
             ><tm-text color="orange" :fontSize="24" label="条"></tm-text
           ></view>
           <tm-text :fontSize="24" label="信息"></tm-text>
         </view>
         <view class="flex flex-col flex-center pl-40">
-          <tm-text _class="text-weight-b mb-5" color="red" :fontSize="36" label="100.00"></tm-text>
+          <tm-text
+            _class="text-weight-b mb-5"
+            color="red"
+            :fontSize="36"
+            :label="userInfo?.couponCount"
+          ></tm-text>
           <tm-text :fontSize="24" label="券"></tm-text>
         </view>
         <view class="flex flex-col flex-center">
@@ -90,12 +101,20 @@
 
 <script lang="ts" setup>
 import { navigateTo } from '@/common/utils/base'
+import { onShow } from '@dcloudio/uni-app'
+import pinia from '@/store/store'
+import { useUser } from '@/store/user'
+import { IUserInfo } from '@/interfaces/common'
+import { ref } from 'vue'
+const userStore = useUser(pinia)
 // 跳转到券充值页
 const goToPayPage = () => {
   navigateTo({ url: '/pages/payTicket/index' })
 }
+const userInfo = ref<IUserInfo>()
+onShow(() => {
+  userInfo.value = userStore.userInfo
+})
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

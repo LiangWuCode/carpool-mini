@@ -1,4 +1,4 @@
-interface IDateOptions {
+export interface IDateOptions {
     text: string
     id: string
   }
