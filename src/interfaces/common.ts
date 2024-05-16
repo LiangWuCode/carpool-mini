@@ -8,3 +8,14 @@ export interface IUserInfo  {
     rideCount:number
     sex:number
   }
+
+  export interface IPageRequestCommon {
+    pageNum:number
+    pageSize:number
+  }
+
+
+  export interface IPageResponseCommon {
+    pageNum:number
+    pageSize:number
+  }

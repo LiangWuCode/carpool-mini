@@ -105,10 +105,12 @@ request.interceptors.response((response: responseType) => {
       clearTimeout(timer)
       timer = null
     }, 1000)
+    return
   } else {
     clearTimeout(delayed)
     delayed = null
     toast('网络不给力，请稍后再试~')
+    return
   }
 
   if (response?.data && response?.data?.code === 200) {

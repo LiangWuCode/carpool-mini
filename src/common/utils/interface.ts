@@ -1,7 +1,6 @@
 export type resultType = {
-  records?: any;
-  pages?: string | number;
-  size?: string | number;
+  pageNum?: string | number;
+  pageSize?: string | number;
   total?: string | number;
   [k: string]: any;
 };

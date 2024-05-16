@@ -18,7 +18,7 @@ export const getBaseURL = () => {
   let baseURL = 'https://api.faceface2.com/'
   // 判断环境是否为测试环境
   if (env === 'dev') {
-    baseURL = 'http://192.168.1.222:8081/carpool'
+    baseURL = 'http://127.0.0.1:8081/carpool'
   }
 
   // #ifdef H5
