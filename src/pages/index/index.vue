@@ -51,6 +51,7 @@
         :margin="[24, 24]"
         :round="3"
         :padding="[12, 24]"
+        @click="goToRideTripsDetailPage(item.id)"
       >
         <view class="flex flex-row-center-between">
           <view class="flex flex-row-center-center">
@@ -75,14 +76,16 @@
               v-show="item.type === 2"
               label="人找车"
             ></tm-tag>
-            <tm-text :font-size="24" label="还有"></tm-text>
+            <tm-text v-show="item.type === 1" :font-size="24" label="还有"></tm-text>
+            <tm-text v-show="item.type === 2" :font-size="24" label="有"></tm-text>
             <tm-text
               :font-size="28"
               color="red"
               class="text-weight-b mx-8"
               :label="item.seats"
             ></tm-text>
-            <tm-text :font-size="24" label="个座位"></tm-text>
+            <tm-text v-show="item.type === 1" :font-size="24" label="个座位"></tm-text>
+            <tm-text v-show="item.type === 2" :font-size="24" label="人同行"></tm-text>
           </view>
           <view class="mr-10">
             <tm-icon :font-size="40" color="green" name="tmicon-weixin"></tm-icon>
@@ -168,6 +171,7 @@ import { getUserInfoAction } from '@/common/ts/nav'
 import { getRideTripsList } from '@/service/rideTrips'
 import { IGetRideTrips, IRideTripsList } from '@/interfaces/rideTrips'
 import { callPhone } from '@/tmui/tool/function/util'
+import { navigateTo } from '@/common/utils/base'
 const listimg = [
   'https://api.yuanzhan.cn/uploads/ad/e25eb55dd4a466681e991a14fa2b96a9.jpg',
   'https://api.yuanzhan.cn/uploads/ad/666667777777775.jpg',
@@ -214,7 +218,11 @@ const getRideTripsListAction = async () => {
   } else {
     list.value = listData
   }
-  console.log(list.value)
+}
+
+//跳转至行程详情页
+const goToRideTripsDetailPage = (rideTripsId:number) => {
+  navigateTo({ url: `/pages/index/rideTripsDetail/index?rideTripsId=${rideTripsId}` })
 }
 
 const offset = ref(0)
@@ -222,6 +230,8 @@ const offset = ref(0)
 offset.value = uni.$tm.u.torpx(44)
 // #endif
 onShow(() => {
+  page.value.pageNum = 1
+  page.value.pageSize = 5
   getRideTripsListAction()
 })
 onLoad(() => {

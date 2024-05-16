@@ -150,7 +150,7 @@
         "uniStatistics" : {
             "enable" : false
         },
-        "title" : "tmui3.0",
+        "title" : "觅行出行",
         "router" : {
             "mode" : "hash",
             "base" : "/h5/"
@@ -162,7 +162,15 @@
         },
         "devServer" : {
             "https" : false
+        },
+        "sdkConfigs" : {
+            "maps" : {
+                "qqmap" : {
+                    "key" : "OCABZ-NK5WJ-YWFF6-DWITH-IZ3TZ-6UFES"
+                }
+            }
         }
+
     },
     "mp-jd" : {
         "uniStatistics" : {

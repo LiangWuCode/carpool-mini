@@ -39,3 +39,9 @@ export type IRideTripsList={
         messageCount:number
         isTop:number
 }
+
+
+export interface IPoint{
+  latitude:number
+  longitude:number
+} 

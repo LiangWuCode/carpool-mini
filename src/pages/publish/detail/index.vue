@@ -131,7 +131,7 @@
         <tm-form-item
           :margin="[0, 20, 0, 0]"
           :padding="[0]"
-          label="空位"
+          :label="carpoolInfo.type === 1?'空位':'同行'"
           field="seats"
           required
           :showError="false"

@@ -43,6 +43,12 @@
 			"style": {
 				"navigationBarTitleText": "订单确认"
 			}
+		},
+		{
+			"path": "pages/index/rideTripsDetail/index",
+			"style": {
+				"navigationBarTitleText": "行程详情"
+			}
 		}
 	],
 	"tabBar": {
