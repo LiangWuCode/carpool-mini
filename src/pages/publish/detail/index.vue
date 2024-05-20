@@ -131,7 +131,7 @@
         <tm-form-item
           :margin="[0, 20, 0, 0]"
           :padding="[0]"
-          :label="carpoolInfo.type === 1?'空位':'同行'"
+          :label="carpoolInfo.type === 1 ? '空位' : '同行'"
           field="seats"
           required
           :showError="false"
@@ -342,7 +342,7 @@
 </template>
 
 <script lang="ts" setup>
-import { navigateTo, setNavigationBarTitle } from '@/common/utils/base'
+import { navigateTo, setNavigationBarTitle, switchTab } from '@/common/utils/base'
 import { IDateOptions, IDateOptionsAll, INotesItem } from '@/interfaces/publish'
 import { getDictData } from '@/service/common'
 import { onLoad } from '@dcloudio/uni-app'
@@ -352,6 +352,7 @@ import { useUser } from '@/store/user'
 import { IUserInfo } from '@/interfaces/common'
 import { toast } from '@/common/utils'
 import { publish } from '@/service/rideTrips'
+import { number } from 'echarts'
 const userStore = useUser(pinia)
 //置顶单价
 const topPrice = ref<number>(0.5)
@@ -594,12 +595,16 @@ const publishTrips = async () => {
   carpoolInfo.value.startDate = date + ',' + times
 
   await publish(carpoolInfo.value)
+
+  switchTab({
+    url: '/pages/index/index',
+  })
 }
 
 const userInfo = ref<IUserInfo>()
 const navigateTypeTitle = ref<string>('')
 onLoad((option: any) => {
-  carpoolInfo.value.type = option.type as number
+  carpoolInfo.value.type = Number(option.type)
   navigateTypeTitle.value = carpoolInfo.value.type === 1 ? '车找人' : '人找车'
   setNavigationBarTitle({ title: ` ${navigateTypeTitle.value}，发布消息` })
   getIntegralPriceAndDateDeadline()

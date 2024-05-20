@@ -11,3 +11,9 @@ export const publish = (rideTrips:ISaveRideTrips) => {
 export const getRideTripsList = (rideTrips:IGetRideTrips) => {
   return get(`/rideTrips/getRideTripsList`,rideTrips)
 }
+
+
+// 获取行程详情
+export const getRideTripsDetail = (id:number) => {
+  return get(`/rideTrips/${id}`)
+}
