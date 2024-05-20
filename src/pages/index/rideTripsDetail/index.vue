@@ -39,8 +39,11 @@
         </view>
         <view><tm-icon :fontSize="30" color="primary" name="tmicon-map"></tm-icon></view>
       </view>
-      <tm-divider v-show="rideTrips.type === 1"></tm-divider>
-      <view class="flex flex-row-center-between" v-show="rideTrips.type === 1">
+      <tm-divider v-if="rideTrips.type === 1 && rideTrips.channelAddress"></tm-divider>
+      <view
+        class="flex flex-row-center-between"
+        v-if="rideTrips.type === 1 && rideTrips.channelAddress"
+      >
         <view class="flex flex-row-center-between">
           <view class="flex flex-row-center-between pr-n10" style="width: 100rpx">
             <tm-icon :font-size="22" color="green" name="tmicon-yuan"></tm-icon>
@@ -124,7 +127,7 @@
             <tm-text
               :font-size="28"
               _class="text-weight-9"
-              :label="`${rideTrips.duration}km`"
+              :label="`${rideTrips.distance} km`"
             ></tm-text>
           </view>
         </view>
@@ -137,7 +140,7 @@
             <tm-text label="用时"></tm-text>
           </view>
           <view class="ml-10 border-l-2 pl-20">
-            <tm-text :font-size="28" _class="text-weight-9" :label="rideTrips.distance"></tm-text>
+            <tm-text :font-size="28" _class="text-weight-9" :label="rideTrips.duration"></tm-text>
           </view>
         </view>
       </view>
@@ -186,7 +189,12 @@
             <tm-text label="联系"></tm-text>
           </view>
           <view class="ml-10 border-l-2 pl-20">
-            <tm-text :font-size="28" _class="text-weight-9" :label="rideTrips.mobile"></tm-text>
+            <tm-text
+              :font-size="28"
+              @click="setClipboardData(rideTrips.mobile, '复制联系人成功！')"
+              _class="text-weight-9"
+              :label="rideTrips.mobileEllipsis"
+            ></tm-text>
           </view>
         </view>
       </view>
@@ -198,7 +206,12 @@
             <tm-text label="微信"></tm-text>
           </view>
           <view class="ml-10 border-l-2 pl-20">
-            <tm-text :font-size="28" _class="text-weight-9" :label="rideTrips.chatInfo"></tm-text>
+            <tm-text
+              :font-size="28"
+              @click="setClipboardData(rideTrips.chatInfo, '复制微信号成功！')"
+              _class="text-weight-9"
+              :label="rideTrips.chatInfo"
+            ></tm-text>
           </view>
         </view>
       </view>
@@ -223,9 +236,20 @@
         <view> <tm-button :margin="[10]" size="small" :shadow="0" label="回复"></tm-button></view>
       </view>
     </tm-sheet>
-    <tm-sheet class="fixed b-0 fulled" :padding="[0]" :margin="[0]" :round="3">
+    <view style="margin-top: env(safe-area-inset-bottom); padding-bottom: 12rpx"></view>
+
+    <tm-sheet class="fixed fulled b-0" :padding="[0]" :margin="[0]">
       <tm-row :width="750" class="fulled" :column="4" :height="100">
-        <tm-col class="fulled-height" :col="1" :height="100">
+        <tm-col
+          @click="
+            switchTab({
+              url: '/pages/index/index',
+            })
+          "
+          class="fulled-height"
+          :col="1"
+          :height="100"
+        >
           <tm-icon :font-size="32" _class="mb-5 mt-10" name="tmicon-home"></tm-icon>
           <tm-text label="首页"></tm-text>
         </tm-col>
@@ -237,27 +261,55 @@
           <tm-icon :font-size="32" _class="mb-5 mt-10" name="tmicon-commentdots-fill"></tm-icon>
           <tm-text label="在线留言"></tm-text>
         </tm-col>
-        <tm-col class="fulled-height" color="red" :col="1" :height="100">
+        <tm-col
+          @click="callPhone(rideTrips.mobile)"
+          class="fulled-height"
+          color="red"
+          :col="1"
+          :height="100"
+        >
           <tm-text _class="mb-5 mt-10" label="一键拨号"></tm-text>
-          <tm-text label="15233552519"></tm-text>
+          <tm-text :label="rideTrips.mobileEllipsis"></tm-text>
         </tm-col>
       </tm-row>
+      <view style="height: env(safe-area-inset-bottom); background-color: #fff"></view>
     </tm-sheet>
   </tm-app>
 </template>
 
 <script setup lang="ts">
-import { IPoint } from '@/interfaces/rideTrips'
+import { IPoint, IRideTripsDetail } from '@/interfaces/rideTrips'
 import { getRideTripsDetail } from '@/service/rideTrips'
 import { onLoad } from '@dcloudio/uni-app'
 import { ref } from 'vue'
+import { setClipboardData,switchTab } from '@/common/utils/base'
+import { callPhone } from '@/tmui/tool/function/util'
+
 const point = ref<IPoint>({ latitude: 39.909, longitude: 116.39742 })
 
 //获取行程详情
-const rideTrips = ref<any>({})
+const rideTrips = ref<IRideTripsDetail>({
+  type: 1,
+  messageCount: 0,
+  viewCount: 0,
+  startAddress: '',
+  channelAddress: '',
+  endAddress: '',
+  createDateDesc: '',
+  seats: 0,
+  duration: '',
+  distance: 0,
+  notes: '',
+  username: '',
+  mobile: '',
+  chatInfo: '',
+  polyline: [],
+  rideMessageVos: [],
+  mobileEllipsis: '',
+})
 const getRideTripsDetailAction = async (rideTripsId: number) => {
   const res = await getRideTripsDetail(rideTripsId)
-  rideTrips.value = res.data
+  rideTrips.value = res.data as IRideTripsDetail
 }
 
 const rideTripsId = ref<number>(0)

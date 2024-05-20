@@ -11,7 +11,7 @@ export const appId = 'wx1077326c20dbda47'
 type envType = 'dev' | 'prod' | 'test'
 export let env: envType = 'dev'
 // env = 'dev'
-// env = 'test'
+env = 'test'
 
 export const getBaseURL = () => {
   // 正式环境地址
@@ -19,6 +19,10 @@ export const getBaseURL = () => {
   // 判断环境是否为测试环境
   if (env === 'dev') {
     baseURL = 'http://127.0.0.1:8081/carpool'
+  }
+
+  if (env === 'test') {
+    baseURL = 'http://192.168.1.222:8081/carpool'
   }
 
   // #ifdef H5

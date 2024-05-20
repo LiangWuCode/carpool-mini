@@ -1,6 +1,6 @@
 // (taro)引入必须这么引入，可减少打包体积
 
-import { checkIsWechatBrowser } from "./index";
+import { checkIsWechatBrowser } from './index'
 
 /**
  * 使手机发生较短时间的振动（15ms）
@@ -9,11 +9,11 @@ import { checkIsWechatBrowser } from "./index";
  */
 export const getAccountInfoSync = (data = {}) => {
   // #ifndef APP | H5
-  const accountInfo = uni.getAccountInfoSync();
-  console.log(accountInfo);
-  return accountInfo;
+  const accountInfo = uni.getAccountInfoSync()
+  console.log(accountInfo)
+  return accountInfo
   // #endif
-};
+}
 
 /**
  * 使手机发生较短时间的振动（15ms）
@@ -22,9 +22,9 @@ export const getAccountInfoSync = (data = {}) => {
  */
 export const vibrateShort = (data = {}) => {
   // #ifdef MP-WEIXIN
-  uni.vibrateShort(data);
+  uni.vibrateShort(data)
   // #endif
-};
+}
 
 /**
  * 获取用户信息
@@ -32,8 +32,8 @@ export const vibrateShort = (data = {}) => {
  * 文档: [http://uniapp.dcloud.io/api/plugins/login?id=getUserProfile](http://uniapp.dcloud.io/api/plugins/login?id=getUserProfile)
  */
 export const getUserProfile = (data: any) => {
-  uni.getUserProfile(data);
-};
+  uni.getUserProfile(data)
+}
 
 /**
  * 显示操作菜单
@@ -41,8 +41,8 @@ export const getUserProfile = (data: any) => {
  * 文档: [http://uniapp.dcloud.io/api/ui/prompt?id=showactionsheet](http://uniapp.dcloud.io/api/ui/prompt?id=showactionsheet)
  */
 export const showActionSheet = (data: any) => {
-  uni.showActionSheet(data);
-};
+  uni.showActionSheet(data)
+}
 
 /**
  * 停止当前页面下拉刷新
@@ -50,8 +50,8 @@ export const showActionSheet = (data: any) => {
  * 文档: [http://uniapp.dcloud.io/api/ui/pulldown?id=stoppulldownrefresh](http://uniapp.dcloud.io/api/ui/pulldown?id=stoppulldownrefresh)
  */
 export const stopPullDownRefresh = () => {
-  uni.stopPullDownRefresh();
-};
+  uni.stopPullDownRefresh()
+}
 
 /**
  * 登录
@@ -63,9 +63,9 @@ export const login = () => {
     uni.login({
       success: (res: any) => resolve(res),
       fail: (err: any) => reject(err),
-    });
-  });
-};
+    })
+  })
+}
 
 // 路由跳转 start
 /**
@@ -74,32 +74,32 @@ export const login = () => {
  * 文档: [http://uniapp.dcloud.io/api/router?id=redirectto](http://uniapp.dcloud.io/api/router?id=redirectto)
  */
 export const redirectTo = (params: any) => {
-  uni.redirectTo(params);
-};
+  uni.redirectTo(params)
+}
 /**
  * 关闭所有页面，打开到应用内的某个页面
  *
  * 文档: [http://uniapp.dcloud.io/api/router?id=relaunch](http://uniapp.dcloud.io/api/router?id=relaunch)
  */
 export const reLaunch = (params: any) => {
-  uni.reLaunch(params);
-};
+  uni.reLaunch(params)
+}
 /**
  * 保留当前页面，跳转到应用内的某个页面
  *
  * 文档: [http://uniapp.dcloud.io/api/router?id=navigateto](http://uniapp.dcloud.io/api/router?id=navigateto)
  */
 export const navigateTo = (params: any) => {
-  uni.navigateTo(params);
-};
+  uni.navigateTo(params)
+}
 /**
  * 跳转到 tabBar 页面，并关闭其他所有非 tabBar 页面
  *
  * 文档: [http://uniapp.dcloud.io/api/router?id=switchtab](http://uniapp.dcloud.io/api/router?id=switchtab)
  */
 export const switchTab = (params: any) => {
-  uni.switchTab(params);
-};
+  uni.switchTab(params)
+}
 /**
  * 关闭当前页面，返回上一页面或多级页面
  *
@@ -109,8 +109,8 @@ export const navigateBack = (params?: any) => {
   uni.navigateBack({
     delta: 1,
     ...params,
-  });
-};
+  })
+}
 
 // 路由跳转 end
 
@@ -120,8 +120,8 @@ export const navigateBack = (params?: any) => {
  * 文档: [http://uniapp.dcloud.io/api/system/info?id=getsysteminfosync](http://uniapp.dcloud.io/api/system/info?id=getsysteminfosync)
  */
 export const getSystemInfoSync = () => {
-  return uni.getSystemInfoSync();
-};
+  return uni.getSystemInfoSync()
+}
 
 /**
  * 异步获取系统信息
@@ -129,13 +129,13 @@ export const getSystemInfoSync = () => {
  * 文档: [http://uniapp.dcloud.io/api/system/info?id=getsysteminfo](http://uniapp.dcloud.io/api/system/info?id=getsysteminfo)
  */
 export const getSystemInfo = (options: any) => {
-  return uni.getSystemInfo(options);
-};
+  return uni.getSystemInfo(options)
+}
 
 // 提示框 start
 export interface IShowToast {
   // 是否自动隐藏
-  autoHide?: boolean;
+  autoHide?: boolean
 }
 
 // 模态对话框
@@ -145,8 +145,8 @@ export interface IShowToast {
  * 文档: [http://uniapp.dcloud.io/api/ui/prompt?id=showmodal](http://uniapp.dcloud.io/api/ui/prompt?id=showmodal)
  */
 export const showModal = (params: any) => {
-  uni.showModal(params);
-};
+  uni.showModal(params)
+}
 
 /**
  * 隐藏消息提示框
@@ -154,8 +154,8 @@ export const showModal = (params: any) => {
  * 文档: [http://uniapp.dcloud.io/api/ui/prompt?id=hidetoast](http://uniapp.dcloud.io/api/ui/prompt?id=hidetoast)
  */
 export const hideToast = () => {
-  uni.hideToast();
-};
+  uni.hideToast()
+}
 
 /**
  * 显示消息提示框
@@ -163,14 +163,14 @@ export const hideToast = () => {
  * 文档: [http://uniapp.dcloud.io/api/ui/prompt?id=showtoast](http://uniapp.dcloud.io/api/ui/prompt?id=showtoast)
  */
 export const showToast = (data: any, params?: IShowToast): void => {
-  uni.showToast(data);
+  uni.showToast(data)
 
   if (params?.autoHide) {
     setTimeout(() => {
-      hideToast();
-    }, 2000);
+      hideToast()
+    }, 2000)
   }
-};
+}
 // 提示框 end
 
 // 加载提示框 start
@@ -182,10 +182,10 @@ export const showToast = (data: any, params?: IShowToast): void => {
  */
 export const showLoading = (data?: any) => {
   uni.showLoading({
-    title: "请稍等...",
+    title: '请稍等...',
     ...data,
-  });
-};
+  })
+}
 
 /**
  * 隐藏 loading 提示框
@@ -193,8 +193,8 @@ export const showLoading = (data?: any) => {
  * 文档: [http://uniapp.dcloud.io/api/ui/prompt?id=hideloading](http://uniapp.dcloud.io/api/ui/prompt?id=hideloading)
  */
 export const hideLoading = () => {
-  uni.hideLoading();
-};
+  uni.hideLoading()
+}
 // 加载提示框 end
 
 // 缓存操作 start
@@ -204,24 +204,24 @@ export const hideLoading = () => {
  * 文档: [http://uniapp.dcloud.io/api/storage/storage?id=getstoragesync](http://uniapp.dcloud.io/api/storage/storage?id=getstoragesync)
  */
 export const getStorageSync = (key: string) => {
-  return uni.getStorageSync(key);
-};
+  return uni.getStorageSync(key)
+}
 /**
  * 从本地缓存中同步移除指定 key
  *
  * 文档: [http://uniapp.dcloud.io/api/storage/storage?id=removestoragesync](http://uniapp.dcloud.io/api/storage/storage?id=removestoragesync)
  */
 export const removeStorageSync = (key: string) => {
-  uni.removeStorageSync(key);
-};
+  uni.removeStorageSync(key)
+}
 /**
  * 将 data 存储在本地缓存中指定的 key 中，会覆盖掉原来该 key 对应的内容，这是一个同步接口
  *
  * 文档: [http://uniapp.dcloud.io/api/storage/storage?id=setstoragesync](http://uniapp.dcloud.io/api/storage/storage?id=setstoragesync)
  */
 export const setStorageSync = (key: string, data: any): void => {
-  uni.setStorageSync(key, data);
-};
+  uni.setStorageSync(key, data)
+}
 /**
  * 将数据存储在本地缓存中指定的 key 中，会覆盖掉原来该 key 对应的内容，这是一个异步接口
  *
@@ -231,8 +231,8 @@ export const setStorage = (key: string, data: any): void => {
   uni.setStorage({
     key,
     data,
-  });
-};
+  })
+}
 // 缓存操作 end
 
 // 支付 start
@@ -242,8 +242,8 @@ export const setStorage = (key: string, data: any): void => {
  * 文档: [http://uniapp.dcloud.io/api/plugins/payment?id=requestpayment](http://uniapp.dcloud.io/api/plugins/payment?id=requestpayment)
  */
 export const requestPayment = (params: any) => {
-  uni.requestPayment(params);
-};
+  uni.requestPayment(params)
+}
 // 支付 end
 
 // ajax start
@@ -253,16 +253,16 @@ export const requestPayment = (params: any) => {
  * 文档: [http://uniapp.dcloud.io/api/interceptor](http://uniapp.dcloud.io/api/interceptor)
  */
 export const addInterceptor = (api: string, params: any) => {
-  uni.addInterceptor(api, params);
-};
+  uni.addInterceptor(api, params)
+}
 /**
  * 发起网络请求
  *
  * 文档: [http://uniapp.dcloud.io/api/request/request?id=request](http://uniapp.dcloud.io/api/request/request?id=request)
  */
 export const http = (params: any) => {
-  return uni.request(params);
-};
+  return uni.request(params)
+}
 // ajax end
 
 // 设备 start
@@ -274,8 +274,8 @@ export const http = (params: any) => {
  */
 export const makePhone = (params: any) => {
   // TODO 待全端测试
-  uni.makePhoneCall(params);
-};
+  uni.makePhoneCall(params)
+}
 // 设备 end
 
 // 导航相关 start
@@ -287,8 +287,8 @@ export const makePhone = (params: any) => {
  */
 export const setNavigationBarTitle = (params: any) => {
   // TODO 待全端测试
-  uni.setNavigationBarTitle(params);
-};
+  uni.setNavigationBarTitle(params)
+}
 
 // 导航相关 end
 
@@ -298,8 +298,8 @@ export const setNavigationBarTitle = (params: any) => {
  * 文档: [http://uniapp.dcloud.io/api/ui/tabbar?id=hidetabbar](http://uniapp.dcloud.io/api/ui/tabbar?id=hidetabbar)
  */
 export const hideTabBar = () => {
-  uni.hideTabBar();
-};
+  uni.hideTabBar()
+}
 
 /**
  * 显示 tabBar
@@ -307,64 +307,64 @@ export const hideTabBar = () => {
  * 文档: [http://uniapp.dcloud.io/api/ui/tabbar?id=showtabbar](http://uniapp.dcloud.io/api/ui/tabbar?id=showtabbar)
  */
 export const showTabBar = () => {
-  uni.showTabBar();
-};
+  uni.showTabBar()
+}
 /**
  * 为 tabBar 某一项的右上角添加文本
  *
  * 文档: [http://uniapp.dcloud.io/api/ui/tabbar?id=settabbarbadge](http://uniapp.dcloud.io/api/ui/tabbar?id=settabbarbadge)
  */
 export const setTabBarBadge = (options: any) => {
-  uni.setTabBarBadge(options);
-};
+  uni.setTabBarBadge(options)
+}
 /**
  * 移除 tabBar 某一项右上角的文本
  *
  * 文档: [http://uniapp.dcloud.io/api/ui/tabbar?id=removetabbarbadge](http://uniapp.dcloud.io/api/ui/tabbar?id=removetabbarbadge)
  */
 export const removeTabBarBadge = (options: any) => {
-  uni.removeTabBarBadge(options);
-};
+  uni.removeTabBarBadge(options)
+}
 /**
  * 显示 tabBar 某一项的右上角的红点
  *
  * 文档: [http://uniapp.dcloud.io/api/ui/tabbar?id=showtabbarreddot](http://uniapp.dcloud.io/api/ui/tabbar?id=showtabbarreddot)
  */
 export const showTabBarRedDot = (options: any) => {
-  uni.showTabBarRedDot(options);
-};
+  uni.showTabBarRedDot(options)
+}
 /**
  * 隐藏 tabBar 某一项的右上角的红点
  *
  * 文档: [http://uniapp.dcloud.io/api/ui/tabbar?id=hidetabbarreddot](http://uniapp.dcloud.io/api/ui/tabbar?id=hidetabbarreddot)
  */
 export const hideTabBarRedDot = (options: any) => {
-  uni.hideTabBarRedDot(options);
-};
+  uni.hideTabBarRedDot(options)
+}
 /**
  * 监听中间按钮的点击事件
  *
  * 文档: [http://uniapp.dcloud.io/api/ui/tabbar?id=ontabbarmidbuttontap](http://uniapp.dcloud.io/api/ui/tabbar?id=ontabbarmidbuttontap)
  */
 export const onTabBarMidButtonTap = (callback: any) => {
-  uni.onTabBarMidButtonTap(callback);
-};
+  uni.onTabBarMidButtonTap(callback)
+}
 
 /**
  * 设置系统剪贴板的内容
  *
  * 文档: [http://uniapp.dcloud.io/api/system/clipboard?id=setclipboarddata](http://uniapp.dcloud.io/api/system/clipboard?id=setclipboarddata)
  */
-export const setClipboardData = (str: any) => {
+export const setClipboardData = (str: any, toast: string) => {
   uni.setClipboardData({
     data: str,
     success: function () {
       showToast({
-        title: "内容已复制",
-      });
+        title: toast,
+      })
     },
-  });
-};
+  })
+}
 
 /**
  * 上传文件
@@ -372,8 +372,8 @@ export const setClipboardData = (str: any) => {
  * 文档: [http://uniapp.dcloud.io/api/request/network-file?id=uploadfile](http://uniapp.dcloud.io/api/request/network-file?id=uploadfile)
  */
 export const uploadFile = (options: any) => {
-  uni.uploadFile(options);
-};
+  uni.uploadFile(options)
+}
 
 /**
  * 从本地相册选择图片或使用相机拍照
@@ -381,8 +381,8 @@ export const uploadFile = (options: any) => {
  * 文档: [http://uniapp.dcloud.io/api/media/image?id=chooseimage](http://uniapp.dcloud.io/api/media/image?id=chooseimage)
  */
 export const chooseImage = (options: any) => {
-  uni.chooseImage(options);
-};
+  uni.chooseImage(options)
+}
 
 /**
  * 显示分享按钮
@@ -390,8 +390,8 @@ export const chooseImage = (options: any) => {
  * 文档: [http://uniapp.dcloud.io/api/plugins/share?id=showsharemenu](http://uniapp.dcloud.io/api/plugins/share?id=showsharemenu)
  */
 export const showShareMenu = (params: any) => {
-  return uni.showShareMenu(params);
-};
+  return uni.showShareMenu(params)
+}
 
 /**
  * 获取全局唯一的文件管理器
@@ -401,8 +401,8 @@ export const showShareMenu = (params: any) => {
  * 文档: [https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.getFileSystemManager.html](https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.getFileSystemManager.html)
  */
 export const getFileSystemManager = () => {
-  return uni.getFileSystemManager();
-};
+  return uni.getFileSystemManager()
+}
 
 /**
  * 获取用户的当前设置
@@ -410,8 +410,8 @@ export const getFileSystemManager = () => {
  * 文档: [http://uniapp.dcloud.io/api/other/setting?id=getsetting](http://uniapp.dcloud.io/api/other/setting?id=getsetting)
  */
 export const getSetting = (params: any) => {
-  uni.getSetting(params);
-};
+  uni.getSetting(params)
+}
 
 /**
  * 获取服务供应商
@@ -419,8 +419,8 @@ export const getSetting = (params: any) => {
  * 文档: [http://uniapp.dcloud.io/api/plugins/provider?id=getprovider](http://uniapp.dcloud.io/api/plugins/provider?id=getprovider)
  */
 export const getProvider = (params: any) => {
-  return uni.getProvider(params);
-};
+  return uni.getProvider(params)
+}
 
 /**
  * 获取用户信息
@@ -428,8 +428,8 @@ export const getProvider = (params: any) => {
  * 文档: [http://uniapp.dcloud.io/api/plugins/login?id=getuserinfo](http://uniapp.dcloud.io/api/plugins/login?id=getuserinfo)
  */
 export const getUserInfo = (params: any) => {
-  return uni.getUserInfo(params);
-};
+  return uni.getUserInfo(params)
+}
 
 /**
  * 调起客户端小程序设置界面，返回用户设置的操作结果
@@ -437,8 +437,8 @@ export const getUserInfo = (params: any) => {
  * 文档: [http://uniapp.dcloud.io/api/other/authorize?id=opensetting](http://uniapp.dcloud.io/api/other/authorize?id=opensetting)
  */
 export const openSetting = (params: any) => {
-  uni.openSetting(params);
-};
+  uni.openSetting(params)
+}
 
 /**
  * 预览图片
@@ -446,8 +446,8 @@ export const openSetting = (params: any) => {
  * 文档: [http://uniapp.dcloud.io/api/media/image?id=getimageinfo](http://uniapp.dcloud.io/api/media/image?id=getimageinfo)
  */
 export const getImageInfo = (params: any) => {
-  uni.getImageInfo(params);
-};
+  uni.getImageInfo(params)
+}
 
 /**
  * 将 Base64 字符串转成 ArrayBuffer 对象
@@ -455,8 +455,8 @@ export const getImageInfo = (params: any) => {
  * 文档: [http://uniapp.dcloud.io/api/base64ToArrayBuffer?id=base64toarraybuffer](http://uniapp.dcloud.io/api/base64ToArrayBuffer?id=base64toarraybuffer)
  */
 export const base64ToArrayBuffer = (params: any) => {
-  return uni.base64ToArrayBuffer(params);
-};
+  return uni.base64ToArrayBuffer(params)
+}
 
 /**
  * 保存图片到系统相册
@@ -465,32 +465,30 @@ export const base64ToArrayBuffer = (params: any) => {
  */
 export const saveImageToPhotosAlbum = (params: any) => {
   // #ifndef H5
-  uni.saveImageToPhotosAlbum(params);
+  uni.saveImageToPhotosAlbum(params)
   // #endif
 
   // #ifdef H5
-  console.log("是否为微信环境: ", checkIsWechatBrowser());
+  console.log('是否为微信环境: ', checkIsWechatBrowser())
 
   if (checkIsWechatBrowser()) {
-    hideLoading();
+    hideLoading()
     return showToast({
-      title: "长按图片保存到相册",
-      icon: "none",
-    });
+      title: '长按图片保存到相册',
+      icon: 'none',
+    })
   }
 
-  const a = document.createElement("a");
-  a.download = params.filePath
-    .replace(/(.*\/)*([^.]+.*)/gi, "$2")
-    .split("?")[0]; // 设置下载的文件名，默认是'下载'
-  a.href = params.filePath;
-  console.log(a);
+  const a = document.createElement('a')
+  a.download = params.filePath.replace(/(.*\/)*([^.]+.*)/gi, '$2').split('?')[0] // 设置下载的文件名，默认是'下载'
+  a.href = params.filePath
+  console.log(a)
 
-  document.body.appendChild(a);
-  a.click();
-  a.remove(); // 下载之后把创建的元素删除
+  document.body.appendChild(a)
+  a.click()
+  a.remove() // 下载之后把创建的元素删除
   // #endif
-};
+}
 
 /**
  * 获取本次启动时的参数。返回值与App.onLaunch的回调参数一致
@@ -498,8 +496,8 @@ export const saveImageToPhotosAlbum = (params: any) => {
  * 文档: [http://uniapp.dcloud.io/api/plugins/getLaunchOptionsSync](http://uniapp.dcloud.io/api/plugins/getLaunchOptionsSync)
  */
 export const getLaunchOptionsSync = () => {
-  return uni.getLaunchOptionsSync();
-};
+  return uni.getLaunchOptionsSync()
+}
 
 /**
  * 返回一个SelectorQuery对象实例 获取元素
@@ -508,8 +506,8 @@ export const getLaunchOptionsSync = () => {
  */
 export const createSelectorQuery = () => {
   // TODO 待全端测试
-  return uni.createSelectorQuery();
-};
+  return uni.createSelectorQuery()
+}
 
 /**
  * 创建一个动画实例
@@ -517,8 +515,8 @@ export const createSelectorQuery = () => {
  * 文档: [http://uniapp.dcloud.io/api/ui/animation?id=createanimation](http://uniapp.dcloud.io/api/ui/animation?id=createanimation)
  */
 export const createAnimation = (options: any) => {
-  return uni.createAnimation(options);
-};
+  return uni.createAnimation(options)
+}
 
 /**
  * 设置导航条颜色
@@ -526,8 +524,8 @@ export const createAnimation = (options: any) => {
  * 文档: [http://uniapp.dcloud.io/api/ui/navigationbar?id=setnavigationbarcolor](http://uniapp.dcloud.io/api/ui/navigationbar?id=setnavigationbarcolor)
  */
 export const setNavigationBarColor = (options: any) => {
-  uni.setNavigationBarColor(options);
-};
+  uni.setNavigationBarColor(options)
+}
 
 /**
  * 创建并返回一个 IntersectionObserver 对象实例
@@ -535,8 +533,8 @@ export const setNavigationBarColor = (options: any) => {
  * 文档: [http://uniapp.dcloud.io/api/ui/intersection-observer?id=createintersectionobserver](http://uniapp.dcloud.io/api/ui/intersection-observer?id=createintersectionobserver)
  */
 export const createIntersectionObserver = (component: any, options?: any) => {
-  return uni.createIntersectionObserver(component, options);
-};
+  return uni.createIntersectionObserver(component, options)
+}
 
 /**
  * 获取小程序下该菜单按钮的布局位置信息
@@ -544,13 +542,13 @@ export const createIntersectionObserver = (component: any, options?: any) => {
  * 文档: [http://uniapp.dcloud.io/api/ui/menuButton?id=getmenubuttonboundingclientrect](http://uniapp.dcloud.io/api/ui/menuButton?id=getmenubuttonboundingclientrect)
  */
 export const getMenuButtonBoundingClientRect = () => {
-  let menuButtonInfo: any = {};
+  let menuButtonInfo: any = {}
   // #ifndef APP-PLUS || H5
-  menuButtonInfo = uni.getMenuButtonBoundingClientRect();
+  menuButtonInfo = uni.getMenuButtonBoundingClientRect()
   // #endif
 
-  return menuButtonInfo;
-};
+  return menuButtonInfo
+}
 
 /**
  * 将页面滚动到目标位置
@@ -558,19 +556,18 @@ export const getMenuButtonBoundingClientRect = () => {
  * 文档: [http://uniapp.dcloud.io/api/ui/scroll?id=pagescrollto](http://uniapp.dcloud.io/api/ui/scroll?id=pagescrollto)
  */
 export const pageScrollTo = (options: any) => {
-  uni.pageScrollTo(options);
-};
+  uni.pageScrollTo(options)
+}
 
 // 获取当前时间的多少天前
 export const GetDateStr = (AddDayCount: any) => {
-  var dd = new Date();
-  dd.setDate(dd.getDate() + AddDayCount); //获取AddDayCount天后的日期
-  var y = dd.getFullYear();
-  var m =
-    dd.getMonth() + 1 < 10 ? "0" + (dd.getMonth() + 1) : dd.getMonth() + 1; //获取当前月份的日期，不足10补0
-  var d = dd.getDate() < 10 ? "0" + dd.getDate() : dd.getDate(); //获取当前几号，不足10补0
-  return y + "/" + m + "/" + d;
-};
+  var dd = new Date()
+  dd.setDate(dd.getDate() + AddDayCount) //获取AddDayCount天后的日期
+  var y = dd.getFullYear()
+  var m = dd.getMonth() + 1 < 10 ? '0' + (dd.getMonth() + 1) : dd.getMonth() + 1 //获取当前月份的日期，不足10补0
+  var d = dd.getDate() < 10 ? '0' + dd.getDate() : dd.getDate() //获取当前几号，不足10补0
+  return y + '/' + m + '/' + d
+}
 
 // 获取当前的地理位置
 export const getLocation = () => {
@@ -582,38 +579,38 @@ export const getLocation = () => {
   return new Promise((resolve, reject) => {
     const UnigetLocation = () => {
       uni.getLocation({
-        type: "wgs84",
+        type: 'wgs84',
         altitude: true,
         isHighAccuracy: true,
         success: async (res: any) => {
-          const { longitude, latitude } = res;
+          const { longitude, latitude } = res
           resolve({
-            type: "geocode",
+            type: 'geocode',
             longitude,
             latitude,
-          });
+          })
         },
         fail: () => {
           reject({
-            errMsg: "getLocation 接口调用失败",
-          });
+            errMsg: 'getLocation 接口调用失败',
+          })
         },
-      });
-    };
+      })
+    }
 
     // #ifdef H5
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         async (position: any) => {
-          const { longitude, latitude } = position.coords;
+          const { longitude, latitude } = position.coords
           resolve({
-            type: "geocode",
+            type: 'geocode',
             longitude,
             latitude,
-          });
+          })
         },
         () => {
-          showToast("获取位置失败");
+          showToast('获取位置失败')
           // switch (code) {
           //   case 0:
           //     showToast('不包括其他错误编号中的错误')
@@ -629,67 +626,67 @@ export const getLocation = () => {
           //     break;
           // }
           reject({
-            errMsg: "获取位置信息失败 -- h5",
-          });
+            errMsg: '获取位置信息失败 -- h5',
+          })
         },
         {
           timeout: 3000,
         }
-      );
+      )
     } else {
-      showToast("不支持定位");
+      showToast('不支持定位')
       reject({
-        errMsg: "该 navigator.geolocation API 不被支持 -- h5",
-      });
+        errMsg: '该 navigator.geolocation API 不被支持 -- h5',
+      })
     }
     // #endif
 
     // #ifndef H5
     getSetting({
       success: (setting: any) => {
-        const { authSetting } = setting;
-        if (authSetting["scope.userLocation"]) {
-          UnigetLocation();
+        const { authSetting } = setting
+        if (authSetting['scope.userLocation']) {
+          UnigetLocation()
         } else {
           uni.authorize({
-            scope: "scope.userLocation",
+            scope: 'scope.userLocation',
             success() {
-              UnigetLocation();
+              UnigetLocation()
             },
             fail() {
               showModal({
-                content: "请允许小程序使用位置服务",
+                content: '请允许小程序使用位置服务',
                 success: (res: any) => {
-                  const { confirm, cancel } = res;
+                  const { confirm, cancel } = res
                   if (confirm) {
                     uni.openSetting({
                       success(result: any) {
-                        const { authSetting } = result;
-                        if (authSetting["scope.userLocation"]) {
-                          UnigetLocation();
+                        const { authSetting } = result
+                        if (authSetting['scope.userLocation']) {
+                          UnigetLocation()
                         } else {
-                          showToast("未成功授权");
+                          showToast('未成功授权')
                           reject({
-                            errMsg: "用户手动授权失败",
-                          });
+                            errMsg: '用户手动授权失败',
+                          })
                         }
                       },
-                    });
+                    })
                   } else if (cancel) {
                     reject({
-                      errMsg: "用户关闭手动授权",
-                    });
+                      errMsg: '用户关闭手动授权',
+                    })
                   }
                 },
-              });
+              })
             },
-          });
+          })
         }
       },
-    });
+    })
     // #endif
-  });
-};
+  })
+}
 
 /**
  * 调起客户端小程序设置界面，返回用户设置的操作结果
@@ -697,8 +694,8 @@ export const getLocation = () => {
  * 文档: [http://uniapp.dcloud.io/api/other/open-miniprogram?id=navigatetominiprogram](http://uniapp.dcloud.io/api/other/open-miniprogram?id=navigatetominiprogram)
  */
 export const navigateToMiniProgram = (options: any) => {
-  uni.navigateToMiniProgram(options);
-};
+  uni.navigateToMiniProgram(options)
+}
 
 /**
  * 预览图片
@@ -706,8 +703,8 @@ export const navigateToMiniProgram = (options: any) => {
  * 文档: [http://uniapp.dcloud.io/api/media/image?id=previewimage](http://uniapp.dcloud.io/api/media/image?id=previewimage)
  */
 export const previewImage = (options: any) => {
-  uni.previewImage(options);
-};
+  uni.previewImage(options)
+}
 
 /**
  * 创建并返回 audio 上下文 audioContext 对象
@@ -715,5 +712,5 @@ export const previewImage = (options: any) => {
  * 文档: [http://uniapp.dcloud.io/api/media/audio-context?id=createinneraudiocontext](http://uniapp.dcloud.io/api/media/audio-context?id=createinneraudiocontext)
  */
 export const createInnerAudioContext = () => {
-  return uni.createInnerAudioContext();
-};
+  return uni.createInnerAudioContext()
+}
