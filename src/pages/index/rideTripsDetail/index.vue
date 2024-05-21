@@ -5,6 +5,8 @@
         style="width: 100%; height: 200px"
         :latitude="point.latitude"
         :longitude="point.longitude"
+        :polyline="polyline"
+        :include-points="polylineItem"
       >
       </map>
     </tm-sheet>
@@ -240,22 +242,28 @@
 
     <tm-sheet class="fixed fulled b-0" :padding="[0]" :margin="[0]">
       <tm-row :width="750" class="fulled" :column="4" :height="100">
-        <tm-col
-          @click="
-            switchTab({
-              url: '/pages/index/index',
-            })
-          "
-          class="fulled-height"
-          :col="1"
-          :height="100"
-        >
+        <tm-col @click="goToHomePage" class="fulled-height" :col="1" :height="100">
           <tm-icon :font-size="32" _class="mb-5 mt-10" name="tmicon-home"></tm-icon>
           <tm-text label="首页"></tm-text>
         </tm-col>
         <tm-col class="fulled-height" color="primary" :col="1" :height="100">
-          <tm-icon :font-size="32" _class="mb-5 mt-10" name="tmicon-share"></tm-icon>
-          <tm-text label="分享"></tm-text>
+          <tm-icon :font-size="32" _class=" mt-10" name="tmicon-share"></tm-icon>
+          <button
+            style="
+              color: #ffffff;
+              background: #0163ff;
+              border: #0163ff;
+              padding: 0;
+              line-height: 1.5;
+              font-size: 28rpx;
+            "
+            color="primary"
+            size="mini"
+            plain
+            openType="share"
+          >
+            分享
+          </button>
         </tm-col>
         <tm-col class="fulled-height" color="orange" :col="1" :height="100">
           <tm-icon :font-size="32" _class="mb-5 mt-10" name="tmicon-commentdots-fill"></tm-icon>
@@ -282,9 +290,12 @@ import { IPoint, IRideTripsDetail } from '@/interfaces/rideTrips'
 import { getRideTripsDetail } from '@/service/rideTrips'
 import { onLoad } from '@dcloudio/uni-app'
 import { ref } from 'vue'
-import { setClipboardData,switchTab } from '@/common/utils/base'
+import { setClipboardData, switchTab } from '@/common/utils/base'
 import { callPhone } from '@/tmui/tool/function/util'
-
+import { share } from '@/tmui/tool/lib/share'
+const { onShareAppMessage, setShareApp, setShareTime, onShareTimeline } = share()
+onShareAppMessage()
+onShareTimeline()
 const point = ref<IPoint>({ latitude: 39.909, longitude: 116.39742 })
 
 //获取行程详情
@@ -307,14 +318,61 @@ const rideTrips = ref<IRideTripsDetail>({
   rideMessageVos: [],
   mobileEllipsis: '',
 })
+
+const polyline = ref<Array<any>>([])
+const polylineItem = ref<Array<IPoint>>([])
 const getRideTripsDetailAction = async (rideTripsId: number) => {
   const res = await getRideTripsDetail(rideTripsId)
   rideTrips.value = res.data as IRideTripsDetail
+  polylineItem.value = formatPolyline(rideTrips.value.polyline)
+  polyline.value = [
+    {
+      points: polylineItem.value,
+      width: 3,
+      arrowLine: true,
+      id: 0,
+      style: 4,
+      color: '#0CF',
+    },
+  ]
+  point.value = polylineItem.value[0]
+}
+
+//去首页
+const goToHomePage = () => {
+  switchTab({
+    url: '/pages/index/index',
+  })
+}
+
+// 点串解压并处理成符合小程序的数据格式
+const formatPolyline = (polyline: Array<number>) => {
+  const coors = polyline,
+    pl = []
+  //坐标解压（返回的点串坐标，通过前向差分进行压缩）
+  for (let i = 2; i < coors.length; i++) {
+    coors[i] = Number(coors[i - 2]) + Number(coors[i]) / 1000000
+  }
+  //将解压后的坐标放入点串数组pl中
+  for (let i = 0; i < coors.length; i += 2) {
+    pl.push({
+      latitude: coors[i],
+      longitude: coors[i + 1],
+    })
+  }
+  return pl
 }
 
 const rideTripsId = ref<number>(0)
 onLoad((option: any) => {
   rideTripsId.value = option.rideTripsId
   getRideTripsDetailAction(rideTripsId.value)
+  setShareApp({
+    title: '拼车',
+    desc: '安康到岚皋，现在就出发！',
+    path: `/pages/index/rideTrips/index?rideTripsId=${rideTripsId.value}`,
+    imageUrl: 'http://healthy.wuliang.plus/5512fbf4.png',
+  })
+  setShareTime()
 })
 </script>
