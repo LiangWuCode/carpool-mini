@@ -200,7 +200,6 @@ const list = ref<Array<IRideTripsList>>([])
 const getRideTripsListAction = async () => {
   const res = await getRideTripsList(page.value)
   const listData = res.data.list as Array<IRideTripsList>
-  console.log(listData)
   //如果是顶部下拉刷新
   if (topRefreshFlag.value) {
     list.value = listData
@@ -221,7 +220,7 @@ const getRideTripsListAction = async () => {
 }
 
 //跳转至行程详情页
-const goToRideTripsDetailPage = (rideTripsId:number) => {
+const goToRideTripsDetailPage = (rideTripsId:number|undefined) => {
   navigateTo({ url: `/pages/index/rideTripsDetail/index?rideTripsId=${rideTripsId}` })
 }
 

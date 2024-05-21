@@ -352,7 +352,6 @@ import { useUser } from '@/store/user'
 import { IUserInfo } from '@/interfaces/common'
 import { toast } from '@/common/utils'
 import { publish } from '@/service/rideTrips'
-import { number } from 'echarts'
 const userStore = useUser(pinia)
 //置顶单价
 const topPrice = ref<number>(0.5)
@@ -594,11 +593,13 @@ const publishTrips = async () => {
   const times = needTimesData.id
   carpoolInfo.value.startDate = date + ',' + times
 
-  await publish(carpoolInfo.value)
-
-  switchTab({
-    url: '/pages/index/index',
-  })
+  const res = await publish(carpoolInfo.value)
+  console.log(res)
+  if (res) {
+    switchTab({
+      url: '/pages/index/index',
+    })
+  }
 }
 
 const userInfo = ref<IUserInfo>()

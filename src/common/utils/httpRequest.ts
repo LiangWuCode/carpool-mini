@@ -117,9 +117,11 @@ request.interceptors.response((response: responseType) => {
     return response.data
   } else if (response?.data && response?.data?.code === 400) {
     toast(response.data.message)
+    return
   } else {
     console.log('error:!200', response.data.message)
     !hideToast && toast(response.data.message)
+    return
   }
 })
 

@@ -122,7 +122,7 @@
       <view class="flex flex-row-center-between">
         <view class="flex flex-row-center-between">
           <view class="flex flex-row-center-between pr-n10" style="width: 100rpx">
-            <tm-icon :font-size="26" color="purple" name="tmicon-md-person"></tm-icon>
+            <tm-icon :font-size="26" color="purple" name="tmicon-paperplane-fill"></tm-icon>
             <tm-text label="全程"></tm-text>
           </view>
           <view class="ml-10 border-l-2 pl-20">
@@ -138,7 +138,7 @@
       <view class="flex flex-row-center-between">
         <view class="flex flex-row-center-between">
           <view class="flex flex-row-center-between pr-n10" style="width: 100rpx">
-            <tm-icon :font-size="26" color="indigo" name="tmicon-md-phone-portrait"></tm-icon>
+            <tm-icon :font-size="26" color="indigo" name="tmicon-clock-fill"></tm-icon>
             <tm-text label="用时"></tm-text>
           </view>
           <view class="ml-10 border-l-2 pl-20">
