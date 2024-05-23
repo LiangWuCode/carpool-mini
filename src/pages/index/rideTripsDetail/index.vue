@@ -219,23 +219,45 @@
       </view>
     </tm-sheet>
 
-    <tm-sheet :margin="[24, 12, 24, 40]" :round="3" v-show="rideTrips.rideMessageVos?.length > 0">
+    <tm-sheet
+      v-for="(item, index) in rideTrips.rideMessageVos"
+      :key="index"
+      :margin="[24, 12, 24, 40]"
+      :round="3"
+      v-show="rideTrips.rideMessageVos?.length > 0"
+    >
       <view class="flex flex-row-center-between">
         <view class="flex flex-row-center-start">
-          <tm-avatar :font-size="20" :size="34" icon="tmicon-weixin"></tm-avatar>
-          <tm-text _class="ml-10" color="grey" label="微信用户"></tm-text>
+          <tm-avatar :font-size="40" :size="34" icon="tmicon-weixin" :img="item.avatar"></tm-avatar>
+          <tm-text _class="ml-10" color="grey" :label="item.username"></tm-text>
         </view>
-        <view> <tm-text color="primary" label="对方未读"></tm-text></view>
+        <view v-if="item.readStatus === 0">
+          <tm-text color="primary" label="对方未读"></tm-text
+        ></view>
+        <view v-else> <tm-text color="grey" label="对方已读"></tm-text></view>
       </view>
       <tm-divider></tm-divider>
-      <tm-text label="我们这里四个人了！"></tm-text>
+      <tm-text :label="item.content"></tm-text>
+      <view class="flex mt-10 " v-for="(itemMessage, indexMessage) in item.rideMessageVoList" :key="indexMessage">
+          <tm-text color="orange" :font-size="24" :label="`${itemMessage.username}：${itemMessage.content}`"></tm-text>
+          <tm-text class="flex-shrink" color="grey" :font-size="24" :label="`(${itemMessage.createDateDesc}前)`"></tm-text>
+      </view>
+
       <tm-divider></tm-divider>
       <view class="flex flex-row-center-between">
         <view class="flex flex-row-center-start">
-          <tm-text _class="ml-10" color="grey" label="2小时前"></tm-text>
+          <tm-text _class="ml-10" color="grey" :label="`${item.createDateDesc}前`"></tm-text>
           <tm-text _class="ml-10" color="grey" label="留言"></tm-text>
         </view>
-        <view> <tm-button :margin="[10]" size="small" :shadow="0" label="回复"></tm-button></view>
+        <view>
+          <tm-button
+            :margin="[10]"
+            size="small"
+            @click="messageAction(item.id)"
+            :shadow="0"
+            label="回复"
+          ></tm-button
+        ></view>
       </view>
     </tm-sheet>
     <view style="margin-top: env(safe-area-inset-bottom); padding-bottom: 12rpx"></view>
@@ -265,7 +287,13 @@
             分享
           </button>
         </tm-col>
-        <tm-col class="fulled-height" color="orange" :col="1" :height="100">
+        <tm-col
+          @click="messageAction(0)"
+          class="fulled-height"
+          color="orange"
+          :col="1"
+          :height="100"
+        >
           <tm-icon :font-size="32" _class="mb-5 mt-10" name="tmicon-commentdots-fill"></tm-icon>
           <tm-text label="在线留言"></tm-text>
         </tm-col>
@@ -282,17 +310,36 @@
       </tm-row>
       <view style="height: env(safe-area-inset-bottom); background-color: #fff"></view>
     </tm-sheet>
+    <tm-modal
+      ref="modal"
+      color="grey-5"
+      :height="500"
+      :border="0"
+      text
+      okColor="primary"
+      cancelColor="white"
+      linear="bottom"
+      title="留言"
+      v-model:show="messageShow"
+      @ok="messageConfirm"
+    >
+      <view>
+        <tm-input :height="300" v-model="message.content" type="textarea"></tm-input>
+      </view>
+    </tm-modal>
   </tm-app>
 </template>
 
 <script setup lang="ts">
 import { IPoint, IRideTripsDetail } from '@/interfaces/rideTrips'
+import { IRideMessage } from '@/interfaces/message'
 import { getRideTripsDetail } from '@/service/rideTrips'
 import { onLoad } from '@dcloudio/uni-app'
 import { ref } from 'vue'
 import { setClipboardData, switchTab } from '@/common/utils/base'
 import { callPhone } from '@/tmui/tool/function/util'
 import { share } from '@/tmui/tool/lib/share'
+import { rideMessageAdd } from '@/service/message'
 const { onShareAppMessage, setShareApp, setShareTime, onShareTimeline } = share()
 onShareAppMessage()
 onShareTimeline()
@@ -363,9 +410,27 @@ const formatPolyline = (polyline: Array<number>) => {
   return pl
 }
 
+const message = ref<IRideMessage>({
+  rideTripsId: 0,
+  content: '',
+  parentId: 0,
+})
+const messageShow = ref(false)
+const messageAction = (parentId: number) => {
+  messageShow.value = true
+  message.value.parentId = parentId
+}
+
+const messageConfirm = async () => {
+  const res = await rideMessageAdd(message.value)
+  if (res) {
+    getRideTripsDetailAction(rideTripsId.value)
+  }
+}
 const rideTripsId = ref<number>(0)
 onLoad((option: any) => {
   rideTripsId.value = option.rideTripsId
+  message.value.rideTripsId = option.rideTripsId
   getRideTripsDetailAction(rideTripsId.value)
   setShareApp({
     title: '拼车',
