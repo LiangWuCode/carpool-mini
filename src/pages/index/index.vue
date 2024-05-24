@@ -51,7 +51,7 @@
         :margin="[24, 24]"
         :round="3"
         :padding="[12, 24]"
-        @click="goToRideTripsDetailPage(item.id)"
+        @click.capture="goToRideTripsDetailPage(item.id)"
       >
         <view class="flex flex-row-center-between">
           <view class="flex flex-row-center-center">
@@ -179,7 +179,6 @@ const listimg = [
 ]
 
 const callPhoneAction = (event: any, mobile: string) => {
-  uni.stopEventPropagation(event)
   callPhone(mobile)
 }
 
