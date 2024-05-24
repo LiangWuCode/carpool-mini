@@ -102,10 +102,11 @@
 <script lang="ts" setup>
 import { navigateTo } from '@/common/utils/base'
 import { onShow } from '@dcloudio/uni-app'
-import pinia from '@/store/store'
-import { useUser } from '@/store/user'
 import { IUserInfo } from '@/interfaces/common'
 import { ref } from 'vue'
+import pinia from '@/store/store'
+import { useUser } from '@/store/user'
+import { getUserInfoAction } from '@/common/ts/nav'
 const userStore = useUser(pinia)
 // 跳转到券充值页
 const goToPayPage = () => {
@@ -113,6 +114,7 @@ const goToPayPage = () => {
 }
 const userInfo = ref<IUserInfo>()
 onShow(() => {
+  getUserInfoAction()
   userInfo.value = userStore.userInfo
 })
 </script>

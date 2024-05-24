@@ -37,6 +37,7 @@ export interface IRideTripsList {
   createDateDesc: string
   messageCount: number
   isTop?: number
+  shareImageUrl?: string
 }
 
 export interface IPoint {

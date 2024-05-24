@@ -7,6 +7,7 @@
         :longitude="point.longitude"
         :polyline="polyline"
         :include-points="polylineItem"
+        :markers="markers"
       >
       </map>
     </tm-sheet>
@@ -238,9 +239,22 @@
       </view>
       <tm-divider></tm-divider>
       <tm-text :label="item.content"></tm-text>
-      <view class="flex mt-10 " v-for="(itemMessage, indexMessage) in item.rideMessageVoList" :key="indexMessage">
-          <tm-text color="orange" :font-size="24" :label="`${itemMessage.username}：${itemMessage.content}`"></tm-text>
-          <tm-text class="flex-shrink" color="grey" :font-size="24" :label="`(${itemMessage.createDateDesc}前)`"></tm-text>
+      <view
+        class="flex mt-10"
+        v-for="(itemMessage, indexMessage) in item.rideMessageVoList"
+        :key="indexMessage"
+      >
+        <tm-text
+          color="orange"
+          :font-size="24"
+          :label="`${itemMessage.username}：${itemMessage.content}`"
+        ></tm-text>
+        <tm-text
+          class="flex-shrink"
+          color="grey"
+          :font-size="24"
+          :label="`(${itemMessage.createDateDesc}前)`"
+        ></tm-text>
       </view>
 
       <tm-divider></tm-divider>
@@ -340,6 +354,9 @@ import { setClipboardData, switchTab } from '@/common/utils/base'
 import { callPhone } from '@/tmui/tool/function/util'
 import { share } from '@/tmui/tool/lib/share'
 import { rideMessageAdd } from '@/service/message'
+import { wxshareConfig } from '@/tmui/tool/lib/interface'
+import startImage from '@/static/rideTrips/start.png'
+import endImage from '@/static/rideTrips/end.png'
 const { onShareAppMessage, setShareApp, setShareTime, onShareTimeline } = share()
 onShareAppMessage()
 onShareTimeline()
@@ -364,10 +381,12 @@ const rideTrips = ref<IRideTripsDetail>({
   polyline: [],
   rideMessageVos: [],
   mobileEllipsis: '',
+  shareImageUrl: '',
 })
 
 const polyline = ref<Array<any>>([])
 const polylineItem = ref<Array<IPoint>>([])
+const markers = ref<Array<any>>([])
 const getRideTripsDetailAction = async (rideTripsId: number) => {
   const res = await getRideTripsDetail(rideTripsId)
   rideTrips.value = res.data as IRideTripsDetail
@@ -383,6 +402,34 @@ const getRideTripsDetailAction = async (rideTripsId: number) => {
     },
   ]
   point.value = polylineItem.value[0]
+  shareConfig.value.desc = `${rideTrips.value.startAddress}到${rideTrips.value.endAddress}`
+  shareConfig.value.imageUrl = rideTrips.value.shareImageUrl
+  markers.value = [
+    {
+      id: 999,
+      latitude: polylineItem.value[0].latitude,
+      longitude: polylineItem.value[0].longitude,
+      width: 24,
+      height: 30,
+      anchor: {
+        x: 0.5,
+        y: 0.5,
+      },
+      iconPath: startImage,
+    },
+    {
+      id: 998,
+      latitude: polylineItem.value[polylineItem.value.length - 1].latitude,
+      longitude: polylineItem.value[polylineItem.value.length - 1].longitude,
+      width: 24,
+      height: 30,
+      anchor: {
+        x: 0.5,
+        y: 0.5,
+      },
+      iconPath: endImage,
+    },
+  ]
 }
 
 //去首页
@@ -428,16 +475,18 @@ const messageConfirm = async () => {
   }
 }
 const rideTripsId = ref<number>(0)
+const shareConfig = ref<wxshareConfig>({
+  title: '顺风车，点击查看详情！',
+  desc: '安康到岚皋，现在就出发！',
+  path: '',
+  imageUrl: '',
+})
 onLoad((option: any) => {
   rideTripsId.value = option.rideTripsId
   message.value.rideTripsId = option.rideTripsId
+  shareConfig.value.path = `/pages/index/rideTripsDetail/index?rideTripsId=${rideTripsId.value}`
   getRideTripsDetailAction(rideTripsId.value)
-  setShareApp({
-    title: '拼车',
-    desc: '安康到岚皋，现在就出发！',
-    path: `/pages/index/rideTrips/index?rideTripsId=${rideTripsId.value}`,
-    imageUrl: 'http://healthy.wuliang.plus/5512fbf4.png',
-  })
+  setShareApp(shareConfig.value)
   setShareTime()
 })
 </script>

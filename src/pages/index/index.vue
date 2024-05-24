@@ -126,10 +126,10 @@
             <tm-avatar
               :size="40"
               :round="12"
-              :font-size="26"
+              :font-size="40"
               color="green"
-              :img="item.avatar"
               icon="tmicon-weixin"
+              :img="item.avatar"
             ></tm-avatar>
             <tm-text
               _class="ml-10"
@@ -154,7 +154,7 @@
               :margin="[10]"
               :shadow="0"
               :round="5"
-              @click="callPhone(item.mobile)"
+              @click="callPhoneAction($event, item.mobile)"
               size="normal"
             ></tm-button>
           </view>
@@ -177,6 +177,11 @@ const listimg = [
   'https://api.yuanzhan.cn/uploads/ad/666667777777775.jpg',
   'https://api.yuanzhan.cn/uploads/ad/3234444.jpg',
 ]
+
+const callPhoneAction = (event: any, mobile: string) => {
+  uni.stopEventPropagation(event)
+  callPhone(mobile)
+}
 
 const tabsTitle = ref([
   { key: '0', title: '全部', icon: 'tmicon-box-fill' },
@@ -220,7 +225,7 @@ const getRideTripsListAction = async () => {
 }
 
 //跳转至行程详情页
-const goToRideTripsDetailPage = (rideTripsId:number|undefined) => {
+const goToRideTripsDetailPage = (rideTripsId: number | undefined) => {
   navigateTo({ url: `/pages/index/rideTripsDetail/index?rideTripsId=${rideTripsId}` })
 }
 

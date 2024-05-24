@@ -79,6 +79,13 @@
 
 <script lang="ts" setup>
 import { navigateTo } from '@/common/utils/base'
+import pinia from '@/store/store'
+import { useUser } from '@/store/user'
+import { getUserInfoAction } from '@/common/ts/nav'
+import { onLoad, onShow } from '@dcloudio/uni-app'
+import { IUserInfo } from '@/interfaces/common'
+import { ref } from 'vue'
+const userStore = useUser(pinia)
 
 const listimg = [
   'https://api.yuanzhan.cn/uploads/ad/e25eb55dd4a466681e991a14fa2b96a9.jpg',
@@ -87,10 +94,23 @@ const listimg = [
 ]
 
 const goToPublishDetail = (navigatorType: number) => {
-  navigateTo({
-    url: '/pages/publish/detail/index?type=' + navigatorType,
-  })
+  if (userStore.isAuth()) {
+    navigateTo({
+      url: '/pages/publish/detail/index?type=' + navigatorType,
+    })
+  } else {
+    console.log(userStore.isAuth())
+  }
 }
+
+const userInfo = ref<IUserInfo>()
+onShow(() => {
+  userInfo.value = userStore.userInfo
+})
+
+onLoad(() => {
+  getUserInfoAction()
+})
 </script>
 
 <style lang="scss" scoped>
