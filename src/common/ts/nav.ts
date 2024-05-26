@@ -8,6 +8,7 @@ import { getUserInfo } from '@/service/user'
 
 // 登录
 export const navLogin = (options: any = {}, isLogin: boolean = true) => {
+  console.log(options)
   const userStore = useUser(pinia)
   const isLogined = userStore.isLogined()
   //当前小程序登录为静默形式
@@ -31,23 +32,16 @@ export const navLogin = (options: any = {}, isLogin: boolean = true) => {
     path = '/pages/common/login/h5Login'
   }
   // #endif
-  let params = []
-  for (let key in options) {
-    if (options[key]) {
-      const element = options[key]
-      params.push(`${key}=${element}`)
-    }
-  }
-
-  if (params.length > 0) path = `${path}?${params.join('&')}`
 
   reLaunch({
-    url: path,
+    url: options.redirect,
   })
 }
 
 export const getUserInfoAction = async () => {
   const userStore = useUser(pinia)
   const res = await getUserInfo()
-  userStore.setUserInfo(res.data as IUserInfo)
+  if (res) {
+    userStore.setUserInfo(res.data as IUserInfo)
+  }
 }

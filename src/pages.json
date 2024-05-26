@@ -35,7 +35,6 @@
 			"path": "pages/payTicket/index",
 			"style": {
 				"navigationBarTitleText": "充值券"
-				// "navigationStyle": "custom"
 			}
 		},
 		{
@@ -48,6 +47,12 @@
 			"path": "pages/index/rideTripsDetail/index",
 			"style": {
 				"navigationBarTitleText": "行程详情"
+			}
+		},
+		{
+			"path": "pages/person/updateUserInfo/index",
+			"style": {
+				"navigationBarTitleText": "用户信息"
 			}
 		}
 	],

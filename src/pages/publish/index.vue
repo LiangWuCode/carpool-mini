@@ -74,6 +74,19 @@
         </tm-col>
       </tm-row>
     </tm-sheet>
+    <tm-modal
+      color="white"
+      okColor="primary"
+      cancelColor="primary"
+      okLinear="left"
+      :height="350"
+      splitBtn
+      title="提醒"
+      okText="确定"
+      content="您还未完善用户信息，确定跳转信息完善页面吗？"
+      v-model:show="userInfoFlag"
+      @ok="gotoUpdateUserInfoPage"
+    ></tm-modal>
   </tm-app>
 </template>
 
@@ -93,14 +106,21 @@ const listimg = [
   'https://api.yuanzhan.cn/uploads/ad/3234444.jpg',
 ]
 
+const userInfoFlag = ref(false)
 const goToPublishDetail = (navigatorType: number) => {
   if (userStore.isAuth()) {
     navigateTo({
       url: '/pages/publish/detail/index?type=' + navigatorType,
     })
   } else {
-    console.log(userStore.isAuth())
+    userInfoFlag.value = true
   }
+}
+
+const gotoUpdateUserInfoPage = () => {
+  navigateTo({
+    url: '/pages/person/updateUserInfo/index',
+  })
 }
 
 const userInfo = ref<IUserInfo>()
@@ -113,5 +133,4 @@ onLoad(() => {
 })
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

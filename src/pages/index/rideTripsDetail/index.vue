@@ -357,6 +357,8 @@ import { rideMessageAdd } from '@/service/message'
 import { wxshareConfig } from '@/tmui/tool/lib/interface'
 import startImage from '@/static/rideTrips/start.png'
 import endImage from '@/static/rideTrips/end.png'
+import { getUserInfoAction, navLogin } from '@/common/ts/nav'
+import { delay } from '@/common/utils'
 const { onShareAppMessage, setShareApp, setShareTime, onShareTimeline } = share()
 onShareAppMessage()
 onShareTimeline()
@@ -389,47 +391,49 @@ const polylineItem = ref<Array<IPoint>>([])
 const markers = ref<Array<any>>([])
 const getRideTripsDetailAction = async (rideTripsId: number) => {
   const res = await getRideTripsDetail(rideTripsId)
-  rideTrips.value = res.data as IRideTripsDetail
-  polylineItem.value = formatPolyline(rideTrips.value.polyline)
-  polyline.value = [
-    {
-      points: polylineItem.value,
-      width: 3,
-      arrowLine: true,
-      id: 0,
-      style: 4,
-      color: '#0CF',
-    },
-  ]
-  point.value = polylineItem.value[0]
-  shareConfig.value.desc = `${rideTrips.value.startAddress}到${rideTrips.value.endAddress}`
-  shareConfig.value.imageUrl = rideTrips.value.shareImageUrl
-  markers.value = [
-    {
-      id: 999,
-      latitude: polylineItem.value[0].latitude,
-      longitude: polylineItem.value[0].longitude,
-      width: 24,
-      height: 30,
-      anchor: {
-        x: 0.5,
-        y: 0.5,
+  if (res) {
+    rideTrips.value = res.data as IRideTripsDetail
+    polylineItem.value = formatPolyline(rideTrips.value.polyline)
+    polyline.value = [
+      {
+        points: polylineItem.value,
+        width: 3,
+        arrowLine: true,
+        id: 0,
+        style: 4,
+        color: '#0CF',
       },
-      iconPath: startImage,
-    },
-    {
-      id: 998,
-      latitude: polylineItem.value[polylineItem.value.length - 1].latitude,
-      longitude: polylineItem.value[polylineItem.value.length - 1].longitude,
-      width: 24,
-      height: 30,
-      anchor: {
-        x: 0.5,
-        y: 0.5,
+    ]
+    point.value = polylineItem.value[0]
+    shareConfig.value.desc = `${rideTrips.value.startAddress}到${rideTrips.value.endAddress}`
+    shareConfig.value.imageUrl = rideTrips.value.shareImageUrl
+    markers.value = [
+      {
+        id: 999,
+        latitude: polylineItem.value[0].latitude,
+        longitude: polylineItem.value[0].longitude,
+        width: 24,
+        height: 30,
+        anchor: {
+          x: 0.5,
+          y: 0.5,
+        },
+        iconPath: startImage,
       },
-      iconPath: endImage,
-    },
-  ]
+      {
+        id: 998,
+        latitude: polylineItem.value[polylineItem.value.length - 1].latitude,
+        longitude: polylineItem.value[polylineItem.value.length - 1].longitude,
+        width: 24,
+        height: 30,
+        anchor: {
+          x: 0.5,
+          y: 0.5,
+        },
+        iconPath: endImage,
+      },
+    ]
+  }
 }
 
 //去首页
@@ -481,11 +485,14 @@ const shareConfig = ref<wxshareConfig>({
   path: '',
   imageUrl: '',
 })
-onLoad((option: any) => {
+onLoad(async (option: any) => {
   rideTripsId.value = option.rideTripsId
   message.value.rideTripsId = option.rideTripsId
-  shareConfig.value.path = `/pages/index/rideTripsDetail/index?rideTripsId=${rideTripsId.value}`
+  shareConfig.value.path = `/pages/index/rideTripsDetail/index?rideTripsId=${rideTripsId.value}&type=1`
+  await getUserInfoAction()
+
   getRideTripsDetailAction(rideTripsId.value)
+
   setShareApp(shareConfig.value)
   setShareTime()
 })

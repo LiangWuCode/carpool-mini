@@ -98,9 +98,10 @@ request.interceptors.response((response: responseType) => {
     }
     timer = setTimeout(() => {
       const redirect = getRedirect()
+      console.log(redirect, 'redirect')
       // href('/pages/common/login/login?redirect=' + encodeURIComponent(redirect))
       navLogin({
-        redirect: encodeURIComponent(redirect),
+        redirect: redirect,
       })
       clearTimeout(timer)
       timer = null
@@ -158,7 +159,7 @@ export const uploadFile = function (url: string, src: string) {
       filePath: src,
       name: 'file',
       header: {
-        'X-Access-Token': userStore.access_token,
+        Authorization: userStore.userInfo.token,
       },
       formData: {
         file: 'file',
@@ -167,11 +168,12 @@ export const uploadFile = function (url: string, src: string) {
         uni.hideLoading()
 
         try {
+          console.log(res)
           let d = JSON.parse(res.data)
-
+          console.log(d.code === 200, d)
           if (d.code === 200) {
             //返回图片地址
-            resolve(d)
+            resolve(d.data)
           } else {
             toast(d.message)
             resolve(d)

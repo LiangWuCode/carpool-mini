@@ -51,7 +51,7 @@
         :margin="[24, 24]"
         :round="3"
         :padding="[12, 24]"
-        @click.capture="goToRideTripsDetailPage(item.id)"
+        @click="goToRideTripsDetailPage(item.id)"
       >
         <view class="flex flex-row-center-between">
           <view class="flex flex-row-center-center">
@@ -154,7 +154,7 @@
               :margin="[10]"
               :shadow="0"
               :round="5"
-              @click="callPhoneAction($event, item.mobile)"
+              @tap.stop="callPhone(item.mobile)"
               size="normal"
             ></tm-button>
           </view>
@@ -177,10 +177,6 @@ const listimg = [
   'https://api.yuanzhan.cn/uploads/ad/666667777777775.jpg',
   'https://api.yuanzhan.cn/uploads/ad/3234444.jpg',
 ]
-
-const callPhoneAction = (event: any, mobile: string) => {
-  callPhone(mobile)
-}
 
 const tabsTitle = ref([
   { key: '0', title: '全部', icon: 'tmicon-box-fill' },

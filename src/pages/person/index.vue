@@ -42,7 +42,7 @@
       </view>
     </tm-sheet>
     <tm-sheet :margin="[24, 12]" :round="3">
-      <tm-cell :margin="[0, 0]" :titleFontSize="30">
+      <tm-cell :margin="[0, 0]" :titleFontSize="30" >
         <template v-slot:title>
           <view class="flex"
             ><tm-icon color="primary" _class="mr-20" name="tmicon-ios-filing"></tm-icon>
@@ -58,7 +58,7 @@
           ></view>
         </template>
       </tm-cell>
-      <tm-cell :margin="[0, 0]" :titleFontSize="30">
+      <tm-cell :margin="[0, 0]" :titleFontSize="30" url="/pages/person/updateUserInfo/index">
         <template v-slot:title>
           <view class="flex"
             ><tm-icon color="primary" _class="mr-20" name="tmicon-database-set"></tm-icon>
