@@ -8,6 +8,7 @@
       :padding="[30, 60]"
       :round="3"
       :shadow="3"
+      style="backdrop-filter: blur( 2px )"
     >
       <view class="flex flex-row-center-between mx-20">
         <view class="flex flex-row-center-center">

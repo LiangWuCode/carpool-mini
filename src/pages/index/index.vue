@@ -172,6 +172,7 @@ import { getRideTripsList } from '@/service/rideTrips'
 import { IGetRideTrips, IRideTripsList } from '@/interfaces/rideTrips'
 import { callPhone } from '@/tmui/tool/function/util'
 import { navigateTo } from '@/common/utils/base'
+
 const listimg = [
   'https://api.yuanzhan.cn/uploads/ad/e25eb55dd4a466681e991a14fa2b96a9.jpg',
   'https://api.yuanzhan.cn/uploads/ad/666667777777775.jpg',

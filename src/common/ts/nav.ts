@@ -7,35 +7,25 @@ import { IUserInfo } from '@/interfaces/common'
 import { getUserInfo } from '@/service/user'
 
 // 登录
-export const navLogin = (options: any = {}, isLogin: boolean = true) => {
+export const navLogin = async (options: any = {}, isLogin: boolean = true) => {
   console.log(options)
   const userStore = useUser(pinia)
   const isLogined = userStore.isLogined()
   //当前小程序登录为静默形式
   if (isLogin && !isLogined) {
-    uni.login({
+   await uni.login({
       provider: 'weixin',
       success: async function (loginRes) {
         if (loginRes.errMsg === 'login:ok') {
           const res = await loginAction(loginRes.code)
           userStore.setUserInfo(res.data as IUserInfo)
+          reLaunch({
+            url: options.redirect,
+          })
         }
       },
     })
-    return
   }
-
-  let path = ''
-
-  // #ifdef H5
-  if (!checkIsWechatBrowser()) {
-    path = '/pages/common/login/h5Login'
-  }
-  // #endif
-
-  reLaunch({
-    url: options.redirect,
-  })
 }
 
 export const getUserInfoAction = async () => {
