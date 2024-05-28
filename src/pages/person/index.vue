@@ -42,7 +42,7 @@
       </view>
     </tm-sheet>
     <tm-sheet :margin="[24, 12]" :round="3">
-      <tm-cell :margin="[0, 0]" :titleFontSize="30" >
+      <tm-cell :margin="[0, 0]" :titleFontSize="30">
         <template v-slot:title>
           <view class="flex"
             ><tm-icon color="primary" _class="mr-20" name="tmicon-ios-filing"></tm-icon>
@@ -68,14 +68,17 @@
       </tm-cell>
     </tm-sheet>
     <tm-sheet :margin="[24, 12]" :round="3">
-      <tm-cell :margin="[0, 0]" :titleFontSize="30">
-        <template v-slot:title>
-          <view class="flex"
-            ><tm-icon color="primary" _class="mr-20" name="tmicon-ios-filing"></tm-icon>
-            <tm-text label="客服"></tm-text
-          ></view>
-        </template>
-      </tm-cell>
+      <button class="contact" open-type="contact">
+        <tm-cell :margin="[0, 0]" :titleFontSize="30">
+          <template v-slot:title>
+            <view class="flex"
+              ><tm-icon color="primary" _class="mr-20" name="tmicon-ios-filing"></tm-icon>
+              <tm-text label="客服"></tm-text
+            ></view>
+          </template>
+        </tm-cell>
+      </button>
+
       <tm-cell :margin="[0, 0]" :titleFontSize="30">
         <template v-slot:title>
           <view class="flex"
@@ -119,4 +122,23 @@ onShow(() => {
 })
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped>
+.contact {
+  padding-left: 0px;
+  padding-right: 0px;
+  border: none;
+  margin: 0;
+}
+
+uni-button:after {
+  border: none !important;
+}
+
+uni-button::after {
+  border: none !important;
+}
+
+button::after {
+  border: none !important;
+}
+</style>
