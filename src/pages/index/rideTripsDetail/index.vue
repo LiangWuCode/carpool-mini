@@ -357,8 +357,7 @@ import { rideMessageAdd } from '@/service/message'
 import { wxshareConfig } from '@/tmui/tool/lib/interface'
 import startImage from '@/static/rideTrips/start.png'
 import endImage from '@/static/rideTrips/end.png'
-import { getUserInfoAction, navLogin } from '@/common/ts/nav'
-import { delay } from '@/common/utils'
+import { getUserInfoAction } from '@/common/ts/nav'
 const { onShareAppMessage, setShareApp, setShareTime, onShareTimeline } = share()
 onShareAppMessage()
 onShareTimeline()

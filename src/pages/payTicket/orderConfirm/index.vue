@@ -12,15 +12,36 @@
               height: 100rpx;
             "
           >
-            <view class="ml-16 mt-10"
-              ><tm-text :fontSize="20" color="white" label="充值卡"></tm-text
-            ></view>
+            <view class="ml-16 mt-10">
+              <tm-text
+                :fontSize="20"
+                v-show="payData.type === 1"
+                color="white"
+                label="充值卡"
+              ></tm-text>
+              <tm-text
+                :fontSize="20"
+                v-show="payData.type === 2"
+                color="white"
+                label="月卡"
+              ></tm-text>
+            </view>
             <view class="mr-16 flex-end">
-              <tm-text :fontSize="24" color="white" :label="`${payData.num}券`"></tm-text
+              <tm-text :fontSize="24"  v-show="payData.type === 1" color="white" :label="`${payData.num}券`"></tm-text>
+              <tm-text :fontSize="24"  v-show="payData.type === 2" color="white" :label="`${payData.num}张`"></tm-text
             ></view>
           </view>
           <view>
-            <tm-text _class="text-weight-b mb-25 mt-5" :label="`${payData.num}券充值卡`"></tm-text>
+            <tm-text
+              _class="text-weight-b mb-25 mt-5"
+              v-show="payData.type === 1"
+              :label="`${payData.num}券充值卡`"
+            ></tm-text>
+            <tm-text
+              _class="text-weight-b mb-25 mt-5"
+              v-show="payData.type === 2"
+              :label="`月卡`"
+            ></tm-text>
             <tm-text _class="mb-5 ml-5" label="x 1" color="grey"></tm-text>
           </view>
         </view>
@@ -56,8 +77,8 @@
     </tm-sheet>
   </tm-app>
 </template>
-  
-<script setup lang='ts'>
+
+<script setup lang="ts">
 import { requestPayment } from '@/common/utils/base'
 import { ICouponList, IOrderData } from '@/interfaces/pay'
 import { confirmOrder, getPayPageData } from '@/service/pay'
@@ -70,6 +91,7 @@ const payData = ref<ICouponList>({
   originalPrice: 0,
   discountedPrice: 0,
   isIndulgence: 0,
+  type: 1,
 })
 const getPayPageDataAction = async (code: string) => {
   const res = await getPayPageData(code)
@@ -113,6 +135,5 @@ onLoad((option: any) => {
   getPayPageDataAction(option.code as string)
 })
 </script>
-  
-<style>
-</style>
+
+<style></style>

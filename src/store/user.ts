@@ -10,6 +10,7 @@ const userBase = {
   mobile: '',
   rideCount: 0,
   sex: 1,
+  cardCount: 0,
 }
 export const useUser = defineStore({
   /**
@@ -26,7 +27,7 @@ export const useUser = defineStore({
   state: () => {
     return {
       userInfo: { ...userBase },
-      provider: ''
+      provider: '',
     }
   },
   /**

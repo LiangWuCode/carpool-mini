@@ -4,6 +4,7 @@ export interface ICouponList {
     originalPrice: number
     discountedPrice: number
     isIndulgence: number
+    type:number
   }
 
   export interface IOrderData {

@@ -13,7 +13,7 @@
         <tm-text :fontSize="30" _class="text-weight-b mt-20" :label="userInfo?.nickName"></tm-text>
       </view>
     </tm-sheet>
-    <tm-sheet :margin="[24, 12]" :padding="[50, 24, 0, 24]" :round="3">
+    <tm-sheet :margin="[24, 12]" :round="3">
       <view class="flex flex-around">
         <view class="flex flex-col flex-center">
           <view class="flex flex-row-bottom-center mb-5"
@@ -22,12 +22,11 @@
               color="orange"
               :fontSize="36"
               :label="userInfo?.rideCount"
-            ></tm-text
-            ><tm-text color="orange" :fontSize="24" label="条"></tm-text
-          ></view>
+            ></tm-text>
+          </view>
           <tm-text :fontSize="24" label="信息"></tm-text>
         </view>
-        <view class="flex flex-col flex-center pl-40">
+        <view class="flex flex-col flex-center">
           <tm-text
             _class="text-weight-b mb-5"
             color="red"
@@ -37,12 +36,28 @@
           <tm-text :fontSize="24" label="券"></tm-text>
         </view>
         <view class="flex flex-col flex-center">
-          <tm-button @click="goToPayPage" :margin="[10]" size="small" label="券充值"></tm-button>
+          <view class="flex flex-row-bottom-center mb-5"
+            ><tm-text
+              _class="text-weight-b"
+              color="primary"
+              :fontSize="36"
+              :label="userInfo?.cardCount"
+            ></tm-text
+          ></view>
+          <tm-text :fontSize="24" label="月卡"></tm-text>
         </view>
       </view>
     </tm-sheet>
     <tm-sheet :margin="[24, 12]" :round="3">
-      <tm-cell :margin="[0, 0]" :titleFontSize="30">
+      <tm-cell :margin="[0, 0]" :titleFontSize="30" url="/pages/payTicket/index">
+        <template v-slot:title>
+          <view class="flex"
+            ><tm-icon color="primary" _class="mr-20" name="tmicon-huiyuan1"></tm-icon>
+            <tm-text label="充值"></tm-text
+          ></view>
+        </template>
+      </tm-cell>
+      <tm-cell :margin="[0, 0]" :titleFontSize="30" url="/pages/person/myPublishRide/index">
         <template v-slot:title>
           <view class="flex"
             ><tm-icon color="primary" _class="mr-20" name="tmicon-ios-filing"></tm-icon>
@@ -58,6 +73,8 @@
           ></view>
         </template>
       </tm-cell>
+    </tm-sheet>
+    <tm-sheet :margin="[24, 12]" :round="3">
       <tm-cell :margin="[0, 0]" :titleFontSize="30" url="/pages/person/updateUserInfo/index">
         <template v-slot:title>
           <view class="flex"
@@ -66,8 +83,6 @@
           ></view>
         </template>
       </tm-cell>
-    </tm-sheet>
-    <tm-sheet :margin="[24, 12]" :round="3">
       <button class="contact" open-type="contact">
         <tm-cell :margin="[0, 0]" :titleFontSize="30">
           <template v-slot:title>

@@ -65,3 +65,19 @@ export interface IRideTripsDetail extends IRideTripsList {
   mobileEllipsis: string
   rideMessageVos: Array<IRideMessage>
 }
+
+
+
+export interface IOwnRideTripsList {
+  id: number
+  type: number
+  startAddress: string
+  channelAddress: string
+  endAddress: string
+  startDate: string
+  seats: number
+  notes: string
+  status: number
+  createDateDesc: string
+  isTop: number
+}
