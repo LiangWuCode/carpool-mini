@@ -174,9 +174,9 @@ import { callPhone } from '@/tmui/tool/function/util'
 import { navigateTo } from '@/common/utils/base'
 
 const listimg = [
-  'https://api.yuanzhan.cn/uploads/ad/e25eb55dd4a466681e991a14fa2b96a9.jpg',
-  'https://api.yuanzhan.cn/uploads/ad/666667777777775.jpg',
-  'https://api.yuanzhan.cn/uploads/ad/3234444.jpg',
+  'http://healthy.wuliang.plus/banner/banner1.png',
+  'http://healthy.wuliang.plus/banner/banner2.png',
+  'http://healthy.wuliang.plus/banner/banner3.png',
 ]
 
 const tabsTitle = ref([

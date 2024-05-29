@@ -319,7 +319,7 @@
         <view class="flex flex-row">
           <tm-text label="我已经阅读并同意"></tm-text>
           <view>
-            <tm-text color="primary" label="《拼车协议》"></tm-text>
+            <tm-text @click="gotoAgreementPage" color="primary" label="《拼车协议》"></tm-text>
           </view>
         </view>
       </template>
@@ -600,6 +600,10 @@ const publishTrips = async () => {
       url: '/pages/index/index',
     })
   }
+}
+
+const gotoAgreementPage = () => {
+  navigateTo({ url: `/pages/common/agreement/index?type=3` })
 }
 
 const userInfo = ref<IUserInfo>()

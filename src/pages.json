@@ -54,6 +54,12 @@
 			"style": {
 				"navigationBarTitleText": "用户信息"
 			}
+		},
+		{
+			"path": "pages/common/agreement/index",
+			"style": {
+				"navigationBarTitleText": "协议"
+			}
 		}
 	],
 	"tabBar": {

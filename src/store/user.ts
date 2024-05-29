@@ -26,7 +26,7 @@ export const useUser = defineStore({
   state: () => {
     return {
       userInfo: { ...userBase },
-      provider: '',
+      provider: ''
     }
   },
   /**

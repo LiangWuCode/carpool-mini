@@ -79,7 +79,7 @@
         </tm-cell>
       </button>
 
-      <tm-cell :margin="[0, 0]" :titleFontSize="30">
+      <tm-cell :margin="[0, 0]" :titleFontSize="30" @click="gotoAgreementPage">
         <template v-slot:title>
           <view class="flex"
             ><tm-icon color="primary" _class="mr-20" name="tmicon-md-chatbubbles"></tm-icon>
@@ -107,13 +107,18 @@ import { navigateTo } from '@/common/utils/base'
 import { onShow } from '@dcloudio/uni-app'
 import { IUserInfo } from '@/interfaces/common'
 import { ref } from 'vue'
+import { getUserInfoAction } from '@/common/ts/nav'
 import pinia from '@/store/store'
 import { useUser } from '@/store/user'
-import { getUserInfoAction } from '@/common/ts/nav'
+
 const userStore = useUser(pinia)
 // 跳转到券充值页
 const goToPayPage = () => {
   navigateTo({ url: '/pages/payTicket/index' })
+}
+
+const gotoAgreementPage = () => {
+  navigateTo({ url: `/pages/common/agreement/index?type=3` })
 }
 const userInfo = ref<IUserInfo>()
 onShow(() => {

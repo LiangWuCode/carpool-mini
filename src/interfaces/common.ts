@@ -19,3 +19,13 @@ export interface IUserInfo  {
     pageNum:number
     pageSize:number
   }
+
+
+
+  export interface IChangeUserInfo  {
+    avatarUrl: string
+    username: string
+    photo: string
+    sex: number
+    chatInfo: string
+  }

@@ -8,7 +8,7 @@
           :round="16"
           color="white"
           icon="tmicon-weixin"
-          :img="avatarUrl"
+          :img="changeUserInfoData.avatarUrl"
         ></tm-avatar>
         <tm-button
           :width="300"
@@ -22,7 +22,7 @@
         ></tm-button>
       </view>
     </tm-sheet>
-    <tm-sheet :margin="[0]" :round="3" :shadow="2">
+    <tm-sheet :margin="[24, 24]" :round="3">
       <view class="flex flex-row-center-between">
         <view class="flex fulled flex-row-center-between">
           <view class="flex flex-shrink flex-row-center-between pr-n10" style="width: 120rpx">
@@ -31,7 +31,12 @@
             <tm-text _class="mr-5" :font-size="30" color="red" label="*"></tm-text>
           </view>
           <view class="ml-10 fulled border-l-2 pl-20">
-            <tm-input placeholder="输入昵称" :transprent="true" class="fulled mr-20" color="primary"></tm-input>
+            <tm-input
+              v-model="changeUserInfoData.username"
+              placeholder="输入昵称"
+              :transprent="true"
+              class="fulled mr-20"
+            ></tm-input>
           </view>
         </view>
       </view>
@@ -44,7 +49,7 @@
             <tm-text _class="mr-5" :font-size="30" color="red" label="*"></tm-text>
           </view>
           <view class="ml-10 border-l-2 pl-20">
-            <tm-radio-group :defaultValue="1">
+            <tm-radio-group :defaultValue="1" v-model="changeUserInfoData.sex">
               <tm-radio :value="1" label="男"></tm-radio>
               <tm-radio :value="2" label="女"></tm-radio>
             </tm-radio-group>
@@ -60,8 +65,14 @@
             <tm-text _class="mr-5" :font-size="30" color="red" label="*"></tm-text>
           </view>
           <view class="flex fulled flex-row-center-between ml-10 border-l-2 pl-20">
-            <tm-input placeholder="点击获取或输入号码" type="number" :transprent="true" class="fulled mr-20" color="primary"></tm-input>
-            <tm-button
+            <tm-input
+              v-model="changeUserInfoData.photo"
+              placeholder="输入号码"
+              type="number"
+              :transprent="true"
+              class="fulled mr-20"
+            ></tm-input>
+            <!-- <tm-button
               :margin="[0]"
               :padding="[0, 20]"
               :width="140"
@@ -69,7 +80,7 @@
               openType="feedback"
              
               label="获取手机号"
-            ></tm-button>
+            ></tm-button> -->
           </view>
         </view>
       </view>
@@ -85,29 +96,74 @@
             <tm-text _class="mr-5" :font-size="30" color="red" label="*"></tm-text>
           </view>
           <view class="ml-10 fulled border-l-2 pl-20">
-            <tm-input placeholder="输入微信号" :transprent="true" class="fulled mr-20"></tm-input>
+            <tm-input
+              v-model="changeUserInfoData.chatInfo"
+              placeholder="输入微信号"
+              :transprent="true"
+              class="fulled mr-20"
+            ></tm-input>
           </view>
         </view>
       </view>
     </tm-sheet>
 
-    <tm-button class="mx-20 mt-n10" block label="提交修改"></tm-button>
+    <tm-button
+      @click="changePersonInfoAction"
+      class="mx-24 mt-n10"
+      block
+      label="提交修改"
+    ></tm-button>
   </tm-app>
 </template>
 
 <script setup lang="ts">
+import { getUserInfoAction } from '@/common/ts/nav'
+import { toast } from '@/common/utils'
+import { IChangeUserInfo, IUserInfo } from '@/interfaces/common'
 import { uploadFileAction } from '@/service/common'
+import { changePersonInfo } from '@/service/user'
 import { ref } from 'vue'
+import pinia from '@/store/store'
+import { useUser } from '@/store/user'
+import { onLoad } from '@dcloudio/uni-app'
 
-const avatarUrl = ref('')
+const userStore = useUser(pinia)
+
 const onChooseavatar = (e: any) => {
   uploadFileAction(e.detail.avatarUrl).then(res => {
-    avatarUrl.value = res as string
+    changeUserInfoData.value.avatarUrl = res as string
   })
 }
-const getphonenumber=(e)=>{
-  console.log(e)
+// const getphonenumber = e => {
+//   console.log(e)
+// }
+const changeUserInfoData = ref<IChangeUserInfo>({
+  avatarUrl: '',
+  username: '',
+  photo: '',
+  sex: 1,
+  chatInfo: '',
+})
+
+const changePersonInfoAction = async () => {
+  const res = await changePersonInfo(changeUserInfoData.value)
+  if (res) {
+    getUserInfoAction()
+    toast('修改成功！')
+  }
 }
+
+const userInfo = ref<IUserInfo>()
+onLoad(async () => {
+  userInfo.value = userStore.userInfo
+  changeUserInfoData.value = {
+    avatarUrl: userInfo.value?.avatar || '',
+    username: userInfo.value?.nickName || '',
+    photo: userInfo.value?.mobile || '',
+    sex: userInfo.value?.sex || 1,
+    chatInfo: userInfo.value?.chatInfo || '',
+  }
+})
 </script>
 
 <style></style>

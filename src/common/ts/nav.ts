@@ -8,7 +8,6 @@ import { getUserInfo } from '@/service/user'
 
 // 登录
 export const navLogin = async (options: any = {}, isLogin: boolean = true) => {
-  console.log(options)
   const userStore = useUser(pinia)
   const isLogined = userStore.isLogined()
   //当前小程序登录为静默形式
