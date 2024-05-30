@@ -27,8 +27,18 @@
               ></tm-text>
             </view>
             <view class="mr-16 flex-end">
-              <tm-text :fontSize="24"  v-show="payData.type === 1" color="white" :label="`${payData.num}券`"></tm-text>
-              <tm-text :fontSize="24"  v-show="payData.type === 2" color="white" :label="`${payData.num}张`"></tm-text
+              <tm-text
+                :fontSize="24"
+                v-show="payData.type === 1"
+                color="white"
+                :label="`${payData.num}券`"
+              ></tm-text>
+              <tm-text
+                :fontSize="24"
+                v-show="payData.type === 2"
+                color="white"
+                :label="`${payData.num}张`"
+              ></tm-text
             ></view>
           </view>
           <view>
@@ -84,6 +94,7 @@ import { ICouponList, IOrderData } from '@/interfaces/pay'
 import { confirmOrder, getPayPageData } from '@/service/pay'
 import { onLoad } from '@dcloudio/uni-app'
 import { ref } from 'vue'
+import { getUserInfoAction } from '@/common/ts/nav'
 
 const payData = ref<ICouponList>({
   code: '',
@@ -114,8 +125,9 @@ const confirmOrderAction = async (code: string) => {
       success: (resSuccess: any) => {
         uni.showToast({
           icon: 'none',
-          title: '购买券支付成功！',
+          title: '购买支付成功！',
         })
+        getUserInfoAction()
         uni.navigateBack({
           delta: 1,
         })
@@ -124,7 +136,7 @@ const confirmOrderAction = async (code: string) => {
         console.log(resError)
         uni.showToast({
           icon: 'none',
-          title: '购买券支付失败',
+          title: '购买支付失败',
         })
       },
     })

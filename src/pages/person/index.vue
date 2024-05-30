@@ -16,7 +16,7 @@
     <tm-sheet :margin="[24, 12]" :round="3">
       <view class="flex flex-around">
         <view class="flex flex-col flex-center">
-          <view class="flex flex-row-bottom-center mb-5"
+          <view class="flex flex-row-bottom-center mb-5" @click="gotoMyPublishPage"
             ><tm-text
               _class="text-weight-b"
               color="orange"
@@ -57,7 +57,7 @@
           ></view>
         </template>
       </tm-cell>
-      <tm-cell :margin="[0, 0]" :titleFontSize="30" url="/pages/person/myPublishRide/index">
+      <tm-cell :margin="[0, 0]" :titleFontSize="30" @click="gotoMyPublishPage">
         <template v-slot:title>
           <view class="flex"
             ><tm-icon color="primary" _class="mr-20" name="tmicon-ios-filing"></tm-icon>
@@ -134,6 +134,10 @@ const goToPayPage = () => {
 
 const gotoAgreementPage = () => {
   navigateTo({ url: `/pages/common/agreement/index?type=3` })
+}
+
+const gotoMyPublishPage = () => {
+  navigateTo({ url: '/pages/person/myPublishRide/index' })
 }
 const userInfo = ref<IUserInfo>()
 onShow(() => {

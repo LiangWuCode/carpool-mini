@@ -149,7 +149,7 @@ const changePersonInfoAction = async () => {
   const res = await changePersonInfo(changeUserInfoData.value)
   if (res) {
     getUserInfoAction()
-    toast('修改成功！')
+    toast('修改成功！', 2000)
   }
 }
 

@@ -17,11 +17,18 @@
         <view class="flex flex-row-bottom-center">
           <tm-text
             :font-size="36"
-            _class="text-weight-b mr-10"
-            color="white"
+            _class="text-weight-b mr-5"
+            color="red"
             :label="userInfo?.couponCount"
           ></tm-text>
           <tm-text :font-size="24" _class="text-weight-b ml-5" color="white" label="券"></tm-text>
+          <tm-text
+            :font-size="36"
+            _class="text-weight-b mr-5 ml-n10"
+            color="orange"
+            :label="userInfo?.cardCount"
+          ></tm-text>
+          <tm-text :font-size="24" _class="text-weight-b ml-5" color="white" label="月卡"></tm-text>
         </view>
       </view>
     </tm-sheet>
@@ -214,7 +221,14 @@ const getCouponListAction = async () => {
 }
 
 const goToOrderConfirmPage = (code: string, type: number) => {
-  navigateTo({ url: `/pages/payTicket/orderConfirm/index?code=${code}&type=${type}` })
+  if (type === 2 && userInfo.value.cardCount > 0) {
+    uni.showToast({
+      title: '您已拥有月卡，不可重复购买',
+      icon: 'none',
+    })
+  } else {
+    navigateTo({ url: `/pages/payTicket/orderConfirm/index?code=${code}&type=${type}` })
+  }
 }
 
 const userInfo = ref<IUserInfo>()

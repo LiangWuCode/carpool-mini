@@ -3,7 +3,7 @@
     <tm-sheet
       v-for="(item, index) in ownRideTripsData"
       :key="index"
-      :margin="[24, 12, 24, 12]"
+      :margin="[24, 12]"
       :round="3"
       :padding="[12, 24]"
     >
@@ -78,6 +78,14 @@
           color="grey-darken-1"
           :font-size="26"
           :label="item.notes"
+        ></tm-text>
+      </view>
+      <view>
+        <tm-text
+          _class="d-inline-block pa-5 mt-5"
+          color="grey-darken-1"
+          :font-size="24"
+          :label="item.createDateDesc"
         ></tm-text>
       </view>
       <tm-divider></tm-divider>
