@@ -145,6 +145,10 @@ export const post = (url: string, data?: any, options: ConfigType = {}) => {
   return request.post(url, data, options)
 }
 
+export const del = (url: string, data?: any, options: ConfigType = {}) => {
+  return request.delete(url, data, options)
+}
+
 /**
  * 上传文件
  * @param string url 请求地址

@@ -1,4 +1,4 @@
-import { get, post } from '@/common/utils/httpRequest'
+import { get, post,del } from '@/common/utils/httpRequest'
 import { IPageRequestCommon } from '@/interfaces/common'
 import { IGetRideTrips, ISaveRideTrips } from '@/interfaces/rideTrips'
 
@@ -30,4 +30,10 @@ export const setFullSeat = (rideTripsId: number) => {
 //置顶
 export const setTop = (rideTripsId: number,topCount:number) => {
   return get(`/rideTrips/setTop?rideTripsId=${rideTripsId}&topCount=${topCount}`)
+}
+
+
+//删除行程
+export const deleteRideTrips = (rideTripsId: number) => {
+  return del(`/rideTrips/${rideTripsId}`)
 }

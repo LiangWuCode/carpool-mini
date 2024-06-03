@@ -73,6 +73,13 @@
       "style": {
         "navigationBarTitleText": "置顶"
       }
+    },
+    {
+      "path": "pages/person/myMessage/index",
+      "style": {
+        "navigationBarTitleText": "我的留言",
+        "enablePullDownRefresh": true
+      }
     }
   ],
   "tabBar": {

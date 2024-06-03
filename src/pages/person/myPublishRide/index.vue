@@ -111,7 +111,7 @@
             label="设满座"
             @click="fullSeatAction(item.id)"
           ></tm-button>
-          <tm-button
+          <!-- <tm-button
             color="green"
             :margin="[10, 0]"
             :shadow="0"
@@ -119,14 +119,16 @@
             size="small"
             label="编辑"
             v-show="item.status === 0"
-          ></tm-button>
+          ></tm-button> -->
           <tm-button
             color="red"
             :margin="[10, 0]"
             :shadow="0"
+            v-show="item.status != 3"
             text
             size="small"
             label="删除"
+            @click="deleteRideTripsAction(item.id)"
           ></tm-button>
         </view>
         <view class="absolute r-10 t-n10">
@@ -149,8 +151,6 @@
     </tm-sheet>
     <tm-modal
       color="white"
-      okColor="red"
-      cancelColor="red"
       okLinear="left"
       splitBtn
       @ok="setFullSeatAction"
@@ -158,13 +158,24 @@
       content="请注意，设置满座后，行程电话将会被隐藏，是否确认进行此操作！"
       v-model:show="setFullSeatModalShow"
     ></tm-modal>
+    <tm-modal
+      color="white"
+      okColor="red"
+      cancelColor="red"
+      okLinear="left"
+      splitBtn
+      @ok="deleteRideTripsReal"
+      title="删除提醒"
+      content="请注意，若删除当前行程将不会被其他人查看到！"
+      v-model:show="deleteTripsModalShow"
+    ></tm-modal>
   </tm-app>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { onLoad, onPullDownRefresh, onReachBottom } from '@dcloudio/uni-app'
-import { getOwnRideTripsList, setFullSeat } from '@/service/rideTrips'
+import { onPullDownRefresh, onReachBottom, onShow } from '@dcloudio/uni-app'
+import { deleteRideTrips, getOwnRideTripsList, setFullSeat } from '@/service/rideTrips'
 import { IPageRequestCommon } from '@/interfaces/common'
 import { IOwnRideTripsList } from '@/interfaces/rideTrips'
 import { navigateTo } from '@/common/utils/base'
@@ -200,7 +211,12 @@ const getOwnRideTripsListAction = async () => {
     }
 
     if (bottomRefreshFlag.value) {
-      if (ownRideTripsData.value.length <= total.value) {
+      console.log(
+        ownRideTripsData.value.length <= total.value,
+        ownRideTripsData.value.length,
+        total.value
+      )
+      if (ownRideTripsData.value.length <= total.value && listData.length > 0) {
         ownRideTripsData.value?.push(...listData)
         page.value.pageNum++
       }
@@ -236,7 +252,26 @@ const setFullSeatAction = async () => {
   }
 }
 
-onLoad(() => {
+//删除行程
+const deleteTripsModalShow = ref(false)
+const deleteRideTripsId = ref<number>(0)
+const deleteRideTripsReal = async () => {
+  const res = await deleteRideTrips(deleteRideTripsId.value)
+  if (res) {
+    page.value.pageNum = 1
+    page.value.pageSize = 5
+    topRefreshFlag.value = true
+    getOwnRideTripsListAction()
+  }
+}
+const deleteRideTripsAction = async (id: number) => {
+  deleteRideTripsId.value = id
+  deleteTripsModalShow.value = true
+}
+
+onShow(() => {
+  page.value.pageNum = 1
+  page.value.pageSize = 5
   getOwnRideTripsListAction()
 })
 

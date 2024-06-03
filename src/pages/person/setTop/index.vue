@@ -11,7 +11,6 @@
         :rightText="`${topCount}小时`"
         :titleFontSize="30"
         rightColor="grey-darken-1"
-        class="text-weight-b"
         title="选择置顶时长"
         @click="selectTopCountFlag = true"
       >
@@ -28,7 +27,19 @@
       </tm-cell>
     </tm-sheet>
     <tm-sheet transprent :margin="[24, 36]" :padding="[0]" :round="3" :shadow="2">
-      <tm-button color="primary" block label="确认支付并置顶"></tm-button>
+      <tm-button @click="setTopAction" color="primary" block label="确认支付并置顶"></tm-button>
+    </tm-sheet>
+
+    <tm-sheet transprent :margin="[36, 36]" :padding="[0]" :round="3" :shadow="2">
+      <tm-text
+        color="grey"
+        :lineHeight="50"
+        label="注：
+      1、如果当前已是置顶状态，且未结束，将会在当前时间上累加；(例如：现有置顶15:30结束，这里选择1小时，那么结束时间即为16:30)
+      2、如果当前置顶状态已结束，或者未置顶，将会在提交成功后从当前时间点开始计算置顶时间；
+      3、置顶状态为一次性操作，置顶后所使用的券不再退还，请谨慎操作，合理安排置顶时间。
+      "
+      ></tm-text>
     </tm-sheet>
 
     <tm-picker
@@ -43,6 +54,8 @@
 import { ref } from 'vue'
 import { onLoad } from '@dcloudio/uni-app'
 import { getDictData } from '@/service/common'
+import { setTop } from '@/service/rideTrips'
+import { navBack } from '@/common/utils';
 
 //置顶单价
 const topPrice = ref<number>(1)
@@ -59,6 +72,8 @@ const generateCountData = () => {
   }
   topCountMaxData.value = data
 }
+
+// 获取置顶相关配置
 const getTopData = async () => {
   const res = await getDictData('wechat_publish')
   if (res) {
@@ -74,14 +89,24 @@ const getTopData = async () => {
   }
 }
 
+// 选择置顶时长
+const selectTopCountFlag = ref<boolean>(false)
 const topCount = ref<number>(1)
 const confirmSelectTopCount = (value: any) => {
-  topCount.value = value[0]
+  topCount.value = topCountMaxData.value[value[0]].id
   total.value = topCount.value * topPrice.value
 }
 
-const selectTopCountFlag = ref<boolean>(false)
-onLoad(() => {
+const setTopAction = async () => {
+  const res = await setTop(rideTripsId.value, topCount.value)
+  if(res){
+    navBack()
+  }
+}
+
+const rideTripsId = ref<number>(0)
+onLoad((option: any) => {
+  rideTripsId.value = option.rideTripsId
   getTopData()
 })
 </script>

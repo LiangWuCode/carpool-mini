@@ -208,7 +208,7 @@ const getRideTripsListAction = async () => {
   }
 
   if (bottomRefreshFlag.value) {
-    if (list.value.length <= total.value) {
+    if (list.value.length <= total.value && listData.length > 0) {
       list.value?.push(...listData)
       page.value.pageNum++
     }

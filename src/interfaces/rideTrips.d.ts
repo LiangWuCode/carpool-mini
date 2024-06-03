@@ -53,6 +53,7 @@ export interface IRideMessage {
   avatar: string
   username: string
   createDateDesc: string
+  type?: number
   rideMessageVoList: Array<IRideMessage>
 }
 
@@ -65,8 +66,6 @@ export interface IRideTripsDetail extends IRideTripsList {
   mobileEllipsis: string
   rideMessageVos: Array<IRideMessage>
 }
-
-
 
 export interface IOwnRideTripsList {
   id: number

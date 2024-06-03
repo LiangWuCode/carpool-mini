@@ -15,8 +15,8 @@
     </tm-sheet>
     <tm-sheet :margin="[24, 12]" :round="3">
       <view class="flex flex-around">
-        <view class="flex flex-col flex-center">
-          <view class="flex flex-row-bottom-center mb-5" @click="gotoMyPublishPage"
+        <view class="flex flex-col flex-center" @click="gotoMyPublishPage">
+          <view class="flex flex-row-bottom-center mb-5"
             ><tm-text
               _class="text-weight-b"
               color="orange"
@@ -65,7 +65,7 @@
           ></view>
         </template>
       </tm-cell>
-      <tm-cell :margin="[0, 0]" :titleFontSize="30">
+      <tm-cell :margin="[0, 0]" :titleFontSize="30" url="/pages/person/myMessage/index">
         <template v-slot:title>
           <view class="flex"
             ><tm-icon color="primary" _class="mr-20" name="tmicon-md-chatbubbles"></tm-icon>
