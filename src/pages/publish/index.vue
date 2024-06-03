@@ -98,13 +98,22 @@ import { getUserInfoAction } from '@/common/ts/nav'
 import { onLoad, onShow } from '@dcloudio/uni-app'
 import { IUserInfo } from '@/interfaces/common'
 import { ref } from 'vue'
+import { getDictData } from '@/service/common'
 const userStore = useUser(pinia)
 
-const listimg = [
-  'http://healthy.wuliang.plus/banner/banner1.png',
-  'http://healthy.wuliang.plus/banner/banner2.png',
-  'http://healthy.wuliang.plus/banner/banner3.png',
-]
+const listimg = ref<Array<{ url: string; navigateUrl: string }>>([])
+// 首页数据
+const getHomeData = async () => {
+  const res = await getDictData('mini_home')
+  if (res) {
+    listimg.value = res.data.map((item: any) => {
+      return {
+        url: item.value,
+        navigateUrl: item.label,
+      }
+    })
+  }
+}
 
 const userInfoFlag = ref(false)
 const goToPublishDetail = (navigatorType: number) => {
@@ -130,6 +139,7 @@ onShow(() => {
 
 onLoad(() => {
   getUserInfoAction()
+  getHomeData()
 })
 </script>
 

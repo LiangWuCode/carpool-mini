@@ -172,12 +172,7 @@ import { getRideTripsList } from '@/service/rideTrips'
 import { IGetRideTrips, IRideTripsList } from '@/interfaces/rideTrips'
 import { callPhone } from '@/tmui/tool/function/util'
 import { navigateTo } from '@/common/utils/base'
-
-const listimg = [
-  'http://healthy.wuliang.plus/banner/banner1.png',
-  'http://healthy.wuliang.plus/banner/banner2.png',
-  'http://healthy.wuliang.plus/banner/banner3.png',
-]
+import { getDictData } from '@/service/common'
 
 const tabsTitle = ref([
   { key: '0', title: '全部', icon: 'tmicon-box-fill' },
@@ -198,31 +193,49 @@ const page = ref<IGetRideTrips>({
   endAddress: '',
 })
 const list = ref<Array<IRideTripsList>>([])
+const total = ref(0)
 const getRideTripsListAction = async () => {
   const res = await getRideTripsList(page.value)
   const listData = res.data.list as Array<IRideTripsList>
+  total.value = res.data.total as number
   //如果是顶部下拉刷新
   if (topRefreshFlag.value) {
     list.value = listData
     uni.stopPullDownRefresh()
     topRefreshFlag.value = false
+    page.value.pageNum++
     return
   }
 
   if (bottomRefreshFlag.value) {
-    if (listData.length > 0) {
+    if (list.value.length <= total.value) {
       list.value?.push(...listData)
       page.value.pageNum++
     }
     bottomRefreshFlag.value = false
   } else {
     list.value = listData
+    page.value.pageNum++
   }
 }
 
 //跳转至行程详情页
 const goToRideTripsDetailPage = (rideTripsId: number | undefined) => {
   navigateTo({ url: `/pages/index/rideTripsDetail/index?rideTripsId=${rideTripsId}` })
+}
+
+const listimg = ref<{ url: string; navigateUrl: string }>([])
+// 首页数据
+const getHomeData = async () => {
+  const res = await getDictData('mini_home')
+  if (res) {
+    listimg.value = res.data.map((item: any) => {
+      return {
+        url: item.value,
+        navigateUrl: item.label,
+      }
+    })
+  }
 }
 
 const offset = ref(0)
@@ -236,6 +249,7 @@ onShow(() => {
 })
 onLoad(() => {
   getUserInfoAction()
+  getHomeData()
 })
 const topRefreshFlag = ref<boolean>(false)
 onPullDownRefresh(() => {
@@ -248,9 +262,6 @@ onPullDownRefresh(() => {
 const bottomRefreshFlag = ref<boolean>(false)
 onReachBottom(() => {
   bottomRefreshFlag.value = true
-  if (list.value.length < 5 && page.value.pageNum === 1) {
-    page.value.pageNum = 2
-  }
   getRideTripsListAction()
 })
 </script>

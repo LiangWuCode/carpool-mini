@@ -17,7 +17,17 @@ export const getRideTripsDetail = (id: number) => {
   return get(`/rideTrips/${id}`)
 }
 
-// 获取我的留言
+// 获取我的行程
 export const getOwnRideTripsList = (rideTrips: IPageRequestCommon) => {
   return get(`/rideTrips/getOwnRideTripsList`, rideTrips)
+}
+
+//置为满座
+export const setFullSeat = (rideTripsId: number) => {
+  return get(`/rideTrips/setFullSeat?rideTripsId=${rideTripsId}`)
+}
+
+//置顶
+export const setTop = (rideTripsId: number,topCount:number) => {
+  return get(`/rideTrips/setTop?rideTripsId=${rideTripsId}&topCount=${topCount}`)
 }

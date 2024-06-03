@@ -64,7 +64,14 @@
     {
       "path": "pages/person/myPublishRide/index",
       "style": {
-        "navigationBarTitleText": "我发布的"
+        "navigationBarTitleText": "我发布的",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/person/setTop/index",
+      "style": {
+        "navigationBarTitleText": "置顶"
       }
     }
   ],

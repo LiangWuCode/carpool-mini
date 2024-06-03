@@ -289,7 +289,7 @@
           <view class="flex flex-row-center-end">
             <tm-stepper
               :width="160"
-              :max="10"
+              :max="topCountMax"
               :min="1"
               @change="topCountTotal"
               :defaultValue="0"
@@ -358,6 +358,7 @@ const topPrice = ref<number>(0.5)
 //发布单价
 const strokePrice = ref<number>(0.5)
 let timeFrame: number = 3
+const topCountMax = ref<number>(7)
 const getIntegralPriceAndDateDeadline = async () => {
   timeFrame = 3
   const res = await getDictData('wechat_publish')
@@ -370,6 +371,8 @@ const getIntegralPriceAndDateDeadline = async () => {
     } else if (element.label === 'timeFrame') {
       timeFrame = element.value as any as number
       generateStartDate()
+    } else if (element.label === 'topCountMax') {
+      topCountMax.value = element.value as any as number
     }
   })
 }
