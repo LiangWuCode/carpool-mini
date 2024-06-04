@@ -36,7 +36,7 @@
           ></view>
         </tm-sheet>
       </template>
-      <tm-result v-show="list?.length === 0" :showBtn="false"></tm-result>
+      <tm-result v-show="ownCouponData?.length === 0" :showBtn="false"></tm-result>
 
       <tm-sheet
         v-for="(item, index) in ownCouponData"

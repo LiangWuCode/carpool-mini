@@ -7,7 +7,7 @@ export const getUserInfo = () => {
 }
 
 // 更改头像和昵称
-export const changePersonInfo = (info:IChangeUserInfo ) => {
+export const changePersonInfo = (info: IChangeUserInfo) => {
   return post(`/user/changePersonInfo`, info)
 }
 
@@ -16,3 +16,7 @@ export const getOwnCouponList = (orderDetails: IPageRequestCommon) => {
   return get(`/orderDetails/getOwnCouponList`, orderDetails)
 }
 
+// 获取用户卡券列表
+export const getCardList = (orderDetails: IPageRequestCommon) => {
+  return get(`/orderDetails/getCardList`, orderDetails)
+}

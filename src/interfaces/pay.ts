@@ -25,5 +25,6 @@ export interface ICouponList {
     createDate:string
     userId:number
     updateDate:string
+    status?:string
   }
 

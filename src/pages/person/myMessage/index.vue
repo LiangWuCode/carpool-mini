@@ -114,11 +114,6 @@ const getOwnRideMessageListAction = async () => {
     }
 
     if (bottomRefreshFlag.value) {
-      console.log(
-        ownRideMessageData.value.length <= total.value,
-        ownRideMessageData.value.length,
-        total.value
-      )
       if (ownRideMessageData.value.length <= total.value && listData.length > 0) {
         ownRideMessageData.value?.push(...listData)
         page.value.pageNum++
