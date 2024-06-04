@@ -26,7 +26,7 @@
           </view>
           <tm-text :fontSize="24" label="信息"></tm-text>
         </view>
-        <view class="flex flex-col flex-center">
+        <view class="flex flex-col flex-center" @click="gotoMyCouponPage">
           <tm-text
             _class="text-weight-b mb-5"
             color="red"
@@ -35,7 +35,7 @@
           ></tm-text>
           <tm-text :fontSize="24" label="券"></tm-text>
         </view>
-        <view class="flex flex-col flex-center">
+        <view class="flex flex-col flex-center" @click="gotoMyCardPage">
           <view class="flex flex-row-bottom-center mb-5"
             ><tm-text
               _class="text-weight-b"
@@ -139,6 +139,15 @@ const gotoAgreementPage = () => {
 const gotoMyPublishPage = () => {
   navigateTo({ url: '/pages/person/myPublishRide/index' })
 }
+
+const gotoMyCouponPage = () => {
+  navigateTo({ url: '/pages/person/myCoupon/index' })
+}
+
+const gotoMyCardPage = () => {
+  navigateTo({ url: '/pages/person/myCard/index' })
+}
+
 const userInfo = ref<IUserInfo>()
 onShow(() => {
   getUserInfoAction()

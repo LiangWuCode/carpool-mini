@@ -224,7 +224,7 @@ const goToRideTripsDetailPage = (rideTripsId: number | undefined) => {
   navigateTo({ url: `/pages/index/rideTripsDetail/index?rideTripsId=${rideTripsId}` })
 }
 
-const listimg = ref<{ url: string; navigateUrl: string }>([])
+const listimg = ref<Array<{ url: string; navigateUrl: string }>>([])
 // 首页数据
 const getHomeData = async () => {
   const res = await getDictData('mini_home')

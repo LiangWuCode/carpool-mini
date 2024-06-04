@@ -54,6 +54,7 @@ export interface IRideMessage {
   username: string
   createDateDesc: string
   type?: number
+  rideTripsId?: number
   rideMessageVoList: Array<IRideMessage>
 }
 

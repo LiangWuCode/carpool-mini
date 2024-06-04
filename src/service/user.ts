@@ -1,5 +1,5 @@
 import { get, post } from '@/common/utils/httpRequest'
-import { IChangeUserInfo } from '@/interfaces/common'
+import { IChangeUserInfo, IPageRequestCommon } from '@/interfaces/common'
 
 // 获取用户信息
 export const getUserInfo = () => {
@@ -10,3 +10,9 @@ export const getUserInfo = () => {
 export const changePersonInfo = (info:IChangeUserInfo ) => {
   return post(`/user/changePersonInfo`, info)
 }
+
+// 获取用户消费情况
+export const getOwnCouponList = (orderDetails: IPageRequestCommon) => {
+  return get(`/orderDetails/getOwnCouponList`, orderDetails)
+}
+

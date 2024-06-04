@@ -80,6 +80,18 @@
         "navigationBarTitleText": "我的留言",
         "enablePullDownRefresh": true
       }
+    },
+    {
+      "path": "pages/person/myCoupon/index",
+      "style": {
+        "navigationBarTitleText": "消费记录"
+      }
+    },
+    {
+      "path": "pages/person/myCard/index",
+      "style": {
+        "navigationBarTitleText": "我的月卡"
+      }
     }
   ],
   "tabBar": {

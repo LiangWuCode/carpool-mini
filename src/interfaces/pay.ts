@@ -14,3 +14,16 @@ export interface ICouponList {
     signType: string
     paySign: string
   }
+
+
+  export interface ICouponData {
+    id: number
+    orderId: number
+    quantity: number
+    rideTripsId: number
+    type: number
+    createDate:string
+    userId:number
+    updateDate:string
+  }
+
