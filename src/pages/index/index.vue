@@ -161,6 +161,38 @@
         </view>
       </tm-sheet>
     </tm-sticky>
+
+    <!-- 新人注册活动 -->
+    <tm-overlay
+      align="flex-center"
+      :overlayClick="false"
+      v-model:show="newRegisterFlag"
+      contentAnimation
+    >
+      <view @click.stop="" class="relative">
+        <tm-image
+          :width="480"
+          :height="853"
+          src="http://healthy.wuliang.plus/active/newRegister.png"
+        ></tm-image>
+        <view class="absolute b-n20 flex flex-center fulled" style="bottom: 125rpx">
+          <tm-icon
+            @click="newRegisterFlag = false"
+            color="orange"
+            :fontSize="50"
+            name="tmicon-times-circle"
+            :shadow="0"
+          ></tm-icon
+        ></view>
+        <view
+          @click="gotoNewRegisterPage"
+          class="absolute flex flex-center fulled"
+          style="bottom: 275rpx"
+        >
+          <tm-text color="red" :fontSize="32" label="立即领取"></tm-text>
+        </view>
+      </view>
+    </tm-overlay>
   </tm-app>
 </template>
 
@@ -236,6 +268,12 @@ const getHomeData = async () => {
       }
     })
   }
+}
+
+const newRegisterFlag = ref<boolean>(true)
+const gotoNewRegisterPage = () => {
+  newRegisterFlag.value = false
+  navigateTo({ url: '/pages/activity/newRegister/index' })
 }
 
 const offset = ref(0)

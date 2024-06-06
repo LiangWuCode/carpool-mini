@@ -92,6 +92,13 @@
       "style": {
         "navigationBarTitleText": "我的月卡"
       }
+    },
+    {
+      "path": "pages/activity/newRegister/index",
+      "style": {
+        "navigationBarTitleText": "注册有礼",
+        "navigationBarBackgroundColor": "#F9996D"
+      }
     }
   ],
   "tabBar": {
