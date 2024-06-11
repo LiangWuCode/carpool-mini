@@ -205,6 +205,7 @@ import { IGetRideTrips, IRideTripsList } from '@/interfaces/rideTrips'
 import { callPhone } from '@/tmui/tool/function/util'
 import { navigateTo } from '@/common/utils/base'
 import { getDictData } from '@/service/common'
+import { getGiftCoupon } from '@/service/coupon'
 
 const tabsTitle = ref([
   { key: '0', title: '全部', icon: 'tmicon-box-fill' },
@@ -276,6 +277,13 @@ const gotoNewRegisterPage = () => {
   navigateTo({ url: '/pages/activity/newRegister/index' })
 }
 
+const getGiftCouponAction = async () => {
+  const res = await getGiftCoupon('1,2')
+  if (res) {
+    console.log(res)
+  }
+}
+
 const offset = ref(0)
 // #ifdef H5
 offset.value = uni.$tm.u.torpx(44)
@@ -288,6 +296,7 @@ onShow(() => {
 onLoad(() => {
   getUserInfoAction()
   getHomeData()
+  getGiftCouponAction()
 })
 const topRefreshFlag = ref<boolean>(false)
 onPullDownRefresh(() => {
