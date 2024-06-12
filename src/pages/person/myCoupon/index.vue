@@ -92,6 +92,15 @@
           ></tm-text>
         </view>
         <view class="flex flex-between" v-else-if="item.type === 6">
+          <tm-text :fontSize="30" color="black" :label="`赠送${item.quantity}券`"></tm-text>
+          <tm-text
+            :fontSize="34"
+            color="orange"
+            _class="text-weight-b"
+            :label="`+${item.quantity}`"
+          ></tm-text>
+        </view>
+        <view class="flex flex-between" v-else-if="item.type === 7">
           <tm-text :fontSize="30" color="black" :label="`赠送${item.quantity}月卡`"></tm-text>
           <tm-text
             :fontSize="34"

@@ -76,6 +76,13 @@
               v-show="item.type === 2"
               label="人找车"
             ></tm-tag>
+            <tm-tag
+              :padding="[0, 10]"
+              color="green"
+              size="s"
+              v-show="item.status === 1"
+              label="已满座"
+            ></tm-tag>
             <tm-text v-show="item.type === 1" :font-size="24" label="还有"></tm-text>
             <tm-text v-show="item.type === 2" :font-size="24" label="有"></tm-text>
             <tm-text
@@ -144,7 +151,7 @@
               :label="`·${item.messageCount}条留言`"
             ></tm-text>
           </view>
-          <view>
+          <view v-show="item.status === 0">
             <tm-button
               color="deep-orange"
               icon="tmicon-phone-fill"
@@ -205,7 +212,7 @@ import { IGetRideTrips, IRideTripsList } from '@/interfaces/rideTrips'
 import { callPhone } from '@/tmui/tool/function/util'
 import { navigateTo } from '@/common/utils/base'
 import { getDictData } from '@/service/common'
-import { getGiftCoupon } from '@/service/coupon'
+import { getGiftCouponCount } from '@/service/coupon'
 
 const tabsTitle = ref([
   { key: '0', title: '全部', icon: 'tmicon-box-fill' },
@@ -271,16 +278,18 @@ const getHomeData = async () => {
   }
 }
 
-const newRegisterFlag = ref<boolean>(true)
+// 新人注册活动
+const newRegisterFlag = ref<boolean>(false)
 const gotoNewRegisterPage = () => {
   newRegisterFlag.value = false
   navigateTo({ url: '/pages/activity/newRegister/index' })
 }
 
-const getGiftCouponAction = async () => {
-  const res = await getGiftCoupon('1,2')
+// 是否有活动券可以领取
+const getGiftCouponCountAction = async () => {
+  const res = await getGiftCouponCount('1,2')
   if (res) {
-    console.log(res)
+    newRegisterFlag.value = Number(res.data) > 0
   }
 }
 
@@ -296,7 +305,7 @@ onShow(() => {
 onLoad(() => {
   getUserInfoAction()
   getHomeData()
-  getGiftCouponAction()
+  getGiftCouponCountAction()
 })
 const topRefreshFlag = ref<boolean>(false)
 onPullDownRefresh(() => {

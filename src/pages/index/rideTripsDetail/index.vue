@@ -194,7 +194,15 @@
           <view class="ml-10 border-l-2 pl-20">
             <tm-text
               :font-size="28"
-              @click="setClipboardData(rideTrips.mobile, '复制联系人成功！')"
+              @click="
+                rideTrips.status === 0
+                  ? setClipboardData(rideTrips.mobile, '复制联系人成功！')
+                  : showToast({
+                      title: '当前行程已经满座！',
+                      icon: 'none',
+                      duration: 2000,
+                    })
+              "
               _class="text-weight-9"
               :label="rideTrips.mobileEllipsis"
             ></tm-text>
@@ -202,7 +210,7 @@
         </view>
       </view>
       <tm-divider></tm-divider>
-      <view class="flex flex-row-center-between">
+      <view class="flex flex-row-center-between" v-if="rideTrips.chatInfo != ''">
         <view class="flex flex-row-center-between">
           <view class="flex flex-row-center-between pr-n10" style="width: 100rpx">
             <tm-icon :font-size="26" color="teal" name="tmicon-weixin"></tm-icon>
@@ -211,7 +219,15 @@
           <view class="ml-10 border-l-2 pl-20">
             <tm-text
               :font-size="28"
-              @click="setClipboardData(rideTrips.chatInfo, '复制微信号成功！')"
+              @click="
+                rideTrips.status === 0
+                  ? setClipboardData(rideTrips.chatInfo, '复制微信号成功！')
+                  : showToast({
+                      title: '当前行程已经满座！',
+                      icon: 'none',
+                      duration: 2000,
+                    })
+              "
               _class="text-weight-9"
               :label="rideTrips.chatInfo"
             ></tm-text>
@@ -312,7 +328,15 @@
           <tm-text label="在线留言"></tm-text>
         </tm-col>
         <tm-col
-          @click="callPhone(rideTrips.mobile)"
+          @click="
+            rideTrips.status === 0
+              ? callPhone(rideTrips.mobile)
+              : showToast({
+                  title: '当前行程已经满座！',
+                  icon: 'none',
+                  duration: 2000,
+                })
+          "
           class="fulled-height"
           color="red"
           :col="1"
@@ -350,7 +374,7 @@ import { IRideMessage } from '@/interfaces/message'
 import { getRideTripsDetail } from '@/service/rideTrips'
 import { onLoad } from '@dcloudio/uni-app'
 import { ref } from 'vue'
-import { setClipboardData, switchTab } from '@/common/utils/base'
+import { setClipboardData, showToast, switchTab } from '@/common/utils/base'
 import { callPhone } from '@/tmui/tool/function/util'
 import { share } from '@/tmui/tool/lib/share'
 import { rideMessageAdd } from '@/service/message'
@@ -383,6 +407,7 @@ const rideTrips = ref<IRideTripsDetail>({
   rideMessageVos: [],
   mobileEllipsis: '',
   shareImageUrl: '',
+  status: 0,
 })
 
 const polyline = ref<Array<any>>([])

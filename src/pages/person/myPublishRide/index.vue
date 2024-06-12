@@ -108,8 +108,8 @@
             v-show="item.status === 0"
             text
             size="small"
-            label="设满座"
-            @click="fullSeatAction(item.id)"
+            :label="item.type === 1 ? '设满座' : '已预定'"
+            @click="fullSeatAction(item)"
           ></tm-button>
           <!-- <tm-button
             color="green"
@@ -133,7 +133,12 @@
         </view>
         <view class="absolute r-10 t-n10">
           <!-- <tm-image v-if="item.status === 0" :width="150" :height="150" :src="status0"></tm-image> -->
-          <tm-image v-if="item.status === 1" :width="150" :height="150" :src="status1"></tm-image>
+          <tm-image
+            v-if="item.status === 1"
+            :width="150"
+            :height="150"
+            :src="item.type === 1 ? status1_1 : status1_2"
+          ></tm-image>
           <tm-image
             v-else-if="item.status === 2"
             :width="150"
@@ -154,8 +159,8 @@
       okLinear="left"
       splitBtn
       @ok="setFullSeatAction"
-      title="满座确认"
-      content="请注意，设置满座后，行程电话将会被隐藏，是否确认进行此操作！"
+      title="操作确认"
+      :content="fullSeatModalContent"
       v-model:show="setFullSeatModalShow"
     ></tm-modal>
     <tm-modal
@@ -180,7 +185,8 @@ import { IPageRequestCommon } from '@/interfaces/common'
 import { IOwnRideTripsList } from '@/interfaces/rideTrips'
 import { navigateTo } from '@/common/utils/base'
 // import status0 from '@/static/status/0.png'
-import status1 from '@/static/status/1.png'
+import status1_1 from '@/static/status/1.png'
+import status1_2 from '@/static/status/1-1.png'
 import status2 from '@/static/status/2.png'
 import status3 from '@/static/status/3.png'
 
@@ -235,12 +241,18 @@ const gotoSetTopPage = (rideTripsId: number | undefined) => {
 
 const setFullSeatModalShow = ref(false)
 const rideTripsId = ref<number>(0)
-const fullSeatAction = (id: number) => {
+const fullSeatModalContent = ref('')
+const fullSeatAction = (item: IOwnRideTripsList) => {
   setFullSeatModalShow.value = true
-  rideTripsId.value = id
+  rideTripsId.value = item.id
+  fullSeatModalContent.value = `${
+    item.type === 1
+      ? '请注意，设置满座后，行程电话将会被隐藏，是否确认进行此操作！'
+      : '请注意，设置已预定后，行程电话将会被隐藏，是否确认进行此操作！'
+  }`
 }
 
-//新增置顶
+//新增满座
 const setFullSeatAction = async () => {
   setFullSeatModalShow.value = false
   const res = await setFullSeat(rideTripsId.value)

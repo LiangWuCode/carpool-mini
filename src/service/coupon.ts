@@ -7,5 +7,11 @@ export const getGiftCoupon = (types: string) => {
 
 // 领取赠送券
 export const collectCoupon = (ids: string) => {
-  return get(`/orderDetails/collectCoupon?types=${ids}`)
+  return get(`/orderDetails/collectCoupon?ids=${ids}`)
+}
+
+
+//获取赠送券数量
+export const getGiftCouponCount = (types: string) => {
+  return get(`/sysCoupons/getGiftCouponCount?types=${types}`)
 }
