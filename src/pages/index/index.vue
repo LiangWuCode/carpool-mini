@@ -15,6 +15,7 @@
         :height="300"
         :list="listimg"
         model="dot"
+        @click="carouselTap"
       ></tm-carousel>
     </tm-sheet>
     <tm-sheet :padding="[12, 6]" :margin="[24, 12]" :round="3">
@@ -83,16 +84,33 @@
               v-show="item.status === 1"
               label="已满座"
             ></tm-tag>
-            <tm-text v-show="item.type === 1" :font-size="24" label="还有"></tm-text>
-            <tm-text v-show="item.type === 2" :font-size="24" label="有"></tm-text>
             <tm-text
+              v-show="item.type === 1 && item.status === 0"
+              :font-size="24"
+              label="还有"
+            ></tm-text>
+            <tm-text
+              v-show="item.type === 2 && item.status === 0"
+              :font-size="24"
+              label="有"
+            ></tm-text>
+            <tm-text
+              v-show="item.status === 0"
               :font-size="28"
               color="red"
               class="text-weight-b mx-8"
               :label="item.seats"
             ></tm-text>
-            <tm-text v-show="item.type === 1" :font-size="24" label="个座位"></tm-text>
-            <tm-text v-show="item.type === 2" :font-size="24" label="人同行"></tm-text>
+            <tm-text
+              v-show="item.type === 1 && item.status === 0"
+              :font-size="24"
+              label="个座位"
+            ></tm-text>
+            <tm-text
+              v-show="item.type === 2 && item.status === 0"
+              :font-size="24"
+              label="人同行"
+            ></tm-text>
           </view>
           <view class="mr-10">
             <tm-icon :font-size="40" color="green" name="tmicon-weixin"></tm-icon>
@@ -276,6 +294,9 @@ const getHomeData = async () => {
       }
     })
   }
+}
+const carouselTap = (idx: number) => {
+  console.log(listimg.value[idx])
 }
 
 // 新人注册活动
