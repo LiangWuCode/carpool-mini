@@ -27,7 +27,7 @@
           ><tm-input v-model="page.endAddress" placeholder="要到哪儿去"></tm-input
         ></view>
         <view
-          ><tm-button size="small" @click="getRideTripsListAction" label="查询"></tm-button
+          ><tm-button size="small" @click="getRideTripsListSearch" label="查询"></tm-button
         ></view>
       </view>
     </tm-sheet>
@@ -240,6 +240,12 @@ const tabsTitle = ref([
 
 const tabschange = (e: any) => {
   page.value = { pageSize: 5, pageNum: 1, type: e, startAddress: '', endAddress: '' }
+  getRideTripsListAction()
+}
+
+const getRideTripsListSearch = () => {
+  page.value.pageNum = 1
+  page.value.pageSize = 5
   getRideTripsListAction()
 }
 
