@@ -99,6 +99,12 @@
         "navigationBarTitleText": "注册有礼",
         "navigationBarBackgroundColor": "#F9996D"
       }
+    },
+    {
+      "path": "pages/common/webView/index",
+      "style": {
+        "navigationBarTitleText": ""
+      }
     }
   ],
   "tabBar": {

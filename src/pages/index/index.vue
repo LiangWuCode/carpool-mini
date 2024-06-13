@@ -82,7 +82,7 @@
               color="green"
               size="s"
               v-show="item.status === 1"
-              label="已满座"
+              :label="item.type === 1 ? '已满座' : '已预订'"
             ></tm-tag>
             <tm-text
               v-show="item.type === 1 && item.status === 0"
@@ -296,7 +296,15 @@ const getHomeData = async () => {
   }
 }
 const carouselTap = (idx: number) => {
-  console.log(listimg.value[idx])
+  const navigateUrl = listimg.value[idx].navigateUrl
+  if (navigateUrl === '无') {
+    return
+  }
+  if (navigateUrl.includes('http')) {
+    navigateTo({ url: `/pages/common/webView/index?url=${navigateUrl}` })
+  } else {
+    navigateTo({ url: navigateUrl })
+  }
 }
 
 // 新人注册活动
