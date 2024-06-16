@@ -229,7 +229,7 @@
                     })
               "
               _class="text-weight-9"
-              :label="rideTrips.chatInfo"
+              :label="rideTrips.chatInfoEllipsis"
             ></tm-text>
           </view>
         </view>
@@ -408,6 +408,7 @@ const rideTrips = ref<IRideTripsDetail>({
   mobileEllipsis: '',
   shareImageUrl: '',
   status: 0,
+  chatInfoEllipsis:''
 })
 
 const polyline = ref<Array<any>>([])
@@ -518,6 +519,6 @@ onLoad(async (option: any) => {
   getRideTripsDetailAction(rideTripsId.value)
 
   setShareApp(shareConfig.value)
-  setShareTime()
+  setShareTime(shareConfig.value)
 })
 </script>

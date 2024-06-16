@@ -11,6 +11,7 @@ const userBase = {
   rideCount: 0,
   sex: 1,
   cardCount: 0,
+  residueCount: 0,
 }
 export const useUser = defineStore({
   /**

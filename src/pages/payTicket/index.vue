@@ -221,14 +221,7 @@ const getCouponListAction = async () => {
 }
 
 const goToOrderConfirmPage = (code: string, type: number) => {
-  if (type === 2 && userInfo.value.cardCount > 0) {
-    uni.showToast({
-      title: '您已拥有月卡，不可重复购买',
-      icon: 'none',
-    })
-  } else {
-    navigateTo({ url: `/pages/payTicket/orderConfirm/index?code=${code}&type=${type}` })
-  }
+  navigateTo({ url: `/pages/payTicket/orderConfirm/index?code=${code}&type=${type}` })
 }
 
 const userInfo = ref<IUserInfo>()

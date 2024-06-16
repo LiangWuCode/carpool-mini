@@ -33,7 +33,7 @@
             </view>
             <view class="flex flex-row-bottom-start">
               <tm-text
-                color="orange"
+                :color="item.statusColor"
                 :fontSize="30"
                 _class="text-weight-b mr-6"
                 :label="item.status"
@@ -93,7 +93,6 @@ import * as dayjs from '@/tmui/tool/dayjs/esm/index'
 import { ICouponData } from '@/interfaces/pay'
 import cardImage from '@/static/pay/card.png'
 import cardIconImage from '@/static/pay/card-icon.png'
-import { i } from 'vite/dist/node/types.d-aGj9QkWt'
 const DayJs = dayjs.default
 
 const page = ref<IPageRequestCommon>({
@@ -107,12 +106,23 @@ const getCardListAction = async () => {
   if (res) {
     const listData = res.data.list as Array<ICouponData>
     listData.forEach(item => {
-      item.createDate = DayJs(item.createDate).add(30, 'day').format('YYYY-MM-DD HH:mm:ss')
-      if (DayJs(item.createDate).isAfter(new Date())) {
-        item.status = '生效中'
+      if (DayJs(item.startDate).isAfter(item.createDate)) {
+        item.status = '待生效'
+        item.statusColor = 'orange'
       } else {
-        item.status = '已过期'
+        if (
+          DayJs(DayJs(item.startDate).add(30, 'day').format('YYYY-MM-DD HH:mm:ss')).isAfter(
+            new Date()
+          )
+        ) {
+          item.status = '生效中'
+          item.statusColor = 'red'
+        } else {
+          item.status = '已过期'
+          item.statusColor = 'grey'
+        }
       }
+      item.createDate = DayJs(item.startDate).add(30, 'day').format('YYYY-MM-DD HH:mm:ss')
     })
     total.value = res.data.total as number
     //如果是顶部下拉刷新

@@ -8,6 +8,7 @@ export interface IUserInfo {
   rideCount: number
   sex: number
   cardCount: number
+  residueCount: number
 }
 
 export interface IPageRequestCommon {

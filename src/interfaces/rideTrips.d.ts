@@ -65,6 +65,7 @@ export interface IRideTripsDetail extends IRideTripsList {
   polyline: Array<number>
   username: string
   mobileEllipsis: string
+  chatInfoEllipsis: string
   rideMessageVos: Array<IRideMessage>
 }
 

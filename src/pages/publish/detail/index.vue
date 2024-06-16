@@ -1,14 +1,23 @@
 <template>
   <tm-app ref="app" class="pb-30">
     <tm-sheet :margin="[24, 12]" :padding="[20, 0]" :round="3">
-      <view class="flex flex-row-center-between">
-        <view class="flex">
-          <tm-text color="orange" label="每条消息"></tm-text>
-          <tm-text color="orange" :label="strokePrice"></tm-text>
-          <tm-text color="orange" label="券"></tm-text>
-          <tm-text color="orange" label="（您的券："></tm-text>
-          <tm-text color="orange" :label="userInfo?.couponCount"></tm-text>
-          <tm-text color="orange" label="）"></tm-text>
+      <view class="flex flex-row-center-between pa-10">
+        <view>
+          <view class="flex mb-10">
+            <tm-text color="orange" label="每条消息"></tm-text>
+            <tm-text color="orange" :label="strokePrice"></tm-text>
+            <tm-text color="orange" label="券"></tm-text>
+            <tm-text color="orange" label="（您的券："></tm-text>
+            <tm-text color="orange" :label="userInfo?.couponCount"></tm-text>
+            <tm-text color="orange" label="）"></tm-text>
+          </view>
+          <view class="flex">
+            <tm-text color="green" :label="userInfo?.cardCount > 0 ? '已' : '未'"></tm-text>
+            <tm-text color="green" label="拥有月卡"></tm-text>
+            <tm-text color="green" label="（今日剩余使用次数："></tm-text>
+            <tm-text color="green" :label="userInfo?.residueCount"></tm-text>
+            <tm-text color="green" label="）"></tm-text>
+          </view>
         </view>
         <view>
           <tm-button @click="goToPayPage" size="small" label="点击充值"></tm-button>
@@ -246,6 +255,7 @@
             :transprent="true"
             :showBottomBotder="false"
             placeholder="请输入电话"
+            type="number"
           >
           </tm-input>
         </tm-form-item>
@@ -325,7 +335,7 @@
       </template>
     </tm-checkbox>
     <tm-button
-      @click="publishTrips"
+      @click="publishTripsAction"
       :margin="[24, 16]"
       block
       :label="`立即发布（${navigateTypeTitle}）`"
@@ -338,6 +348,20 @@
       :defaultValue="[0, 0]"
     >
     </tm-picker>
+
+    <tm-modal
+      color="white"
+      okColor="primary"
+      cancelColor="primary"
+      okLinear="left"
+      :height="350"
+      splitBtn
+      title="提醒"
+      okText="确定"
+      content="您今日月卡发布行程已达上限，确认发布将消耗消费券，是否继续？"
+      v-model:show="publishNoHaveFlag"
+      @ok="publishTrips"
+    ></tm-modal>
   </tm-app>
 </template>
 
@@ -581,6 +605,15 @@ const goToPayPage = () => {
   navigateTo({ url: '/pages/payTicket/index' })
 }
 
+const publishNoHaveFlag = ref(false)
+const publishTripsAction = () => {
+  if (userInfo.value?.residueCount === 0) {
+    publishNoHaveFlag.value = true
+    return
+  }
+  publishTrips()
+}
+
 //发布行程
 const publishTrips = async () => {
   if (!isAgree.value) {
@@ -597,7 +630,6 @@ const publishTrips = async () => {
   carpoolInfo.value.startDate = date + ',' + times
 
   const res = await publish(carpoolInfo.value)
-  console.log(res)
   if (res) {
     switchTab({
       url: '/pages/index/index',

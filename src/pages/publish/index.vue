@@ -8,6 +8,7 @@
         :height="300"
         :list="listimg"
         model="dot"
+        @click="carouselTap"
       ></tm-carousel>
     </tm-sheet>
     <tm-sheet :margin="[24, 24]" :round="3" color="orange" text>
@@ -115,6 +116,18 @@ const getHomeData = async () => {
   }
 }
 
+const carouselTap = (idx: number) => {
+  const navigateUrl = listimg.value[idx].navigateUrl
+  if (navigateUrl === '无') {
+    return
+  }
+  if (navigateUrl.includes('http')) {
+    navigateTo({ url: `/pages/common/webView/index?url=${navigateUrl}` })
+  } else {
+    navigateTo({ url: navigateUrl })
+  }
+}
+
 const userInfoFlag = ref(false)
 const goToPublishDetail = (navigatorType: number) => {
   if (userStore.isAuth()) {
@@ -134,11 +147,11 @@ const gotoUpdateUserInfoPage = () => {
 
 const userInfo = ref<IUserInfo>()
 onShow(() => {
+  getUserInfoAction()
   userInfo.value = userStore.userInfo
 })
 
 onLoad(() => {
-  getUserInfoAction()
   getHomeData()
 })
 </script>

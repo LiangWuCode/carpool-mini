@@ -93,7 +93,7 @@
           >
             <tm-icon :font-size="26" color="teal" name="tmicon-weixin"></tm-icon>
             <tm-text label="微信"></tm-text>
-            <tm-text _class="mr-5" :font-size="30" color="red" label="*"></tm-text>
+            <!-- <tm-text _class="mr-5" :font-size="30" color="red" label="*"></tm-text> -->
           </view>
           <view class="ml-10 fulled border-l-2 pl-20">
             <tm-input

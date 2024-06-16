@@ -26,7 +26,7 @@
         </view>
         <view>
           <tm-text
-            color="grey"
+            :color="item.readStatus === 0 ? 'primary' : 'grey'"
             :fontSize="24"
             :label="item.readStatus === 0 ? '对方未读' : '对方已读'"
           ></tm-text

@@ -105,7 +105,17 @@
     </tm-sheet>
 
     <tm-sheet :margin="[24, 12]" :padding="[24, 0]" :round="3">
-      <tm-cell :margin="[0, 0]" :titleFontSize="30">
+      <tm-cell
+        :margin="[0, 0]"
+        :titleFontSize="30"
+        @click="
+          showToast({
+            title: '正在开发，敬请期待！',
+            icon: 'none',
+            duration: 2000,
+          })
+        "
+      >
         <template v-slot:title>
           <view class="flex"
             ><tm-icon color="primary" _class="mr-20" name="tmicon-ios-filing"></tm-icon>
@@ -118,7 +128,7 @@
 </template>
 
 <script lang="ts" setup>
-import { navigateTo } from '@/common/utils/base'
+import { navigateTo, showToast } from '@/common/utils/base'
 import { onShow } from '@dcloudio/uni-app'
 import { IUserInfo } from '@/interfaces/common'
 import { ref } from 'vue'
