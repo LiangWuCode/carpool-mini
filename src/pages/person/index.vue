@@ -135,6 +135,15 @@ import { ref } from 'vue'
 import { getUserInfoAction } from '@/common/ts/nav'
 import pinia from '@/store/store'
 import { useUser } from '@/store/user'
+import { share } from '@/tmui/tool/lib/share'
+const { onShareAppMessage, onShareTimeline } = share({
+  title: '觅行出行，回家的路不再孤单。',
+  desc: '觅行出行，回家的路不再孤单。',
+  path: `/pages/index/index`,
+  imageUrl: 'http://healthy.wuliang.plus/shareBanner/fc689b34e3cd5c7216908630dc0c5b3.png',
+})
+onShareAppMessage()
+onShareTimeline()
 
 const userStore = useUser(pinia)
 // 跳转到券充值页

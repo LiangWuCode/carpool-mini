@@ -42,6 +42,15 @@ import { onLoad } from '@dcloudio/uni-app'
 import { collectCoupon, getGiftCoupon } from '@/service/coupon'
 import { ICouponItem } from '@/interfaces/coupon'
 import { navigateBack, showToast } from '@/common/utils/base'
+import { share } from '@/tmui/tool/lib/share'
+const { onShareAppMessage, onShareTimeline } = share({
+  title: '点击领好礼,月卡行程券免费赠送！',
+  desc: '觅行出行，回家的路不再孤单。',
+  path: `/pages/activity/newRegister/index`,
+  imageUrl: 'http://healthy.wuliang.plus/shareBanner/fc689b34e3cd5c7216908630dc0c5b3.png',
+})
+onShareAppMessage()
+onShareTimeline()
 
 const newRegisterFlag = ref(true)
 const couponData = ref<ICouponItem>({

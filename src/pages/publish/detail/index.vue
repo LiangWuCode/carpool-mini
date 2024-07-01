@@ -376,6 +376,16 @@ import { useUser } from '@/store/user'
 import { IUserInfo } from '@/interfaces/common'
 import { toast } from '@/common/utils'
 import { publish } from '@/service/rideTrips'
+import { share } from '@/tmui/tool/lib/share'
+const { onShareAppMessage, onShareTimeline } = share({
+  title: '觅行出行，回家的路不再孤单。',
+  desc: '觅行出行，回家的路不再孤单。',
+  path: `/pages/index/index`,
+  imageUrl: 'http://healthy.wuliang.plus/shareBanner/fc689b34e3cd5c7216908630dc0c5b3.png',
+})
+onShareAppMessage()
+onShareTimeline()
+
 const userStore = useUser(pinia)
 //置顶单价
 const topPrice = ref<number>(0.5)

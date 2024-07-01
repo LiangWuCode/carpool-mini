@@ -100,6 +100,16 @@ import { onLoad, onShow } from '@dcloudio/uni-app'
 import { IUserInfo } from '@/interfaces/common'
 import { ref } from 'vue'
 import { getDictData } from '@/service/common'
+import { share } from '@/tmui/tool/lib/share'
+const { onShareAppMessage, onShareTimeline } = share({
+  title: '觅行出行，回家的路不再孤单。',
+  desc: '觅行出行，回家的路不再孤单。',
+  path: `/pages/index/index`,
+  imageUrl: 'http://healthy.wuliang.plus/shareBanner/fc689b34e3cd5c7216908630dc0c5b3.png',
+})
+onShareAppMessage()
+onShareTimeline()
+
 const userStore = useUser(pinia)
 
 const listimg = ref<Array<{ url: string; navigateUrl: string }>>([])
