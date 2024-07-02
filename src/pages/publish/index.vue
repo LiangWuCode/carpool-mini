@@ -13,7 +13,7 @@
     </tm-sheet>
     <tm-sheet :margin="[24, 24]" :round="3" color="orange" text>
       <tm-text
-        label="免责声明：平台用户发布的信息仅简单进行识别，线下交易请自行甄别真假，谨防被骗。"
+        label="免责声明：平台用户发布的信息仅简单进行识别，平台不做任何担保，争议断定，线下交易请自行甄别真假，谨防被骗。"
       ></tm-text>
     </tm-sheet>
     <tm-sheet :margin="[60, 0]">

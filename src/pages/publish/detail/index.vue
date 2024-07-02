@@ -31,132 +31,45 @@
       </view>
     </tm-sheet>
     <tm-sheet :margin="[24, 12]" :round="3">
-      <tm-text
-        :font-size="30"
-        color="grey-darken-1"
-        _class="text-weight-b"
-        label="拼车信息"
-      ></tm-text>
+      <tm-text :font-size="30" color="grey-darken-1" _class="text-weight-b" label="拼车信息"></tm-text>
       <tm-divider></tm-divider>
-      <tm-form
-        ref="form"
-        :margin="[20, 0]"
-        :padding="[10, 0]"
-        v-model="carpoolInfo"
-        :label-width="90"
-      >
-        <tm-form-item
-          :margin="[0, 10, 0, 0]"
-          :padding="[0]"
-          required
-          label="起点"
-          field="startAddress"
-          :showError="false"
-        >
-          <tm-input
-            :inputPadding="[10, 0, 0, 0]"
-            v-model.lazy="carpoolInfo.startAddress"
-            :transprent="true"
-            placeholder="从哪儿出发"
-            :showBottomBotder="false"
-          >
+      <tm-form ref="form" :margin="[20, 0]" :padding="[10, 0]" v-model="carpoolInfo" :label-width="90">
+        <tm-form-item :margin="[0, 10, 0, 0]" :padding="[0]" required label="起点" field="startAddress"
+          :showError="false">
+          <tm-input :inputPadding="[10, 0, 0, 0]" v-model.lazy="carpoolInfo.startAddress" :transprent="true"
+            placeholder="从哪儿出发" :showBottomBotder="false">
             <template v-slot:right>
-              <tm-icon
-                @click="chooseAddress(1)"
-                :fontSize="30"
-                color="primary"
-                name="tmicon-map"
-              ></tm-icon>
+              <tm-icon @click="chooseAddress(1)" :fontSize="30" color="primary" name="tmicon-map"></tm-icon>
             </template>
           </tm-input>
         </tm-form-item>
-        <tm-form-item
-          :margin="[0, 20, 0, 0]"
-          :padding="[0]"
-          label="途径"
-          field="channelAddress"
-          :showError="false"
-          v-if="carpoolInfo.type === 1"
-        >
-          <tm-input
-            :inputPadding="[10, 0, 0, 0]"
-            v-model.lazy="carpoolInfo.channelAddress"
-            :transprent="true"
-            :showBottomBotder="false"
-            placeholder="经过哪儿"
-          >
+        <tm-form-item :margin="[0, 20, 0, 0]" :padding="[0]" label="途径" field="channelAddress" :showError="false"
+          v-if="carpoolInfo.type === 1">
+          <tm-input :inputPadding="[10, 0, 0, 0]" v-model.lazy="carpoolInfo.channelAddress" :transprent="true"
+            :showBottomBotder="false" placeholder="经过哪儿">
           </tm-input>
         </tm-form-item>
-        <tm-form-item
-          :margin="[0, 20, 0, 0]"
-          :padding="[0]"
-          label="终点"
-          field="endAddress"
-          required
-          :showError="false"
-        >
-          <tm-input
-            :inputPadding="[10, 0, 0, 0]"
-            placeholder="要到哪儿去"
-            v-model.lazy="carpoolInfo.endAddress"
-            :transprent="true"
-            :showBottomBotder="false"
-          >
+        <tm-form-item :margin="[0, 20, 0, 0]" :padding="[0]" label="终点" field="endAddress" required :showError="false">
+          <tm-input :inputPadding="[10, 0, 0, 0]" placeholder="要到哪儿去" v-model.lazy="carpoolInfo.endAddress"
+            :transprent="true" :showBottomBotder="false">
             <template v-slot:right>
-              <tm-icon
-                @click="chooseAddress(2)"
-                :fontSize="30"
-                color="primary"
-                name="tmicon-map"
-              ></tm-icon>
+              <tm-icon @click="chooseAddress(2)" :fontSize="30" color="primary" name="tmicon-map"></tm-icon>
             </template>
           </tm-input>
         </tm-form-item>
-        <tm-form-item
-          :margin="[0, 20, 0, 0]"
-          :padding="[0]"
-          label="时间"
-          field="endAddress"
-          required
-          :showError="false"
-        >
-          <view
-            @click="startDateFlag = !startDateFlag"
-            class="flex flex-row flex-row-center-between pl-10 py-15"
-          >
-            <tm-text
-              color="grey-darken-1"
-              :userInteractionEnabled="false"
-              :label="startDate || '请选择出发日期'"
-            ></tm-text>
-            <tm-icon
-              :userInteractionEnabled="false"
-              :font-size="24"
-              color="grey-darken-1"
-              name="tmicon-angle-right"
-            ></tm-icon>
+        <tm-form-item :margin="[0, 20, 0, 0]" :padding="[0]" label="时间" field="endAddress" required :showError="false">
+          <view @click="startDateFlag = !startDateFlag" class="flex flex-row flex-row-center-between pl-10 py-15">
+            <tm-text color="grey-darken-1" :userInteractionEnabled="false" :label="startDate || '请选择出发日期'"></tm-text>
+            <tm-icon :userInteractionEnabled="false" :font-size="24" color="grey-darken-1"
+              name="tmicon-angle-right"></tm-icon>
           </view>
         </tm-form-item>
-        <tm-form-item
-          :margin="[0, 20, 0, 0]"
-          :padding="[0]"
-          :label="carpoolInfo.type === 1 ? '空位' : '同行'"
-          field="seats"
-          required
-          :showError="false"
-        >
+        <tm-form-item :margin="[0, 20, 0, 0]" :padding="[0]" :label="carpoolInfo.type === 1 ? '空位' : '同行'" field="seats"
+          required :showError="false">
           <view class="flex flex-row-center-between">
-            <tm-tag
-              v-for="(item, index) in seatsTotal"
-              :key="index"
-              :margin="[5, 10]"
-              checkable
-              @click="carpoolInfo.seats = item"
-              :checked="carpoolInfo.seats === item"
-              color="primary"
-              size="m"
-              :label="item"
-            ></tm-tag>
+            <tm-tag v-for="(item, index) in seatsTotal" :key="index" :margin="[5, 10]" checkable
+              @click="carpoolInfo.seats = item" :checked="carpoolInfo.seats === item" color="primary" size="m"
+              :label="item"></tm-tag>
           </view>
         </tm-form-item>
       </tm-form>
@@ -164,167 +77,69 @@
     <tm-sheet :margin="[24, 12]" :round="3">
       <view class="flex flex-start">
         <tm-text _class="mr-5" :font-size="30" color="red" label="*"></tm-text>
-        <tm-text
-          :font-size="30"
-          color="grey-darken-1"
-          _class="text-weight-b"
-          label="备注"
-        ></tm-text>
+        <tm-text :font-size="30" color="grey-darken-1" _class="text-weight-b" label="备注"></tm-text>
       </view>
       <tm-divider></tm-divider>
       <view class="mx-20">
-        <textarea
-          class="fulled overflow-x"
-          v-model="carpoolInfo.notes"
-          placeholder="请在此处填写，或点击下方预设内容"
-          :maxlength="-1"
-          style="height: 200rpx"
-        />
+        <textarea class="fulled overflow-x" v-model="carpoolInfo.notes" placeholder="请在此处填写，或点击下方预设内容" :maxlength="-1"
+          style="height: 200rpx" />
       </view>
       <tm-divider></tm-divider>
       <view class="flex flex-row-start flex-wrap">
-        <tm-tag
-          v-for="(item, index) in notesOptions"
-          :key="index"
-          :margin="[0, 0, 10, 15]"
-          checkable
-          :checked="item.checked"
-          @click="notesSelectedAction(index)"
-          color="primary"
-          size="m"
-          :label="item.value"
-        ></tm-tag>
+        <tm-tag v-for="(item, index) in notesOptions" :key="index" :margin="[0, 0, 10, 15]" checkable
+          :checked="item.checked" @click="notesSelectedAction(index)" color="primary" size="m"
+          :label="item.value"></tm-tag>
       </view>
     </tm-sheet>
     <tm-sheet :margin="[24, 12]" :round="3">
-      <tm-text
-        :font-size="30"
-        color="grey-darken-1"
-        _class="text-weight-b"
-        label="联系人"
-      ></tm-text>
+      <tm-text :font-size="30" color="grey-darken-1" _class="text-weight-b" label="联系人"></tm-text>
       <tm-divider></tm-divider>
-      <tm-form
-        ref="form"
-        :margin="[20, 0]"
-        :padding="[10, 0]"
-        v-model="carpoolInfo"
-        :label-width="90"
-      >
-        <tm-form-item
-          :margin="[0, 20, 0, 0]"
-          :padding="[0]"
-          label="昵称"
-          field="username"
-          required
-          :showError="false"
-        >
-          <tm-input
-            :inputPadding="[10, 0, 0, 0]"
-            v-model.lazy="carpoolInfo.username"
-            :transprent="true"
-            :showBottomBotder="false"
-            placeholder="请输入姓名"
-          >
+      <tm-form ref="form" :margin="[20, 0]" :padding="[10, 0]" v-model="carpoolInfo" :label-width="90">
+        <tm-form-item :margin="[0, 20, 0, 0]" :padding="[0]" label="昵称" field="username" required :showError="false">
+          <tm-input :inputPadding="[10, 0, 0, 0]" v-model.lazy="carpoolInfo.username" :transprent="true"
+            :showBottomBotder="false" placeholder="请输入姓名">
           </tm-input>
         </tm-form-item>
-        <tm-form-item
-          :margin="[0, 20, 0, 0]"
-          :padding="[0]"
-          label="性别"
-          field="sex"
-          required
-          :showError="false"
-        >
+        <tm-form-item :margin="[0, 20, 0, 0]" :padding="[0]" label="性别" field="sex" required :showError="false">
           <tm-radio-group v-model="carpoolInfo.sex" :defaultValue="1">
             <tm-radio :value="1" label="男"></tm-radio>
             <tm-radio :value="2" label="女"></tm-radio>
           </tm-radio-group>
         </tm-form-item>
-        <tm-form-item
-          :margin="[0, 20, 0, 0]"
-          :padding="[0]"
-          label="电话"
-          field="mobile"
-          required
-          :showError="false"
-        >
-          <tm-input
-            :inputPadding="[10, 0, 0, 0]"
-            v-model.lazy="carpoolInfo.mobile"
-            :transprent="true"
-            :showBottomBotder="false"
-            placeholder="请输入电话"
-            type="number"
-          >
+        <tm-form-item :margin="[0, 20, 0, 0]" :padding="[0]" label="电话" field="mobile" required :showError="false">
+          <tm-input :inputPadding="[10, 0, 0, 0]" v-model.lazy="carpoolInfo.mobile" :transprent="true"
+            :showBottomBotder="false" placeholder="请输入电话" type="number">
           </tm-input>
         </tm-form-item>
-        <tm-form-item
-          :margin="[0, 20, 0, 0]"
-          :padding="[0]"
-          label="微信"
-          field="chatInfo"
-          :showError="false"
-        >
-          <tm-input
-            :inputPadding="[10, 0, 0, 0]"
-            v-model.lazy="carpoolInfo.chatInfo"
-            :transprent="true"
-            :showBottomBotder="false"
-            placeholder="请输入微信号"
-          >
+        <tm-form-item :margin="[0, 20, 0, 0]" :padding="[0]" label="微信" field="chatInfo" :showError="false">
+          <tm-input :inputPadding="[10, 0, 0, 0]" v-model.lazy="carpoolInfo.chatInfo" :transprent="true"
+            :showBottomBotder="false" placeholder="请输入微信号">
           </tm-input>
         </tm-form-item>
       </tm-form>
     </tm-sheet>
     <tm-sheet :margin="[24, 12]" :round="3">
       <view class="flex flex-row-center-between">
-        <tm-text
-          :font-size="30"
-          color="grey-darken-1"
-          _class="text-weight-b"
-          label="我要置顶"
-        ></tm-text>
-        <tm-switch
-          @change="isTopAction"
-          unCheckedColor="primary"
-          color="primary"
-          text
-          :label="['是', '否']"
-        ></tm-switch>
+        <tm-text :font-size="30" color="grey-darken-1" _class="text-weight-b" label="我要置顶"></tm-text>
+        <tm-switch @change="isTopAction" unCheckedColor="primary" color="primary" text :label="['是', '否']"></tm-switch>
       </view>
       <view class="mx-20" v-if="isTop">
         <view class="flex flex-row-center-between mt-20">
           <tm-text :font-size="30" color="grey" label="置顶时长:"></tm-text>
           <view class="flex flex-row-center-end">
-            <tm-stepper
-              :width="160"
-              :max="topCountMax"
-              :min="1"
-              @change="topCountTotal"
-              :defaultValue="0"
-            ></tm-stepper>
+            <tm-stepper :width="160" :max="topCountMax" :min="1" @change="topCountTotal" :defaultValue="0"></tm-stepper>
             <tm-text _class="ml-30" :font-size="30" color="grey" label="小时"></tm-text>
           </view>
         </view>
         <view class="mt-20 flex flex-row-bottom-start">
           <tm-text :font-size="30" color="grey" label="本次置顶话花费:"></tm-text>
-          <tm-text
-            _class="ml-20 text-weight-b mr-10"
-            color="orange"
-            :font-size="30"
-            :label="carpoolInfo.topCount"
-          ></tm-text>
+          <tm-text _class="ml-20 text-weight-b mr-10" color="orange" :font-size="30"
+            :label="carpoolInfo.topCount"></tm-text>
           <tm-text color="orange" :font-size="24" label="券"></tm-text>
         </view>
       </view>
     </tm-sheet>
-    <tm-checkbox
-      @change="isAgreeProtocol"
-      :defaultChecked="true"
-      :size="32"
-      class="ml-20 mt-10 mb-20"
-    >
+    <tm-checkbox @change="isAgreeProtocol" :defaultChecked="true" :size="32" class="ml-20 mt-10 mb-20">
       <template v-slot:default="{ checked }">
         <view class="flex flex-row">
           <tm-text label="我已经阅读并同意"></tm-text>
@@ -334,34 +149,14 @@
         </view>
       </template>
     </tm-checkbox>
-    <tm-button
-      @click="publishTripsAction"
-      :margin="[24, 16]"
-      block
-      :label="`立即发布（${navigateTypeTitle}）`"
-    ></tm-button>
-    <tm-picker
-      v-model:show="startDateFlag"
-      :columns="district"
-      v-model="carpoolInfo.startDateDesc"
-      v-model:model-str="startDate"
-      :defaultValue="[0, 0]"
-    >
+    <tm-button @click="publishTripsAction" :margin="[24, 16]" block :label="`立即发布（${navigateTypeTitle}）`"></tm-button>
+    <tm-picker v-model:show="startDateFlag" :columns="district" v-model="carpoolInfo.startDateDesc"
+      v-model:model-str="startDate" :defaultValue="[0, 0]">
     </tm-picker>
 
-    <tm-modal
-      color="white"
-      okColor="primary"
-      cancelColor="primary"
-      okLinear="left"
-      :height="350"
-      splitBtn
-      title="提醒"
-      okText="确定"
-      content="您今日月卡发布行程已达上限，确认发布将消耗消费券，是否继续？"
-      v-model:show="publishNoHaveFlag"
-      @ok="publishTrips"
-    ></tm-modal>
+    <tm-modal color="white" okColor="primary" cancelColor="primary" okLinear="left" :height="350" splitBtn title="提醒"
+      okText="确定" content="您今日月卡发布行程已达上限，确认发布将消耗消费券，是否继续？" v-model:show="publishNoHaveFlag"
+      @ok="publishTrips"></tm-modal>
   </tm-app>
 </template>
 
@@ -655,6 +450,7 @@ const userInfo = ref<IUserInfo>()
 const navigateTypeTitle = ref<string>('')
 onLoad((option: any) => {
   carpoolInfo.value.type = Number(option.type)
+  carpoolInfo.value.seats = carpoolInfo.value.type === 1 ? '5' : '1'
   navigateTypeTitle.value = carpoolInfo.value.type === 1 ? '车找人' : '人找车'
   setNavigationBarTitle({ title: ` ${navigateTypeTitle.value}，发布消息` })
   getIntegralPriceAndDateDeadline()
