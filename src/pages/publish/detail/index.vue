@@ -149,7 +149,8 @@
         </view>
       </template>
     </tm-checkbox>
-    <tm-button @click="publishTripsAction" :margin="[24, 16]" block :label="`立即发布（${navigateTypeTitle}）`"></tm-button>
+    <tm-button @click="publishTripsAction" :loading="publishLoading" :margin="[24, 16]" block
+      :label="`立即发布（${navigateTypeTitle}）`"></tm-button>
     <tm-picker v-model:show="startDateFlag" :columns="district" v-model="carpoolInfo.startDateDesc"
       v-model:model-str="startDate" :defaultValue="[0, 0]">
     </tm-picker>
@@ -157,13 +158,15 @@
     <tm-modal color="white" okColor="primary" cancelColor="primary" okLinear="left" :height="350" splitBtn title="提醒"
       okText="确定" content="您今日月卡发布行程已达上限，确认发布将消耗消费券，是否继续？" v-model:show="publishNoHaveFlag"
       @ok="publishTrips"></tm-modal>
+    <canvas style="width: 480px; height: 384px;position:fixed;left:100%;" canvas-id="shareCanvas"
+      id="shareCanvas"></canvas>
   </tm-app>
 </template>
 
 <script lang="ts" setup>
 import { navigateTo, setNavigationBarTitle, switchTab } from '@/common/utils/base'
 import { IDateOptions, IDateOptionsAll, INotesItem } from '@/interfaces/publish'
-import { getDictData } from '@/service/common'
+import { getDictData, uploadFileForShareAction } from '@/service/common'
 import { onLoad } from '@dcloudio/uni-app'
 import { ref } from 'vue'
 import pinia from '@/store/store'
@@ -172,11 +175,13 @@ import { IUserInfo } from '@/interfaces/common'
 import { toast } from '@/common/utils'
 import { publish } from '@/service/rideTrips'
 import { share } from '@/tmui/tool/lib/share'
+import * as dayjs from '@/tmui/tool/dayjs/esm/index'
+const DayJs = dayjs.default
 const { onShareAppMessage, onShareTimeline } = share({
-  title: '觅行出行，回家的路不再孤单。',
-  desc: '觅行出行，回家的路不再孤单。',
+  title: '觅行出行，顺路同行。',
+  desc: '觅行出行，顺路同行。',
   path: `/pages/index/index`,
-  imageUrl: 'http://healthy.wuliang.plus/shareBanner/fc689b34e3cd5c7216908630dc0c5b3.png',
+  imageUrl: 'https://healthy.wuliang.plus/shareBanner/fc689b34e3cd5c7216908630dc0c5b3.png',
 })
 onShareAppMessage()
 onShareTimeline()
@@ -219,6 +224,7 @@ const carpoolInfo = ref<{
   topCount: number
   type: number
   startDateDesc: Array<number>
+  shareImageUrl: string
 }>({
   startAddress: '',
   channelAddress: '',
@@ -233,6 +239,7 @@ const carpoolInfo = ref<{
   topCount: 0,
   type: 1,
   startDateDesc: [0, 0],
+  shareImageUrl: ''
 })
 
 // 生成开始日期选择集合
@@ -419,10 +426,77 @@ const publishTripsAction = () => {
   publishTrips()
 }
 
+//生成分享的图片
+const genShareImage = async (startDate: string, startTime: string,
+  startAddress: string, endAddress: string, type: string) => {
+  return new Promise<void>((resolve) => {
+    let ctx = uni.createCanvasContext('shareCanvas')
+    ctx.font = "PingFang SC"
+
+    function calculateMinFontSize(ctx: UniApp.CanvasContext, text1: string, text2: string, areaWidth: number, minFontSize: number = 10, maxFontSize: number = 24): number {
+      function calculateFontSizeForText(text: string): number {
+        let fontSize = maxFontSize;
+        ctx.setFontSize(fontSize);
+        ctx.font = `${fontSize}px 'PingFang SC'`;
+        let textWidth = ctx.measureText(text).width;
+
+        while (textWidth > areaWidth && fontSize > minFontSize) {
+          fontSize--;
+          ctx.setFontSize(fontSize);
+          ctx.font = `${fontSize}px 'PingFang SC'`;
+          textWidth = ctx.measureText(text).width;
+        }
+        return fontSize;
+      }
+
+      const fontSize1 = calculateFontSizeForText(text1);
+      const fontSize2 = calculateFontSizeForText(text2);
+
+      return Math.min(fontSize1, fontSize2);
+    }
+
+
+    uni.getImageInfo({
+      src: "https://healthy.wuliang.plus/share/share.png",
+      success: function (res) {
+        if (res.errMsg === 'getImageInfo:ok') {
+          ctx.drawImage(res.path, 0, 0, res.width, res.height)
+          ctx.setFontSize(24)
+          ctx.setFillStyle('#000000')
+          ctx.fillText(type, 50, 325)
+          ctx.fillText(startDate, 50, 150)
+          ctx.setFontSize(34)
+          ctx.fillText(startTime, 170, 150)
+          ctx.setFontSize(calculateMinFontSize(ctx, startAddress, endAddress, 320))
+          ctx.fillText(startAddress, 70, 210)
+          ctx.fillText(endAddress, 70, 250)
+
+          ctx.draw(true, (ret) => {
+            uni.canvasToTempFilePath({
+              canvasId: 'shareCanvas',
+              fileType: 'png',
+              quality: 1,
+              success(result) {
+                uploadFileForShareAction(result.tempFilePath).then(res => {
+                  carpoolInfo.value.shareImageUrl = res as string
+                  resolve()
+                })
+              }
+            })
+          })
+        }
+      },
+    });
+  });
+}
+
 //发布行程
+const publishLoading = ref(false)
 const publishTrips = async () => {
+  publishLoading.value = true
   if (!isAgree.value) {
     toast('请先阅读并同意拼车协议！')
+    publishLoading.value = false
     return
   }
 
@@ -433,13 +507,15 @@ const publishTrips = async () => {
   const needTimesData: IDateOptions = needAllData.children[startDateIndexArray[1]]
   const times = needTimesData.id
   carpoolInfo.value.startDate = date + ',' + times
-
+  const formattedDate = DayJs(date).format('MM月DD日');
+  await genShareImage(formattedDate, times, carpoolInfo.value.startAddress, carpoolInfo.value.endAddress, carpoolInfo.value.type === 1 ? "车找人" : "人找车")
   const res = await publish(carpoolInfo.value)
   if (res) {
     switchTab({
       url: '/pages/index/index',
     })
   }
+  publishLoading.value = false
 }
 
 const gotoAgreementPage = () => {

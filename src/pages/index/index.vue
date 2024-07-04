@@ -77,7 +77,7 @@
     <!-- 新人注册活动 -->
     <tm-overlay align="flex-center" :overlayClick="false" v-model:show="newRegisterFlag" contentAnimation>
       <view @click.stop="" class="relative">
-        <tm-image :width="480" :height="853" src="http://healthy.wuliang.plus/active/newRegister.png"></tm-image>
+        <tm-image :width="480" :height="853" src="https://healthy.wuliang.plus/active/newRegister.png"></tm-image>
         <view class="absolute b-n20 flex flex-center fulled" style="bottom: 125rpx">
           <tm-icon @click="newRegisterFlag = false" color="orange" :fontSize="50" name="tmicon-times-circle"
             :shadow="0"></tm-icon>
@@ -105,7 +105,7 @@ const { onShareAppMessage, onShareTimeline } = share({
   title: '觅行出行，回家的路不再孤单。',
   desc: '觅行出行，回家的路不再孤单。',
   path: `/pages/index/index`,
-  imageUrl: 'http://healthy.wuliang.plus/shareBanner/fc689b34e3cd5c7216908630dc0c5b3.png',
+  imageUrl: 'https://healthy.wuliang.plus/shareBanner/fc689b34e3cd5c7216908630dc0c5b3.png',
 })
 onShareAppMessage()
 onShareTimeline()

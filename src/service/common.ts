@@ -13,3 +13,9 @@ export const uploadFileAction = (imageUrl: string) => {
 export const getNoticesByType = (type: string) => {
   return get(`/common/getNoticesByType`, { type: type })
 }
+
+//上传分享图片
+export const uploadFileForShareAction = (imageUrl: string) => {
+  return uploadFile(`/common/uploadFileForShare`, imageUrl)
+}
+

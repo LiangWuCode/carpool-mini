@@ -172,7 +172,6 @@ export const uploadFile = function (url: string, src: string) {
         uni.hideLoading()
 
         try {
-          console.log(res)
           let d = JSON.parse(res.data)
           console.log(d.code === 200, d)
           if (d.code === 200) {

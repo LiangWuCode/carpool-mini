@@ -3,7 +3,7 @@
     <view class="relative">
       <view>
         <img
-          src="http://healthy.wuliang.plus/active/newRegisterBackground3.png"
+          src="https://healthy.wuliang.plus/active/newRegisterBackground3.png"
           style="width: 100vw; height: 100vh"
         />
       </view>
@@ -47,7 +47,7 @@ const { onShareAppMessage, onShareTimeline } = share({
   title: '点击领好礼,月卡行程券免费赠送！',
   desc: '觅行出行，回家的路不再孤单。',
   path: `/pages/activity/newRegister/index`,
-  imageUrl: 'http://healthy.wuliang.plus/shareBanner/fc689b34e3cd5c7216908630dc0c5b3.png',
+  imageUrl: 'https://healthy.wuliang.plus/shareBanner/fc689b34e3cd5c7216908630dc0c5b3.png',
 })
 onShareAppMessage()
 onShareTimeline()
