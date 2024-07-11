@@ -123,6 +123,14 @@
           ></view>
         </template>
       </tm-cell>
+      <!-- <tm-cell :margin="[0, 0]" :titleFontSize="30" url="/pages/activity/lottery/index">
+        <template v-slot:title>
+          <view class="flex"
+            ><tm-icon color="primary" _class="mr-20" name="tmicon-database-set"></tm-icon>
+            <tm-text label="抽奖"></tm-text
+          ></view>
+        </template>
+      </tm-cell> -->
     </tm-sheet>
   </tm-app>
 </template>

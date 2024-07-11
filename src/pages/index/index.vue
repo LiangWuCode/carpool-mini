@@ -110,6 +110,7 @@ const { onShareAppMessage, onShareTimeline } = share({
 onShareAppMessage()
 onShareTimeline()
 
+
 const tabsTitle = ref([
   { key: '0', title: '全部', icon: 'tmicon-box-fill' },
   { key: '1', title: '车找人', icon: 'tmicon-qiche' },
@@ -166,7 +167,7 @@ const goToRideTripsDetailPage = (rideTripsId: number | undefined) => {
   navigateTo({ url: `/pages/index/rideTripsDetail/index?rideTripsId=${rideTripsId}` })
 }
 
-const listimg = ref<Array<{ url: string; navigateUrl: string }>>([])
+const listimg = ref<Array<{ url: string; navigateUrl: string }>>([{ url: '', navigateUrl: '' }])
 // 首页数据
 const getHomeData = async () => {
   const res = await getDictData('mini_home')

@@ -106,6 +106,14 @@
         "navigationBarTitleText": ""
       }
     }
+    ,
+    {
+      "path": "pages/activity/lottery/index",
+      "style": {
+        "navigationBarTitleText": "抽奖",
+        "navigationBarBackgroundColor": "#DB4E4E"
+      }
+    }
   ],
   "tabBar": {
     "color": "#999999",

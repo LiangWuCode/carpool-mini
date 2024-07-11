@@ -158,7 +158,7 @@
     <tm-modal color="white" okColor="primary" cancelColor="primary" okLinear="left" :height="350" splitBtn title="提醒"
       okText="确定" content="您今日月卡发布行程已达上限，确认发布将消耗消费券，是否继续？" v-model:show="publishNoHaveFlag"
       @ok="publishTrips"></tm-modal>
-    <canvas style="width: 480px; height: 384px;position:fixed;left:100%;" canvas-id="shareCanvas"
+    <canvas style="width: 480px; height: 384px;position:fixed;left:100%;" type="2d" canvas-id="shareCanvas"
       id="shareCanvas"></canvas>
   </tm-app>
 </template>
