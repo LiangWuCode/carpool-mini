@@ -158,7 +158,7 @@
     <tm-modal color="white" okColor="primary" cancelColor="primary" okLinear="left" :height="350" splitBtn title="提醒"
       okText="确定" content="您今日月卡发布行程已达上限，确认发布将消耗消费券，是否继续？" v-model:show="publishNoHaveFlag"
       @ok="publishTrips"></tm-modal>
-    <canvas style="width: 480px; height: 384px;position:fixed;left:100%;" type="2d" canvas-id="shareCanvas"
+    <canvas style="width: 480px; height: 384px;position:fixed;left:100%;" canvas-id="shareCanvas"
       id="shareCanvas"></canvas>
   </tm-app>
 </template>
@@ -178,8 +178,8 @@ import { share } from '@/tmui/tool/lib/share'
 import * as dayjs from '@/tmui/tool/dayjs/esm/index'
 const DayJs = dayjs.default
 const { onShareAppMessage, onShareTimeline } = share({
-  title: '觅行出行，顺路同行。',
-  desc: '觅行出行，顺路同行。',
+  title: '轻松觅行，快乐出行！',
+  desc: '轻松觅行，快乐出行！',
   path: `/pages/index/index`,
   imageUrl: 'https://healthy.wuliang.plus/shareBanner/fc689b34e3cd5c7216908630dc0c5b3.png',
 })
@@ -459,6 +459,7 @@ const genShareImage = async (startDate: string, startTime: string,
     uni.getImageInfo({
       src: "https://healthy.wuliang.plus/share/share.png",
       success: function (res) {
+        console.log(res)
         if (res.errMsg === 'getImageInfo:ok') {
           ctx.drawImage(res.path, 0, 0, res.width, res.height)
           ctx.setFontSize(24)
