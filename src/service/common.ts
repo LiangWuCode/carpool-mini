@@ -19,3 +19,9 @@ export const uploadFileForShareAction = (imageUrl: string) => {
   return uploadFile(`/common/uploadFileForShare`, imageUrl)
 }
 
+//获取分享图片
+export const getRiderUrlById = (id: number) => {
+  return get(`/common/getRiderUrlById`, { id: id })
+}
+
+

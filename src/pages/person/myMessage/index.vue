@@ -1,5 +1,6 @@
 <template>
   <tm-app ref="app">
+    <tm-result v-show="ownRideMessageData?.length === 0" :showBtn="false"></tm-result>
     <tm-sheet
       :margin="[24, 12]"
       :round="3"

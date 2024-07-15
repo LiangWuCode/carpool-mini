@@ -164,7 +164,7 @@ const getRideTripsListAction = async () => {
 
 //跳转至行程详情页
 const goToRideTripsDetailPage = (rideTripsId: number | undefined) => {
-  navigateTo({ url: `/pages/index/rideTripsDetail/index?rideTripsId=${rideTripsId}` })
+  navigateTo({ url: `/pages/index/rideTripsDetail/index?rideTripsId=${rideTripsId}&type=1` })
 }
 
 const listimg = ref<Array<{ url: string; navigateUrl: string }>>([{ url: '', navigateUrl: '' }])

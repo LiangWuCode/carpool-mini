@@ -1,4 +1,4 @@
-import { get, post,del } from '@/common/utils/httpRequest'
+import { get, post, del } from '@/common/utils/httpRequest'
 import { IPageRequestCommon } from '@/interfaces/common'
 import { IGetRideTrips, ISaveRideTrips } from '@/interfaces/rideTrips'
 
@@ -17,6 +17,12 @@ export const getRideTripsDetail = (id: number) => {
   return get(`/rideTrips/${id}`)
 }
 
+// 获取行程详情朋友圈
+export const findByIdShareLine = (id: number) => {
+  return get(`/rideTrips/findByIdShareLine`, { id: id })
+}
+
+
 // 获取我的行程
 export const getOwnRideTripsList = (rideTrips: IPageRequestCommon) => {
   return get(`/rideTrips/getOwnRideTripsList`, rideTrips)
@@ -28,7 +34,7 @@ export const setFullSeat = (rideTripsId: number) => {
 }
 
 //置顶
-export const setTop = (rideTripsId: number,topCount:number) => {
+export const setTop = (rideTripsId: number, topCount: number) => {
   return get(`/rideTrips/setTop?rideTripsId=${rideTripsId}&topCount=${topCount}`)
 }
 

@@ -1,116 +1,55 @@
 <template>
   <tm-app ref="app">
-    <tm-sheet
-      v-for="(item, index) in ownRideTripsData"
-      :key="index"
-      :margin="[24, 12]"
-      :round="3"
-      :padding="[12, 24]"
-    >
+    <tm-result v-show="ownRideTripsData?.length === 0" :showBtn="false"></tm-result>
+    <tm-sheet v-for="(item, index) in ownRideTripsData" :key="index" :margin="[24, 12]" :round="3" :padding="[12, 24]">
       <view class="relative">
         <view class="flex flex-row-center-between">
           <view class="flex flex-row-center-center">
-            <tm-tag
-              :padding="[0, 10]"
-              color="red"
-              v-show="item.isTop === 1"
-              size="s"
-              label="置顶"
-            ></tm-tag>
-            <tm-tag
-              :padding="[0, 10]"
-              color="primary"
-              size="s"
-              v-show="item.type === 1"
-              label="车找人"
-            ></tm-tag>
-            <tm-tag
-              :padding="[0, 10]"
-              color="orange"
-              size="s"
-              v-show="item.type === 2"
-              label="人找车"
-            ></tm-tag>
+            <tm-tag :padding="[0, 10]" color="red" v-show="item.isTop === 1" size="s" label="置顶"></tm-tag>
+            <tm-tag :padding="[0, 10]" color="primary" size="s" v-show="item.type === 1" label="车找人"></tm-tag>
+            <tm-tag :padding="[0, 10]" color="orange" size="s" v-show="item.type === 2" label="人找车"></tm-tag>
+            <tm-tag :padding="[0, 10]" color="green" size="s" v-if="item.status === 1"
+              :label="item.type === 1 ? '已满员' : '已预定'"></tm-tag>
+            <tm-tag :padding="[0, 10]" color="teal" size="s" v-else-if="item.status === 2" label="已出发"></tm-tag>
+            <tm-tag :padding="[0, 10]" color="grey-darken-2" size="s" v-else-if="item.status === 3" label="已删除"></tm-tag>
             <tm-text v-show="item.type === 1" :font-size="24" label="还有"></tm-text>
             <tm-text v-show="item.type === 2" :font-size="24" label="有"></tm-text>
-            <tm-text
-              :font-size="28"
-              color="red"
-              class="text-weight-b mx-8"
-              :label="item.seats"
-            ></tm-text>
+            <tm-text :font-size="28" color="red" class="text-weight-b mx-8" :label="item.seats"></tm-text>
             <tm-text v-show="item.type === 1" :font-size="24" label="个座位"></tm-text>
             <tm-text v-show="item.type === 2" :font-size="24" label="人同行"></tm-text>
           </view>
           <view class="mr-10">
-            <tm-text
-              @click="goToRideTripsDetailPage(item.id)"
-              :fontSize="24"
-              color="grey"
-              label="查看详情页"
-            ></tm-text>
+            <tm-text @click="goToRideTripsDetailPage(item.id)" :fontSize="24" color="grey" label="查看详情页"></tm-text>
           </view>
         </view>
         <view class="flex flex-row-center-start mt-10 ml-8">
           <tm-text :font-size="36" :label="item.startAddress" class="text-weight-b"></tm-text>
-          <view class="mx-10"
-            ><tm-icon color="primary" :font-size="30" name="tmicon-ios-arrow-dropright-"></tm-icon
-          ></view>
+          <view class="mx-10"><tm-icon color="primary" :font-size="30" name="tmicon-ios-arrow-dropright-"></tm-icon>
+          </view>
           <tm-text :font-size="36" :label="item.endAddress" class="text-weight-b"></tm-text>
         </view>
         <view>
-          <tm-text
-            _class="d-inline-block border-1 pa-5 mt-10 round-3"
-            :font-size="26"
-            :label="item.startDate"
-          ></tm-text>
+          <tm-text _class="d-inline-block border-1 pa-5 mt-10 round-3" :font-size="26"
+            :label="item.startDate"></tm-text>
         </view>
         <view v-show="item.type === 1 && item.channelAddress != ''">
-          <tm-text
-            color="grey-darken-1"
-            _class="d-inline-block pa-5 mt-5"
-            :font-size="26"
-            :label="`途径：` + item.channelAddress"
-          ></tm-text>
+          <tm-text color="grey-darken-1" _class="d-inline-block pa-5 mt-5" :font-size="26"
+            :label="`途径：` + item.channelAddress"></tm-text>
         </view>
         <view>
-          <tm-text
-            _class="d-inline-block pa-5 mt-5"
-            color="grey-darken-1"
-            :font-size="26"
-            :label="item.notes"
-          ></tm-text>
+          <tm-text _class="d-inline-block pa-5 mt-5" color="grey-darken-1" :font-size="26"
+            :label="item.notes"></tm-text>
         </view>
         <view>
-          <tm-text
-            _class="d-inline-block pa-5 mt-5"
-            color="grey-darken-1"
-            :font-size="24"
-            :label="item.createDateDesc"
-          ></tm-text>
+          <tm-text _class="d-inline-block pa-5 mt-5" color="grey-darken-1" :font-size="24"
+            :label="item.createDateDesc"></tm-text>
         </view>
         <tm-divider></tm-divider>
         <view class="flex flex-end">
-          <tm-button
-            color="orange"
-            :margin="[10, 0]"
-            :shadow="0"
-            text
-            size="small"
-            label="置顶"
-            v-show="item.status === 0"
-            @click="gotoSetTopPage(item.id)"
-          ></tm-button>
-          <tm-button
-            color="green"
-            :margin="[10, 0]"
-            :shadow="0"
-            v-show="item.status === 0"
-            text
-            size="small"
-            :label="item.type === 1 ? '设满座' : '已预定'"
-            @click="fullSeatAction(item)"
-          ></tm-button>
+          <tm-button color="orange" :margin="[10, 0]" :shadow="0" text size="small" label="置顶"
+            v-show="item.status === 0" @click="gotoSetTopPage(item.id)"></tm-button>
+          <tm-button color="green" :margin="[10, 0]" :shadow="0" v-show="item.status === 0" text size="small"
+            :label="item.type === 1 ? '设满座' : '已预定'" @click="fullSeatAction(item)"></tm-button>
           <!-- <tm-button
             color="green"
             :margin="[10, 0]"
@@ -120,60 +59,15 @@
             label="编辑"
             v-show="item.status === 0"
           ></tm-button> -->
-          <tm-button
-            color="red"
-            :margin="[10, 0]"
-            :shadow="0"
-            v-show="item.status != 3"
-            text
-            size="small"
-            label="删除"
-            @click="deleteRideTripsAction(item.id)"
-          ></tm-button>
-        </view>
-        <view class="absolute r-10 t-n10">
-          <!-- <tm-image v-if="item.status === 0" :width="150" :height="150" :src="status0"></tm-image> -->
-          <tm-image
-            v-if="item.status === 1"
-            :width="150"
-            :height="150"
-            :src="item.type === 1 ? status1_1 : status1_2"
-          ></tm-image>
-          <tm-image
-            v-else-if="item.status === 2"
-            :width="150"
-            :height="150"
-            :src="status2"
-          ></tm-image>
-          <tm-image
-            v-else-if="item.status === 3"
-            :width="150"
-            :height="150"
-            :src="status3"
-          ></tm-image>
+          <tm-button color="red" :margin="[10, 0]" :shadow="0" v-show="item.status != 3" text size="small" label="删除"
+            @click="deleteRideTripsAction(item.id)"></tm-button>
         </view>
       </view>
     </tm-sheet>
-    <tm-modal
-      color="white"
-      okLinear="left"
-      splitBtn
-      @ok="setFullSeatAction"
-      title="操作确认"
-      :content="fullSeatModalContent"
-      v-model:show="setFullSeatModalShow"
-    ></tm-modal>
-    <tm-modal
-      color="white"
-      okColor="red"
-      cancelColor="red"
-      okLinear="left"
-      splitBtn
-      @ok="deleteRideTripsReal"
-      title="删除提醒"
-      content="请注意，若删除当前行程将不会被其他人查看到！"
-      v-model:show="deleteTripsModalShow"
-    ></tm-modal>
+    <tm-modal color="white" okLinear="left" splitBtn @ok="setFullSeatAction" title="操作确认"
+      :content="fullSeatModalContent" v-model:show="setFullSeatModalShow"></tm-modal>
+    <tm-modal color="white" okColor="red" cancelColor="red" okLinear="left" splitBtn @ok="deleteRideTripsReal"
+      title="删除提醒" content="请注意，若删除当前行程将不会被其他人查看到！" v-model:show="deleteTripsModalShow"></tm-modal>
   </tm-app>
 </template>
 
@@ -184,11 +78,6 @@ import { deleteRideTrips, getOwnRideTripsList, setFullSeat } from '@/service/rid
 import { IPageRequestCommon } from '@/interfaces/common'
 import { IOwnRideTripsList } from '@/interfaces/rideTrips'
 import { navigateTo } from '@/common/utils/base'
-// import status0 from '@/static/status/0.png'
-import status1_1 from '@/static/status/1.png'
-import status1_2 from '@/static/status/1-1.png'
-import status2 from '@/static/status/2.png'
-import status3 from '@/static/status/3.png'
 
 //跳转至行程详情页
 const goToRideTripsDetailPage = (rideTripsId: number | undefined) => {
@@ -245,11 +134,10 @@ const fullSeatModalContent = ref('')
 const fullSeatAction = (item: IOwnRideTripsList) => {
   setFullSeatModalShow.value = true
   rideTripsId.value = item.id
-  fullSeatModalContent.value = `${
-    item.type === 1
-      ? '请注意，设置满座后，行程电话将会被隐藏，是否确认进行此操作！'
-      : '请注意，设置已预定后，行程电话将会被隐藏，是否确认进行此操作！'
-  }`
+  fullSeatModalContent.value = `${item.type === 1
+    ? '请注意，设置满座后，行程电话将会被隐藏，是否确认进行此操作！'
+    : '请注意，设置已预定后，行程电话将会被隐藏，是否确认进行此操作！'
+    }`
 }
 
 //新增满座
