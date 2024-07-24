@@ -38,6 +38,8 @@ export interface IRideTripsList {
   messageCount: number
   isTop?: number
   shareImageUrl?: string
+  source?:number
+  groupRemark?: string
 }
 
 export interface IPoint {

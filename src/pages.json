@@ -113,6 +113,12 @@
         "navigationBarTitleText": "抽奖",
         "navigationBarBackgroundColor": "#DB4E4E"
       }
+    },
+    {
+      "path": "pages/person/mySetting/index",
+      "style": {
+        "navigationBarTitleText": "设置"
+      }
     }
   ],
   "tabBar": {
