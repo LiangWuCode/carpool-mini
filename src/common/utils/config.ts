@@ -10,8 +10,8 @@ export const appId = 'wx1077326c20dbda47'
 
 type envType = 'dev' | 'prod' | 'test'
 export let env: envType = 'prod'
-// env = 'dev'
-env = 'test'
+env = 'dev'
+// env = 'test'
 
 export const getBaseURL = () => {
   // 正式环境地址

@@ -85,29 +85,29 @@
               :label="item.type === 1 ? '已满座' : '已预订'"
             ></tm-tag>
             <tm-text
-              v-show="item.type === 1 && item.status === 0"
+              v-show="item.type === 1 && item.status === 0&& item.seatShow === 1"
               :font-size="24"
               label="还有"
             ></tm-text>
             <tm-text
-              v-show="item.type === 2 && item.status === 0"
+              v-show="item.type === 2 && item.status === 0&& item.seatShow === 1"
               :font-size="24"
               label="有"
             ></tm-text>
             <tm-text
-              v-show="item.status === 0"
+              v-show="item.status === 0&& item.seatShow === 1"
               :font-size="28"
               color="red"
               class="text-weight-b mx-8"
               :label="item.seats"
             ></tm-text>
             <tm-text
-              v-show="item.type === 1 && item.status === 0"
+              v-show="item.type === 1 && item.status === 0&& item.seatShow === 1"
               :font-size="24"
               label="个座位"
             ></tm-text>
             <tm-text
-              v-show="item.type === 2 && item.status === 0"
+              v-show="item.type === 2 && item.status === 0&& item.seatShow === 1"
               :font-size="24"
               label="人同行"
             ></tm-text>

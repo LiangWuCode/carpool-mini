@@ -4,30 +4,55 @@
       <view class="flex flex-row-center-between my-5">
         <view><tm-text label="是否展示行程人数"></tm-text></view>
         <view class="flex">
-          <tm-switch v-model="setting.seatShow" :default-value="setting.seatShow"></tm-switch
-        ></view>
+          <tm-switch v-model="setting.seatShow" :selected="1" :unSelected="0"
+            :default-value="setting.seatShow"></tm-switch>
+        </view>
       </view>
       <tm-divider></tm-divider>
       <view class="flex flex-row-center-between my-5">
         <view><tm-text label="是否同步到群组"></tm-text></view>
         <view class="flex">
-          <tm-switch v-model="setting.groupShow" :default-value="setting.groupShow"></tm-switch
-        ></view>
+          <tm-switch disabled v-model="setting.groupShow" :selected="1" :unSelected="0"
+            :default-value="setting.groupShow"></tm-switch>
+        </view>
+      </view>
+      <tm-divider></tm-divider>
+      <view class="flex flex-row-center-between my-5">
+        <view><tm-text label="是否推送留言"></tm-text></view>
+        <view class="flex">
+          <tm-switch disabled v-model="setting.messageShow" :selected="1" :unSelected="0"
+            :default-value="setting.messageShow"></tm-switch>
+        </view>
       </view>
     </tm-sheet>
+
+    <tm-button @click="updateUserSettingAction" class="mx-24 mt-n10" block label="提交修改"></tm-button>
   </tm-app>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { onShow, onLoad } from '@dcloudio/uni-app'
+import { onShow } from '@dcloudio/uni-app'
+import { findByUserId, updateUserSetting } from '@/service/setting';
+import { IUserSetting } from '@/interfaces/setting';
 
-const setting = ref<{ seatShow: boolean; groupShow: boolean }>({
-  seatShow: false,
-  groupShow: false,
+const setting = ref<IUserSetting>({
+  seatShow: 0,
+  groupShow: 0,
+  messageShow: 0
 })
-const confirm = e => {
-  console.log(e)
+const findByUserIdAction = async () => {
+  const res = await findByUserId()
+  if (res) {
+    setting.value = res.data as IUserSetting
+  }
 }
-onLoad(() => {})
+
+const updateUserSettingAction = async () => {
+  await updateUserSetting(setting.value)
+}
+
+onShow(() => {
+  findByUserIdAction()
+})
 </script>

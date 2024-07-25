@@ -40,6 +40,7 @@ export interface IRideTripsList {
   shareImageUrl?: string
   source?:number
   groupRemark?: string
+  seatShow?:number
 }
 
 export interface IPoint {
