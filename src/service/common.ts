@@ -24,4 +24,8 @@ export const getRiderUrlById = (id: number) => {
   return get(`/common/getRiderUrlById`, { id: id })
 }
 
+export const getPhoneNo = (code: string) => {
+  return get(`/common/getPhoneNo`, { code: code })
+}
+
 

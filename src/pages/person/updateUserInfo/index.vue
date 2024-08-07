@@ -2,24 +2,10 @@
   <tm-app ref="app">
     <tm-sheet :margin="[0, 0, 0, 0]" :padding="[0, 48]" color="blue">
       <view class="flex flex-col flex-center fulled">
-        <tm-avatar
-          outlined
-          :size="100"
-          :round="16"
-          color="white"
-          icon="tmicon-weixin"
-          :img="changeUserInfoData.avatarUrl"
-        ></tm-avatar>
-        <tm-button
-          :width="300"
-          :margin="[0, 24]"
-          open-type="chooseAvatar"
-          @chooseavatar="onChooseavatar"
-          text
-          size="small"
-          outlined
-          label="点这里，获取头像"
-        ></tm-button>
+        <tm-avatar outlined :size="100" :round="16" color="white" icon="tmicon-weixin"
+          :img="changeUserInfoData.avatarUrl"></tm-avatar>
+        <tm-button :width="300" :margin="[0, 24]" open-type="chooseAvatar" @chooseavatar="onChooseavatar" text
+          size="small" outlined label="点这里，获取头像"></tm-button>
       </view>
     </tm-sheet>
     <tm-sheet :margin="[24, 24]" :round="3">
@@ -31,12 +17,8 @@
             <tm-text _class="mr-5" :font-size="30" color="red" label="*"></tm-text>
           </view>
           <view class="ml-10 fulled border-l-2 pl-20">
-            <tm-input
-              v-model="changeUserInfoData.username"
-              placeholder="输入昵称"
-              :transprent="true"
-              class="fulled mr-20"
-            ></tm-input>
+            <tm-input v-model="changeUserInfoData.username" placeholder="输入昵称" :transprent="true"
+              class="fulled mr-20"></tm-input>
           </view>
         </view>
       </view>
@@ -65,54 +47,30 @@
             <tm-text _class="mr-5" :font-size="30" color="red" label="*"></tm-text>
           </view>
           <view class="flex fulled flex-row-center-between ml-10 border-l-2 pl-20">
-            <tm-input
-              v-model="changeUserInfoData.photo"
-              placeholder="输入号码"
-              type="number"
-              :transprent="true"
-              class="fulled mr-20"
-            ></tm-input>
-            <!-- <tm-button
-              :margin="[0]"
-              :padding="[0, 20]"
-              :width="140"
-              size="small"
-              openType="feedback"
-             
-              label="获取手机号"
-            ></tm-button> -->
+            <tm-input v-model="changeUserInfoData.photo" placeholder="输入号码" disabled type="number" :transprent="true"
+              class="fulled mr-20"></tm-input>
+            <tm-button :margin="[0]" :padding="[0, 20]" :width="140" size="small" openType="getPhoneNumber"
+              :disabled="changeUserInfoData.photo" @getphonenumber="getphonenumber" label="获取手机号"></tm-button>
           </view>
         </view>
       </view>
       <tm-divider></tm-divider>
       <view class="flex flex-row-center-between">
         <view class="flex fulled flex-row-center-between">
-          <view
-            class="flex flex-shrink fulled flex-row-center-between pr-n10"
-            style="width: 120rpx"
-          >
+          <view class="flex flex-shrink fulled flex-row-center-between pr-n10" style="width: 120rpx">
             <tm-icon :font-size="26" color="teal" name="tmicon-weixin"></tm-icon>
             <tm-text label="微信"></tm-text>
             <!-- <tm-text _class="mr-5" :font-size="30" color="red" label="*"></tm-text> -->
           </view>
           <view class="ml-10 fulled border-l-2 pl-20">
-            <tm-input
-              v-model="changeUserInfoData.chatInfo"
-              placeholder="输入微信号"
-              :transprent="true"
-              class="fulled mr-20"
-            ></tm-input>
+            <tm-input v-model="changeUserInfoData.chatInfo" placeholder="输入微信号" :transprent="true"
+              class="fulled mr-20"></tm-input>
           </view>
         </view>
       </view>
     </tm-sheet>
 
-    <tm-button
-      @click="changePersonInfoAction"
-      class="mx-24 mt-n10"
-      block
-      label="提交修改"
-    ></tm-button>
+    <tm-button @click="changePersonInfoAction" class="mx-24 mt-n10" block label="提交修改"></tm-button>
   </tm-app>
 </template>
 
@@ -120,7 +78,7 @@
 import { getUserInfoAction } from '@/common/ts/nav'
 import { toast } from '@/common/utils'
 import { IChangeUserInfo, IUserInfo } from '@/interfaces/common'
-import { uploadFileAction } from '@/service/common'
+import { getPhoneNo, uploadFileAction } from '@/service/common'
 import { changePersonInfo } from '@/service/user'
 import { ref } from 'vue'
 import pinia from '@/store/store'
@@ -134,9 +92,16 @@ const onChooseavatar = (e: any) => {
     changeUserInfoData.value.avatarUrl = res as string
   })
 }
-// const getphonenumber = e => {
-//   console.log(e)
-// }
+const getphonenumber = async (e: any) => {
+  console.log(e)
+  if (e.target.errMsg === 'getPhoneNumber:ok') {
+    const res = await getPhoneNo(e.detail.code)
+    if (res) {
+      changeUserInfoData.value.photo = res.data as any
+    }
+  }
+
+}
 const changeUserInfoData = ref<IChangeUserInfo>({
   avatarUrl: '',
   username: '',
