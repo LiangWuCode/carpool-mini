@@ -35,6 +35,7 @@ import { ref } from 'vue'
 import { onShow } from '@dcloudio/uni-app'
 import { findByUserId, updateUserSetting } from '@/service/setting';
 import { IUserSetting } from '@/interfaces/setting';
+import { toast } from '@/common/utils';
 
 const setting = ref<IUserSetting>({
   seatShow: 0,
@@ -49,7 +50,10 @@ const findByUserIdAction = async () => {
 }
 
 const updateUserSettingAction = async () => {
-  await updateUserSetting(setting.value)
+  const res = await updateUserSetting(setting.value)
+  if (res) {
+    toast('设置成功！', 2000)
+  }
 }
 
 onShow(() => {

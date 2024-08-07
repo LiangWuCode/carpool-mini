@@ -113,7 +113,7 @@
             ></tm-text>
           </view>
           <view class="mr-10">
-            <tm-text :label="item.source && item.source != 3 ? '精选' : ' '"></tm-text>
+            <tm-text :font-size="30" color="teal" class="text-weight-b" :label="item.source && item.source != 3 ? '优选' : ' '"></tm-text>
             <!-- <tm-icon :font-size="40" color="green" name="tmicon-weixin"></tm-icon> -->
           </view>
         </view>
