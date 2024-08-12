@@ -75,7 +75,7 @@
       </tm-cell>
     </tm-sheet>
     <tm-sheet :margin="[24, 12]" :round="3">
-      <tm-cell :margin="[0, 0]" :titleFontSize="30" url="/pages/person/updateUserInfo/index">
+      <tm-cell :margin="[0, 0]" @click="gotoUpdateUserInfoPage" :titleFontSize="30">
         <template v-slot:title>
           <view class="flex"
             ><tm-icon color="primary" _class="mr-20" name="tmicon-database-set"></tm-icon>
@@ -105,7 +105,7 @@
     </tm-sheet>
 
     <tm-sheet :margin="[24, 12]" :padding="[24, 0]" :round="3">
-      <tm-cell :margin="[0, 0]" :titleFontSize="30" url="/pages/person/mySetting/index">
+      <tm-cell :margin="[0, 0]" :titleFontSize="30" @click="gotoMySettingPage">
         <template v-slot:title>
           <view class="flex"
             ><tm-icon color="primary" _class="mr-20" name="tmicon-database-set"></tm-icon>
@@ -140,6 +140,8 @@
         </template>
       </tm-cell> -->
     </tm-sheet>
+    <tm-modal color="white" okColor="primary" cancelColor="primary" okLinear="left" :height="350" splitBtn title="提醒"
+      okText="确定" content="您还未完善用户信息，确定跳转信息完善页面吗？" v-model:show="userInfoFlag" @ok="gotoUpdateUserInfoPage"></tm-modal>
   </tm-app>
 </template>
 
@@ -165,6 +167,22 @@ const userStore = useUser(pinia)
 // 跳转到券充值页
 const goToPayPage = () => {
   navigateTo({ url: '/pages/payTicket/index' })
+}
+
+const userInfoFlag = ref(false)
+const gotoMySettingPage = (navigatorType: number) => {
+  if (userStore.isAuth()) {
+    navigateTo({
+      url: '/pages/person/mySetting/index'
+    })
+  } else {
+    userInfoFlag.value = true
+  }
+}
+const gotoUpdateUserInfoPage = () => {
+  navigateTo({
+    url: '/pages/person/updateUserInfo/index',
+  })
 }
 
 const gotoAgreementPage = () => {

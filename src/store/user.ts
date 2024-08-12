@@ -59,7 +59,7 @@ export const useUser = defineStore({
       return this.userInfo.token ? true : false
     },
     isAuth() {
-      return !!this.userInfo.token && !!this.userInfo.nickName && !!this.userInfo.avatar
+      return !!this.userInfo.token && !!this.userInfo.nickName && !!this.userInfo.avatar&& !!this.userInfo.mobile
     },
   },
   // 持久化存储
