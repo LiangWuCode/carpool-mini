@@ -14,6 +14,7 @@
         :width="710"
         :height="300"
         :list="listimg"
+        showLoad
         model="dot"
         @click="carouselTap"
       ></tm-carousel>
@@ -113,7 +114,9 @@
             ></tm-text>
           </view>
           <view class="mr-10">
-            <tm-text :font-size="30" color="teal" class="text-weight-b" :label="item.source && item.source != 3 ? '优选' : ' '"></tm-text>
+            <tm-text :font-size="26" color="#FF9800" class="text-weight-b" v-if="item.source === 1" label="优选"></tm-text>
+            <tm-text :font-size="26" color="#2196F3" class="text-weight-b" v-if="item.source === 2" label="官方"></tm-text>
+            <tm-text :font-size="26" color="#9E9E9E" class="text-weight-b" v-if="item.source === 3" label="群聊"></tm-text>
             <!-- <tm-icon :font-size="40" color="green" name="tmicon-weixin"></tm-icon> -->
           </view>
         </view>
@@ -128,7 +131,7 @@
           <tm-text
             _class="d-inline-block border-1 pa-5 mt-10 round-3"
             :font-size="26"
-            :label="item.source && item.source != 3?item.startDate:item.groupRemark"
+            :label="item.startDate"
           ></tm-text>
         </view>
         <view v-show="item.type === 1 && item.channelAddress != '' && item.channelAddress != null">
@@ -161,7 +164,7 @@
               _class="ml-10"
               color="orange"
               :font-size="26"
-              :label="`${item.createDateDesc}前发布 ·${item.viewCount}次浏览`"
+              :label="`${item.createDateDesc}前发布 ${item.viewCount>0?`·${item.viewCount}次浏览`:''}`"
             ></tm-text>
             <tm-text
               color="orange"
