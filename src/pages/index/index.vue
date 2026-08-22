@@ -7,6 +7,8 @@
       linear="bottom"
     >
       <tm-carousel
+        v-if="listimg && listimg.length"
+        :key="carouselKey"
         autoplay
         :margin="[0, 8]"
         :padding="[0, 0]"
@@ -197,6 +199,7 @@
       :overlayClick="false"
       v-model:show="newRegisterFlag"
       contentAnimation
+      bgColor="rgba(0,0,0,0.5)"
     >
       <view @click.stop="" class="relative">
         <tm-image
@@ -216,9 +219,9 @@
         <view
           @click="gotoNewRegisterPage"
           class="absolute flex flex-center fulled"
-          style="bottom: 275rpx"
+          style="bottom: 280rpx"
         >
-          <tm-text color="red" :fontSize="32" label="立即领取"></tm-text>
+          <tm-text _class="text-weight-b" color="red" :fontSize="30" label="立即领取"></tm-text>
         </view>
       </view>
     </tm-overlay>
@@ -301,7 +304,8 @@ const goToRideTripsDetailPage = (rideTripsId: number | undefined) => {
   navigateTo({ url: `/pages/index/rideTripsDetail/index?rideTripsId=${rideTripsId}&type=1` })
 }
 
-const listimg = ref<Array<{ url: string; navigateUrl: string }>>([{ url: '', navigateUrl: '' }])
+const listimg = ref<Array<{ url: string; navigateUrl: string }>>([])
+const carouselKey = ref(0)
 // 首页数据
 const getHomeData = async () => {
   const res = await getDictData('mini_home')
@@ -312,6 +316,8 @@ const getHomeData = async () => {
         navigateUrl: item.label,
       }
     })
+    // 使用时间戳强制重建轮播，避免渲染竞态只显示第一张
+    carouselKey.value = Date.now()
   }
 }
 const carouselTap = (idx: number) => {

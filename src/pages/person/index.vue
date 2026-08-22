@@ -104,7 +104,7 @@
       </tm-cell>
     </tm-sheet>
 
-    <tm-sheet :margin="[24, 12]" :padding="[24, 0]" :round="3">
+    <!-- <tm-sheet :margin="[24, 12]" :padding="[24, 0]" :round="3">
       <tm-cell :margin="[0, 0]" :titleFontSize="30" @click="gotoMySettingPage">
         <template v-slot:title>
           <view class="flex"
@@ -131,16 +131,16 @@
           ></view>
         </template>
       </tm-cell>
-      <!-- <tm-cell :margin="[0, 0]" :titleFontSize="30" url="/pages/activity/lottery/index">
+      <tm-cell :margin="[0, 0]" :titleFontSize="30" url="/pages/activity/lottery/index">
         <template v-slot:title>
           <view class="flex"
             ><tm-icon color="primary" _class="mr-20" name="tmicon-database-set"></tm-icon>
             <tm-text label="抽奖"></tm-text
           ></view>
         </template>
-      </tm-cell> -->
-    </tm-sheet>
-    <tm-modal color="white" okColor="primary" cancelColor="primary" okLinear="left" :height="350" splitBtn title="提醒"
+      </tm-cell>
+    </tm-sheet> -->
+    <tm-modal color="white" okColor="primary" cancelColor="primary" :mask="true" :height="350" splitBtn title="提醒"
       okText="确定" content="您还未完善用户信息，确定跳转信息完善页面吗？" v-model:show="userInfoFlag" @ok="gotoUpdateUserInfoPage"></tm-modal>
   </tm-app>
 </template>

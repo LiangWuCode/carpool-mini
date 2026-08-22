@@ -47,10 +47,10 @@
             <tm-text _class="mr-5" :font-size="30" color="red" label="*"></tm-text>
           </view>
           <view class="flex fulled flex-row-center-between ml-10 border-l-2 pl-20">
-            <tm-input v-model="changeUserInfoData.photo" placeholder="输入号码" disabled type="number" :transprent="true"
+            <tm-input v-model="changeUserInfoData.photo" placeholder="输入号码" disabled :transprent="true"
               class="fulled mr-20"></tm-input>
             <tm-button :margin="[0]" :padding="[0, 20]" :width="140" size="small" openType="getPhoneNumber"
-              :disabled="changeUserInfoData.photo" @getphonenumber="getphonenumber" label="获取手机号"></tm-button>
+              @getphonenumber="getphonenumber" :disabled="!!changeUserInfoData.photo" label="获取手机号"></tm-button>
           </view>
         </view>
       </view>

@@ -1,8 +1,8 @@
 <template>
   <tm-app ref="app" color="white">
     <tm-sheet :margin="[0, 0]" :padding="[0, 0, 0, 0]">
-      <tm-carousel autoplay :margin="[0, 0]" :padding="[0, 0]" :height="300" :list="listimg" model="dot"
-        @click="carouselTap"></tm-carousel>
+      <tm-carousel v-if="listimg && listimg.length" :key="carouselKey" showLoad autoplay :margin="[0, 0]" :padding="[0, 0]" :height="300" :list="listimg"
+        model="dot" @click="carouselTap"></tm-carousel>
     </tm-sheet>
     <tm-sheet :margin="[24, 24]" :round="3" color="orange" text>
       <tm-text label="免责声明：平台用户发布的信息仅简单进行识别，平台不做任何担保，争议断定，线下交易请自行甄别真假，谨防被骗。"></tm-text>
@@ -37,15 +37,32 @@
             </view>
           </view>
         </tm-col>
+        <tm-col align="center" @click="
+          showToast({
+            title: '正在开发，敬请期待！',
+            icon: 'none',
+            duration: 2000,
+          })
+          " :height="0" color="green" :round="3" :margin="[0, 20, 10, 0]" :col="6">
+          <view class="flex flex-row-center-between px-10 py-30 fulled">
+            <view class="ml-20">
+              <tm-text _class="text-weight-b" :fontSize="32" label="顺路带货"></tm-text>
+              <tm-text _class="border-1 round-10 pa-3 px-10 mt-20" :fontSize="20" label="顺手带货，快捷出行"></tm-text>
+            </view>
+            <view class="white rounded pa-10 mr-20">
+              <tm-icon color="green" :font-size="60" name="tmicon-qiche"></tm-icon>
+            </view>
+          </view>
+        </tm-col>
       </tm-row>
     </tm-sheet>
-    <tm-modal color="white" okColor="primary" cancelColor="primary" okLinear="left" :height="350" splitBtn title="提醒"
+    <tm-modal color="white" okColor="primary" cancelColor="primary" :mask="true" :height="350" splitBtn title="提醒"
       okText="确定" content="您还未完善用户信息，确定跳转信息完善页面吗？" v-model:show="userInfoFlag" @ok="gotoUpdateUserInfoPage"></tm-modal>
   </tm-app>
 </template>
 
 <script lang="ts" setup>
-import { navigateTo } from '@/common/utils/base'
+import { navigateTo, showToast } from '@/common/utils/base'
 import pinia from '@/store/store'
 import { useUser } from '@/store/user'
 import { getUserInfoAction } from '@/common/ts/nav'
@@ -65,7 +82,8 @@ onShareTimeline()
 
 const userStore = useUser(pinia)
 
-const listimg = ref<Array<{ url: string; navigateUrl: string }>>([{ url: '', navigateUrl: '' }])
+const listimg = ref<Array<{ url: string; navigateUrl: string }>>([])
+const carouselKey = ref(0)
 // 首页数据
 const getHomeData = async () => {
   const res = await getDictData('mini_home')
@@ -76,6 +94,8 @@ const getHomeData = async () => {
         navigateUrl: item.label,
       }
     })
+    // 强制使用时间戳作为 key，确保组件重建，避免只显示第一张的问题
+    carouselKey.value = Date.now()
   }
 }
 
