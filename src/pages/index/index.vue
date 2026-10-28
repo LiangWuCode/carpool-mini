@@ -1,11 +1,6 @@
 <template>
   <tm-app ref="app">
-    <tm-sheet
-      :margin="[0, 0]"
-      :padding="[0, 0, 0, 20]"
-      :linear-color="['#0163ff', '#fff']"
-      linear="bottom"
-    >
+    <tm-sheet :margin="[0, 0]" :padding="[0, 0, 0, 20]" :linear-color="['#0163ff', '#fff']" linear="bottom">
       <tm-carousel
         v-if="listimg && listimg.length"
         :key="carouselKey"
@@ -18,209 +13,100 @@
         :list="listimg"
         showLoad
         model="dot"
+        rangKey="url"
         @click="carouselTap"
       ></tm-carousel>
     </tm-sheet>
     <tm-sheet :padding="[12, 6]" :margin="[24, 12]" :round="3">
       <view class="flex flex-row-center-between gap-col-5">
-        <view class="flex-1"
-          ><tm-input v-model="page.startAddress" placeholder="从哪儿出发"></tm-input
-        ></view>
-        <view class="flex-1"
-          ><tm-input v-model="page.endAddress" placeholder="要到哪儿去"></tm-input
-        ></view>
-        <view
-          ><tm-button size="small" @click="getRideTripsListSearch" label="查询"></tm-button
-        ></view>
+        <view class="flex-1"><tm-input v-model="page.startAddress" placeholder="从哪儿出发"></tm-input></view>
+        <view class="flex-1"><tm-input v-model="page.endAddress" placeholder="要到哪儿去"></tm-input></view>
+        <view><tm-button size="small" @click="getRideTripsListSearch" label="查询"></tm-button></view>
       </view>
     </tm-sheet>
     <tm-sticky :offset="offset">
       <template v-slot:sticky>
         <tm-sheet :margin="[0, 0]" :padding="[0, 0]">
-          <tm-tabs
-            @change="tabschange"
-            :list="tabsTitle"
-            :width="750"
-            default-name="0"
-            align="around"
-            itemModel="line"
-            :round="3"
-          ></tm-tabs>
+          <tm-tabs @change="tabschange" :list="tabsTitle" :width="750" default-name="0" align="around" itemModel="line"
+            :round="3"></tm-tabs>
         </tm-sheet>
       </template>
       <tm-result v-show="list?.length === 0" :showBtn="false"></tm-result>
-      <tm-sheet
-        v-for="(item, index) in list"
-        :key="index"
-        :margin="[24, 24]"
-        :round="3"
-        :padding="[12, 24]"
-        @click="item.source && item.source != 3 ? goToRideTripsDetailPage(item.id) : ''"
-      >
+      <tm-sheet v-for="(item, index) in list" :key="index" :margin="[24, 24]" :round="3" :padding="[12, 24]"
+        @click="item.source && item.source != 3 ? goToRideTripsDetailPage(item.id) : ''">
         <view class="flex flex-row-center-between">
           <view class="flex flex-row-center-center">
-            <tm-tag
-              :padding="[0, 10]"
-              color="red"
-              v-show="item.isTop === 1"
-              size="s"
-              label="置顶"
-            ></tm-tag>
-            <tm-tag
-              :padding="[0, 10]"
-              color="primary"
-              size="s"
-              v-show="item.type === 1"
-              label="车找人"
-            ></tm-tag>
-            <tm-tag
-              :padding="[0, 10]"
-              color="orange"
-              size="s"
-              v-show="item.type === 2"
-              label="人找车"
-            ></tm-tag>
-            <tm-tag
-              :padding="[0, 10]"
-              color="green"
-              size="s"
-              v-show="item.status === 1"
-              :label="item.type === 1 ? '已满座' : '已预订'"
-            ></tm-tag>
-            <tm-text
-              v-show="item.type === 1 && item.status === 0&& item.seatShow === 1"
-              :font-size="24"
-              label="还有"
-            ></tm-text>
-            <tm-text
-              v-show="item.type === 2 && item.status === 0&& item.seatShow === 1"
-              :font-size="24"
-              label="有"
-            ></tm-text>
-            <tm-text
-              v-show="item.status === 0&& item.seatShow === 1"
-              :font-size="28"
-              color="red"
-              class="text-weight-b mx-8"
-              :label="item.seats"
-            ></tm-text>
-            <tm-text
-              v-show="item.type === 1 && item.status === 0&& item.seatShow === 1"
-              :font-size="24"
-              label="个座位"
-            ></tm-text>
-            <tm-text
-              v-show="item.type === 2 && item.status === 0&& item.seatShow === 1"
-              :font-size="24"
-              label="人同行"
-            ></tm-text>
+            <tm-tag :padding="[0, 10]" color="red" v-show="item.isTop === 1" size="s" label="置顶"></tm-tag>
+            <tm-tag :padding="[0, 10]" color="primary" size="s" v-show="item.type === 1" label="车找人"></tm-tag>
+            <tm-tag :padding="[0, 10]" color="orange" size="s" v-show="item.type === 2" label="人找车"></tm-tag>
+            <tm-tag :padding="[0, 10]" color="green" size="s" v-show="item.status === 1"
+              :label="item.type === 1 ? '已满座' : '已预订'"></tm-tag>
+            <tm-text v-show="item.type === 1 && item.status === 0 && item.seatShow === 1" :font-size="24"
+              label="还有"></tm-text>
+            <tm-text v-show="item.type === 2 && item.status === 0 && item.seatShow === 1" :font-size="24"
+              label="有"></tm-text>
+            <tm-text v-show="item.status === 0 && item.seatShow === 1" :font-size="28" color="red"
+              class="text-weight-b mx-8" :label="item.seats"></tm-text>
+            <tm-text v-show="item.type === 1 && item.status === 0 && item.seatShow === 1" :font-size="24"
+              label="个座位"></tm-text>
+            <tm-text v-show="item.type === 2 && item.status === 0 && item.seatShow === 1" :font-size="24"
+              label="人同行"></tm-text>
           </view>
           <view class="mr-10">
-            <tm-text :font-size="26" color="#FF9800" class="text-weight-b" v-if="item.source === 1" label="优选"></tm-text>
-            <tm-text :font-size="26" color="#2196F3" class="text-weight-b" v-if="item.source === 2" label="官方"></tm-text>
-            <tm-text :font-size="26" color="#9E9E9E" class="text-weight-b" v-if="item.source === 3" label="群聊"></tm-text>
+            <tm-text :font-size="26" color="#FF9800" class="text-weight-b" v-if="item.source === 1"
+              label="优选"></tm-text>
+            <tm-text :font-size="26" color="#2196F3" class="text-weight-b" v-if="item.source === 2"
+              label="官方"></tm-text>
+            <tm-text :font-size="26" color="#9E9E9E" class="text-weight-b" v-if="item.source === 3"
+              label="群聊"></tm-text>
             <!-- <tm-icon :font-size="40" color="green" name="tmicon-weixin"></tm-icon> -->
           </view>
         </view>
         <view class="flex flex-row-center-start mt-10 ml-8">
           <tm-text :font-size="36" :label="item.startAddress" class="text-weight-b"></tm-text>
-          <view class="mx-10"
-            ><tm-icon color="primary" :font-size="30" name="tmicon-ios-arrow-dropright-"></tm-icon>
+          <view class="mx-10"><tm-icon color="primary" :font-size="30" name="tmicon-ios-arrow-dropright-"></tm-icon>
           </view>
           <tm-text :font-size="36" :label="item.endAddress" class="text-weight-b"></tm-text>
         </view>
         <view>
-          <tm-text
-            _class="d-inline-block border-1 pa-5 mt-10 round-3"
-            :font-size="26"
-            :label="item.startDate"
-          ></tm-text>
+          <tm-text _class="d-inline-block border-1 pa-5 mt-10 round-3" :font-size="26"
+            :label="item.startDate"></tm-text>
         </view>
         <view v-show="item.type === 1 && item.channelAddress != '' && item.channelAddress != null">
-          <tm-text
-            color="grey-darken-1"
-            _class="d-inline-block pa-5 mt-5"
-            :font-size="26"
-            :label="`途径：` + item.channelAddress"
-          ></tm-text>
+          <tm-text color="grey-darken-1" _class="d-inline-block pa-5 mt-5" :font-size="26"
+            :label="`途径：` + item.channelAddress"></tm-text>
         </view>
         <view>
-          <tm-text
-            _class="d-inline-block pa-5 mt-5"
-            color="grey-darken-1"
-            :font-size="26"
-            :label="item.notes"
-          ></tm-text>
+          <tm-text _class="d-inline-block pa-5 mt-5" color="grey-darken-1" :font-size="26"
+            :label="item.notes"></tm-text>
         </view>
         <view class="flex flex-row-center-between">
           <view class="flex flex-row-center-start">
-            <tm-avatar
-              :size="40"
-              :round="12"
-              :font-size="40"
-              color="green"
-              icon="tmicon-weixin"
-              :img="item.avatar"
-            ></tm-avatar>
-            <tm-text
-              _class="ml-10"
-              color="orange"
-              :font-size="26"
-              :label="`${item.createDateDesc}前发布 ${item.viewCount>0?`·${item.viewCount}次浏览`:''}`"
-            ></tm-text>
-            <tm-text
-              color="orange"
-              v-show="item.messageCount > 0"
-              :font-size="26"
-              :label="`·${item.messageCount}条留言`"
-            ></tm-text>
+            <tm-avatar :size="40" :round="12" :font-size="40" color="green" icon="tmicon-weixin"
+              :img="item.avatar"></tm-avatar>
+            <tm-text _class="ml-10" color="orange" :font-size="26"
+              :label="`${item.createDateDesc}前发布 ${item.viewCount > 0 ? `·${item.viewCount}次浏览` : ''}`"></tm-text>
+            <tm-text color="orange" v-show="item.messageCount > 0" :font-size="26"
+              :label="`·${item.messageCount}条留言`"></tm-text>
           </view>
           <view v-show="item.status === 0">
-            <tm-button
-              color="deep-orange"
-              icon="tmicon-phone-fill"
-              :width="80"
-              :height="50"
-              :fontSize="30"
-              :margin="[10]"
-              :shadow="0"
-              :round="5"
-              @tap.stop="callPhone(item.mobile)"
-              size="normal"
-            ></tm-button>
+            <tm-button color="deep-orange" icon="tmicon-phone-fill" :width="80" :height="50" :fontSize="30"
+              :margin="[10]" :shadow="0" :round="5" @tap.stop="callPhone(item.mobile)" size="normal"></tm-button>
           </view>
         </view>
       </tm-sheet>
     </tm-sticky>
 
     <!-- 新人注册活动 -->
-    <tm-overlay
-      align="flex-center"
-      :overlayClick="false"
-      v-model:show="newRegisterFlag"
-      contentAnimation
-      bgColor="rgba(0,0,0,0.5)"
-    >
+    <tm-overlay align="flex-center" :overlayClick="false" v-model:show="newRegisterFlag" contentAnimation
+      bgColor="rgba(0,0,0,0.5)">
       <view @click.stop="" class="relative">
-        <tm-image
-          :width="480"
-          :height="853"
-          src="https://healthy.wuliang.plus/active/newRegister.png"
-        ></tm-image>
+        <tm-image :width="480" :height="853" src="https://www.wuliang.plus/images/newRegister.png"></tm-image>
         <view class="absolute b-n20 flex flex-center fulled" style="bottom: 125rpx">
-          <tm-icon
-            @click="newRegisterFlag = false"
-            color="orange"
-            :fontSize="50"
-            name="tmicon-times-circle"
-            :shadow="0"
-          ></tm-icon>
+          <tm-icon @click="newRegisterFlag = false" color="orange" :fontSize="50" name="tmicon-times-circle"
+            :shadow="0"></tm-icon>
         </view>
-        <view
-          @click="gotoNewRegisterPage"
-          class="absolute flex flex-center fulled"
-          style="bottom: 280rpx"
-        >
+        <view @click="gotoNewRegisterPage" class="absolute flex flex-center fulled" style="bottom: 280rpx">
           <tm-text _class="text-weight-b" color="red" :fontSize="30" label="立即领取"></tm-text>
         </view>
       </view>
@@ -243,7 +129,7 @@ const { onShareAppMessage, onShareTimeline } = share({
   title: '轻松觅行，快乐出行！',
   desc: '轻松觅行，快乐出行！',
   path: `/pages/index/index`,
-  imageUrl: 'https://healthy.wuliang.plus/shareBanner/fc689b34e3cd5c7216908630dc0c5b3.png',
+  imageUrl: 'https://www.wuliang.plus/images/shareBanner.png',
 })
 onShareAppMessage()
 onShareTimeline()
@@ -314,6 +200,7 @@ const getHomeData = async () => {
       return {
         url: item.value,
         navigateUrl: item.label,
+        type:'img'
       }
     })
     // 使用时间戳强制重建轮播，避免渲染竞态只显示第一张

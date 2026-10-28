@@ -37,23 +37,6 @@
             </view>
           </view>
         </tm-col>
-        <tm-col align="center" @click="
-          showToast({
-            title: '正在开发，敬请期待！',
-            icon: 'none',
-            duration: 2000,
-          })
-          " :height="0" color="green" :round="3" :margin="[0, 20, 10, 0]" :col="6">
-          <view class="flex flex-row-center-between px-10 py-30 fulled">
-            <view class="ml-20">
-              <tm-text _class="text-weight-b" :fontSize="32" label="顺路带货"></tm-text>
-              <tm-text _class="border-1 round-10 pa-3 px-10 mt-20" :fontSize="20" label="顺手带货，快捷出行"></tm-text>
-            </view>
-            <view class="white rounded pa-10 mr-20">
-              <tm-icon color="green" :font-size="60" name="tmicon-qiche"></tm-icon>
-            </view>
-          </view>
-        </tm-col>
       </tm-row>
     </tm-sheet>
     <tm-modal color="white" okColor="primary" cancelColor="primary" :mask="true" :height="350" splitBtn title="提醒"
@@ -75,7 +58,7 @@ const { onShareAppMessage, onShareTimeline } = share({
   title: '轻松觅行，快乐出行！',
   desc: '轻松觅行，快乐出行！',
   path: `/pages/index/index`,
-  imageUrl: 'https://healthy.wuliang.plus/shareBanner/fc689b34e3cd5c7216908630dc0c5b3.png',
+  imageUrl: 'https://www.wuliang.plus/images/shareBanner.png',
 })
 onShareAppMessage()
 onShareTimeline()

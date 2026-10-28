@@ -43,3 +43,10 @@ export const setTop = (rideTripsId: number, topCount: number) => {
 export const deleteRideTrips = (rideTripsId: number) => {
   return del(`/rideTrips/${rideTripsId}`)
 }
+
+
+// 获取重新发布行程数据
+export const getRePublishTripsData = (rideTripsId: number) => {
+  return get(`/rideTrips/getRePublishTripsData/${rideTripsId}`)
+}
+

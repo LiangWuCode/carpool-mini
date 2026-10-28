@@ -154,10 +154,8 @@
     <tm-picker v-model:show="startDateFlag" :columns="district" v-model="carpoolInfo.startDateDesc"
       v-model:model-str="startDate" :defaultValue="[0, 0]">
     </tm-picker>
-
-    <tm-modal color="white" okColor="primary" cancelColor="primary" okLinear="left" :height="350" splitBtn title="提醒"
-      okText="确定" content="您今日月卡发布行程已达上限，确认发布将消耗消费券，是否继续？" v-model:show="publishNoHaveFlag"
-      @ok="publishTrips"></tm-modal>
+    <tm-modal color="white" okColor="primary" cancelColor="primary" :height="350" splitBtn title="提醒" okText="确定"
+      content="您今日月卡发布行程已达上限，确认发布将消耗消费券，是否继续？" v-model:show="publishNoHaveFlag" @ok="publishTrips"></tm-modal>
     <canvas style="width: 480px; height: 384px;position:fixed;left:100%;" canvas-id="shareCanvas"
       id="shareCanvas"></canvas>
   </tm-app>
@@ -173,7 +171,7 @@ import pinia from '@/store/store'
 import { useUser } from '@/store/user'
 import { IUserInfo } from '@/interfaces/common'
 import { toast } from '@/common/utils'
-import { publish } from '@/service/rideTrips'
+import { getRePublishTripsData, publish } from '@/service/rideTrips'
 import { share } from '@/tmui/tool/lib/share'
 import * as dayjs from '@/tmui/tool/dayjs/esm/index'
 const DayJs = dayjs.default
@@ -181,7 +179,7 @@ const { onShareAppMessage, onShareTimeline } = share({
   title: '轻松觅行，快乐出行！',
   desc: '轻松觅行，快乐出行！',
   path: `/pages/index/index`,
-  imageUrl: 'https://healthy.wuliang.plus/shareBanner/fc689b34e3cd5c7216908630dc0c5b3.png',
+  imageUrl: 'https://www.wuliang.plus/images/shareBanner.png',
 })
 onShareAppMessage()
 onShareTimeline()
@@ -354,7 +352,7 @@ const generateStartDate = () => {
   }
 }
 
-const seatsTotal = ref<Array<string>>(['1', '2', '3', '4', '5', '6'])
+const seatsTotal = ref<Array<number>>([1, 2, 3, 4, 5, 6])
 const chooseAddress = (type: number) => {
   uni.chooseLocation({
     success: function (res) {
@@ -419,12 +417,13 @@ const goToPayPage = () => {
 
 const publishNoHaveFlag = ref(false)
 const publishTripsAction = () => {
-  if (userInfo.value?.residueCount === 0) {
+  if ((userInfo.value?.cardCount ?? 0) > 0 && userInfo.value?.residueCount === 0) {
     publishNoHaveFlag.value = true
     return
   }
   publishTrips()
 }
+
 
 //生成分享的图片
 const genShareImage = async (startDate: string, startTime: string,
@@ -457,9 +456,8 @@ const genShareImage = async (startDate: string, startTime: string,
 
 
     uni.getImageInfo({
-      src: "https://healthy.wuliang.plus/share/share.png",
+      src: "https://www.wuliang.plus/images/share.png",
       success: function (res) {
-        console.log(res)
         if (res.errMsg === 'getImageInfo:ok') {
           ctx.drawImage(res.path, 0, 0, res.width, res.height)
           ctx.setFontSize(24)
@@ -523,6 +521,24 @@ const gotoAgreementPage = () => {
   navigateTo({ url: `/pages/common/agreement/index?type=3` })
 }
 
+
+const getRePublishTripsDataAction = async (rideTripsId: number) => {
+  const res = await getRePublishTripsData(rideTripsId)
+  if (res) {
+    const data = res.data
+    carpoolInfo.value.startAddress = data.startAddress
+    carpoolInfo.value.channelAddress = data.channelAddress
+    carpoolInfo.value.endAddress = data.endAddress
+    carpoolInfo.value.seats = data.seats
+    carpoolInfo.value.notes = data.notes
+    carpoolInfo.value.sex = data.sex
+    carpoolInfo.value.mobile = data.mobile
+    carpoolInfo.value.chatInfo = data.chatInfo
+    carpoolInfo.value.username = data.username
+    carpoolInfo.value.type = data.type
+  }
+}
+
 const userInfo = ref<IUserInfo>()
 const navigateTypeTitle = ref<string>('')
 onLoad((option: any) => {
@@ -533,6 +549,9 @@ onLoad((option: any) => {
   getIntegralPriceAndDateDeadline()
 
   getNotesItem()
+  if (option.rideTripsId) {
+    getRePublishTripsDataAction(Number(option.rideTripsId))
+  }
 
   userInfo.value = userStore.userInfo
 })

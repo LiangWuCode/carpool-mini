@@ -50,15 +50,15 @@
             v-show="item.status === 0" @click="gotoSetTopPage(item.id)"></tm-button>
           <tm-button color="green" :margin="[10, 0]" :shadow="0" v-show="item.status === 0" text size="small"
             :label="item.type === 1 ? '设满座' : '已预定'" @click="fullSeatAction(item)"></tm-button>
-          <!-- <tm-button
-            color="green"
+          <tm-button
+            color="blue"
             :margin="[10, 0]"
             :shadow="0"
             text
             size="small"
-            label="编辑"
-            v-show="item.status === 0"
-          ></tm-button> -->
+            @click="rePublishRideTripsAction(item.id,item.type)"
+            label="再次发布"
+          ></tm-button>
           <tm-button color="red" :margin="[10, 0]" :shadow="0" v-show="item.status != 3" text size="small" label="删除"
             @click="deleteRideTripsAction(item.id)"></tm-button>
         </view>
@@ -167,6 +167,10 @@ const deleteRideTripsReal = async () => {
 const deleteRideTripsAction = async (id: number) => {
   deleteRideTripsId.value = id
   deleteTripsModalShow.value = true
+}
+
+const rePublishRideTripsAction = (rideTripsId: number | undefined, type: number | undefined) => {
+  navigateTo({ url: `/pages/publish/detail/index?rideTripsId=${rideTripsId}&type=${type}` })
 }
 
 onShow(() => {

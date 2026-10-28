@@ -158,7 +158,7 @@ const { onShareAppMessage, onShareTimeline } = share({
   title: '轻松觅行，快乐出行！',
   desc: '轻松觅行，快乐出行！',
   path: `/pages/index/index`,
-  imageUrl: 'https://healthy.wuliang.plus/shareBanner/fc689b34e3cd5c7216908630dc0c5b3.png',
+  imageUrl: 'https://www.wuliang.plus/images/shareBanner.png',
 })
 onShareAppMessage()
 onShareTimeline()

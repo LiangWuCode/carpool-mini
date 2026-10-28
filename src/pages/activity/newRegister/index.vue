@@ -2,7 +2,7 @@
   <tm-app ref="app">
     <view class="relative">
       <view>
-        <img src="https://healthy.wuliang.plus/active/newRegisterBackground3.png" style="width: 100vw; height: 100vh" />
+        <img src="https://www.wuliang.plus/images/newRegisterBackground3.png" style="width: 100vw; height: 100vh" />
       </view>
       <view class="absolute flex flex-center fulled" style="bottom: 36%">
         <tm-button :width="300" color="red" :round="10" :shadow="0" size="small" :disabled="newRegisterFlag"
@@ -16,8 +16,7 @@
         <tm-text color="red" :fontSize="22" :label="`${couponData.quantity}张`"></tm-text>
       </view>
     </view>
-    <tm-modal color="white" okColor="primary" okLinear="left" :height="250" title="提醒"
-      okText="确定" hideCancel content="恭喜领取成功！" v-model:show="getFlag" @ok="gotoBackPage"></tm-modal>
+    <tm-notification placement="bottom" ref="msg" label="消息提醒"></tm-notification>
   </tm-app>
 </template>
 
@@ -26,13 +25,13 @@ import { ref } from 'vue'
 import { onLoad } from '@dcloudio/uni-app'
 import { collectCoupon, getGiftCoupon } from '@/service/coupon'
 import { ICouponItem } from '@/interfaces/coupon'
-import { navigateBack } from '@/common/utils/base'
+import tmNotification from '@/tmui/components/tm-notification/tm-notification.vue'
 import { share } from '@/tmui/tool/lib/share'
 const { onShareAppMessage, onShareTimeline } = share({
   title: '点击领好礼,月卡行程券免费赠送！',
   desc: '觅行出行，回家的路不再孤单。',
   path: `/pages/activity/newRegister/index`,
-  imageUrl: 'https://healthy.wuliang.plus/shareBanner/fc689b34e3cd5c7216908630dc0c5b3.png',
+  imageUrl: 'https://www.wuliang.plus/images/shareBanner.png',
 })
 onShareAppMessage()
 onShareTimeline()
@@ -66,15 +65,16 @@ const getGiftCouponAction = async () => {
   }
 }
 const getFlag = ref(false)
+const msg = ref<InstanceType<typeof tmNotification> | null>(null)
 const collectCouponAction = async () => {
   const res = await collectCoupon(ids.value.join(','))
   if (res) {
     getFlag.value = true
+    msg.value?.show({ label: '领取成功！' })
   }
 }
-const gotoBackPage = () => {
-  navigateBack()
-}
+
+
 onLoad(() => {
   getGiftCouponAction()
 })
